@@ -1,0 +1,153 @@
+ @import "../../utils/functions.scss";
+.footer {
+  background: linear-gradient(
+    180deg,
+    rgba(13, 13, 13, 0) -43.17%,
+    #0d0d0d 100%
+  );
+  backdrop-filter: blur(40px);
+
+  &__container {
+    max-width: s(1480);
+    margin: 0 auto;
+    padding: s(48) s(16);
+
+    @media (min-width: 640px) {
+      padding: s(48) s(24);
+    }
+
+    @media (min-width: 1024px) {
+      padding: s(48) s(32);
+    }
+  }
+
+  &__content {
+    display: grid;
+    gap: s(32);
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+
+  &__brand {
+    @media (min-width: 768px) {
+      grid-column: span 2;
+    }
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  &__logo-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    span {
+      color: white;
+      font-weight: 700;
+      font-size: 0.875rem;
+    }
+  }
+
+  &__logo-text {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: white;
+  }
+
+  &__description {
+    color: #ffffff99;
+    margin-bottom: 16px;
+    line-height: 1.6;
+  }
+
+  &__social {
+    margin-top: 40px;
+    h4 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    &__items {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+    }
+  }
+
+  &__social-link {
+    color: #ffffff99;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: white;
+    }
+  }
+
+  &__section-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 16px;
+  }
+
+  &__links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__link {
+    color: #ffffff99;
+    text-decoration: none;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: white;
+    }
+  }
+
+  &__bottom {
+    border-top: 1px solid rgba(75, 85, 99, 1);
+    margin-top: 32px;
+    padding-top: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+  }
+
+  &__copyright {
+    color: #fff;
+    font-size: 0.875rem;
+    margin: 0;
+  }
+
+  &__legal {
+    display: flex;
+    gap: 24px;
+  }
+
+  &__legal-link {
+    color: #ffffff99;
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: white;
+    }
+  }
+}

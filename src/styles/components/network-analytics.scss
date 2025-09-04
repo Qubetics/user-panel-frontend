@@ -1,0 +1,99 @@
+@import "../../utils/functions.scss";
+.network-analytics {
+  padding: s(80) 0;
+  background: linear-gradient(180deg, rgba(88, 28, 135, 0.1) 0%, #000000 100%);
+  @media #{mobile()} {
+    padding: s(20) 0;
+  }
+  &__container {
+    max-width: s(1380);
+    margin: 0 auto;
+    padding: 0 s(16);
+
+    @media (min-width: 640px) {
+      padding: 0 s(24);
+    }
+
+    @media (min-width: 1024px) {
+      padding: 0 s(32);
+    }
+  }
+
+  &__header {
+    text-align: center;
+    margin-bottom: s(64);
+    @media #{mobile()} {
+      margin-bottom: s(20);
+    }
+  }
+
+  &__title {
+    font-size: s(24);
+    font-weight: 700;
+    color: white;
+    margin-bottom: s(16);
+
+    @media (min-width: 768px) {
+      font-size: s(16);
+    }
+  }
+}
+
+.stats-dashboard {
+  display: flex;
+  gap: s(20);
+  flex-wrap: wrap;
+}
+
+.stat-card {
+  border-radius: 12px;
+  padding: s(20);
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: s(10);
+  flex: 32%;
+  min-width: s(280);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+  transition: transform 0.3s ease;
+  background: linear-gradient(
+    157.79deg,
+    rgba(29, 29, 29, 0.54) -0.65%,
+    rgba(29, 29, 29, 0.9) 99.59%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  text-align: left;
+  @media #{mobile()} {
+    padding: s(10);
+  }
+  .icon {
+    border: 1px solid #454545;
+    background: #161616;
+    padding: s(14);
+    display: flex;
+    align-items: center;
+    border-radius: 50%;
+    @media #{mobile()} {
+      padding: s(10);
+    }
+  }
+
+  .label {
+    font-size: s(16);
+    color: #a0a0a0;
+    font-weight: 400;
+    margin-bottom: 0.3rem;
+    @media #{mobile()} {
+      font-size: s(12);
+    }
+  }
+
+  .value {
+    font-size: s(20);
+    font-weight: 600;
+    color: #ffffff;
+    @media #{mobile()} {
+      font-size: s(12);
+    }
+  }
+}

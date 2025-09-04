@@ -1,0 +1,66 @@
+
+@import "../../utils/functions.scss";
+
+.customButton {
+  white-space: nowrap;
+  min-width: s(174);
+  padding: 12.5px 20px;
+  font-size: 16px;
+  background-color: #000;
+  font-weight: bold;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  @media (max-width: 1199px) {
+    display: flex !important;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  @media (max-width: 767px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    font-size: 10px;
+  }
+  &-regular {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      padding: 2px;
+      border-radius: 30px;
+      background: conic-gradient(
+        from var(--gradient-angle),
+        var(--clr-card),
+        var(--clr-1),
+        var(--clr-2),
+        var(--clr-3),
+        var(--clr-4),
+        var(--clr-5),
+        var(--clr-6),
+        var(--clr-2),
+        var(--clr-1),
+        var(--clr-card)
+      );
+      animation: rotate 2.5s linear infinite;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      animation: rotate 3s linear infinite;
+    }
+  }
+}
