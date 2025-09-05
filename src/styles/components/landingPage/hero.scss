@@ -1,0 +1,72 @@
+@import "../../../utils/functions.scss";
+.hero {
+  position: relative;
+  overflow: hidden;
+
+  &__container {
+    position: relative;
+    max-width: s(1780);
+    margin: 0 auto;
+    padding-top: s(100);
+    height: s(1080);
+
+    &::after {
+      content: "";
+      position: absolute;
+      background-image: url(/src/assets/bannerBg.png);
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      z-index: -1;
+      @media (max-width: 1040px) {
+        background-size: cover;
+      }
+    }
+  }
+
+  &__content {
+    text-align: center;
+    margin-top: s(26);
+  }
+
+  &__title {
+    font-size: s(60);
+    font-weight: 600;
+    color: white;
+    margin-bottom: s(32);
+    line-height: 1.1;
+    @media #{mobile()} {
+      font-size: s(40);
+    }
+  }
+
+  &__title-gradient {
+    background: linear-gradient(157.92deg, #ffffff 41.28%, #999999 87.97%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  &__cta {
+    display: flex;
+    gap: s(24);
+    justify-content: center;
+    margin-bottom: 64px;
+    @media #{mobile()} {
+      gap: s(12);
+    }
+
+    .btn {
+      font-size: 1.125rem;
+      padding: s(16) s(32);
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+}

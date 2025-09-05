@@ -1,0 +1,108 @@
+@import "../../../utils/functions.scss";
+.how-it-works {
+  padding: s(80) 0;
+  background: linear-gradient(180deg, #000000 0%, rgba(88, 28, 135, 0.1) 100%);
+  @media #{mobile()} {
+    padding: s(20) 0;
+  }
+  &__container {
+    max-width: s(1380);
+    margin: 0 auto;
+    padding: 0 s(16);
+
+    @media (min-width: 640px) {
+      padding: 0 s(24);
+    }
+
+    @media (min-width: 1024px) {
+      padding: 0 s(32);
+    }
+  }
+
+  &__header {
+    text-align: center;
+    margin-bottom: s(64);
+  }
+}
+
+.process-flow {
+  position: relative;
+  color: #fff;
+  padding: s(80) s(20);
+  text-align: center;
+  @media #{mobile()} {
+    padding: s(20) 0;
+  }
+  &__curve {
+    position: absolute;
+    top: s(60);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 73%;
+    height: s(100);
+    z-index: 0;
+    @media #{mobile()} {
+      display: none;
+    }
+  }
+
+  &__steps {
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: s(20);
+    z-index: 1;
+    max-width: s(1200);
+    margin: 0 auto;
+  }
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: s(250);
+
+  &__icon {
+    background-image: url(../../assets/worksBg.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    margin-bottom: s(16);
+    padding: 2px;
+    > div {
+      border-radius: s(50);
+      padding: s(20);
+      background: #1f1b20;
+    }
+
+    svg {
+      width: s(24);
+      height: s(24);
+      color: #fff;
+    }
+  }
+
+  &__title {
+    font-size: s(24);
+    font-weight: 600;
+    margin-bottom: s(10);
+  }
+
+  &__desc {
+    font-size: s(14);
+    font-weight: 400;
+    color: #aaa;
+    line-height: s(18);
+    @media #{mobile()} {
+      font-size: s(10);
+    }
+  }
+}
+.step-title {
+  font-size: s(22);
+  font-weight: 600;
+  color: white;
+  margin-bottom: s(16);
+}

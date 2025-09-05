@@ -1,18 +1,18 @@
-import Header from './components/Header';
-import Hero from './components/Hero';
-import HowItWorks from './components/HowItWorks';
-import NetworkAnalytics from './components/NetworkAnalytics';
-import QuickStart from './components/QuickStart';
-import Footer from './components/Footer';
+import { Route, Routes } from "react-router-dom";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import LandingPage from "./components/landingPage";
+import Register from "./components/register";
 
 function App() {
   return (
     <div className="min-h-screen">
       <Header />
-      <Hero />
-      <HowItWorks />
-      <NetworkAnalytics />
-      <QuickStart />
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+
       <Footer />
     </div>
   );
