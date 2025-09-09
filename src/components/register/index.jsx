@@ -1,11 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ButtonCustom from "../../Common/ButtonCustom/ButtonCustom";
 import "../../styles/components/register/style.scss";
 import { NotificationModal } from "./ResponseTabs";
+import useGetApi from "../../Hooks/useGetApi";
+import { apiUrls } from "../../Constant/apiUrls";
+import { apiMethods } from "../../Constant/constants";
+import { toast } from "react-toastify";
+import { useIsLoggedIn } from "../../Context/LoggedInContext";
+import { computePubKey } from "../../utils/Helper/CommonHelper";
+import { env } from "../../Constant/envConstants";
 
 const Register = () => {
+  console.log("idhaar aaye hai");
+
   const [visible, setVisible] = useState(false);
   const [status, setStatus] = useState("success");
+  const [planList, setPlanList] = useState("");
+  console.log("🚀 ~ Register ~ planList:", planList)
+  const [isLoading, setIsLoading] = useState(true);
+  const { authData, setAuthData } = useIsLoggedIn();
+  const [orgName, setOrgName] = useState("");
+  const [email, setEmail] = useState("");
+  const [nodeAddress, setNodeAddress] = useState("");
+  const [choosePlan, setChoosePlan] = useState("");
+  const [chooseAction,setChooseAction]=useState("link");
+  console.log("🚀 ~ Register ~ choosePlan:", choosePlan)
+
+  const chainId = env.chainId;
 
   const message =
     status === "success"
@@ -14,7 +35,130 @@ const Register = () => {
 
   const handleClick = () => {
     setVisible(true);
+
   };
+
+  const handleSign = async () => {
+    try {
+
+      const message = authData; // OR use any unique string, like a nonce
+      console.log("🚀 Signing message:", message);
+
+      const result = await window.keplr.signArbitrary(
+        chainId,
+        authData,
+        message
+      );
+      console.log("🚀 ~ handleSign ~ result:", result)
+
+      const { signature, pub_key } = result;
+
+
+      // 🔐 Compute the public key from signature
+      const pubKeyFromSignature = computePubKey(authData, signature, message);
+
+      if (!pubKeyFromSignature) {
+        console.log("Could not compute public key from signature.");
+        return;
+      }
+
+      // Log or display for dev/debug purposes
+      console.log("🔍 Computed PubKey:", pubKeyFromSignature);
+      return {
+        compubKey: pubKeyFromSignature,
+        pubKeyInitial: pub_key,
+        signature: signature
+      }
+    } catch (error) {
+      console.error('Signing failed:', error);
+      console.log('Signing failed: ' + error.message);
+    } finally {
+    }
+  };
+
+  const getAllPlan = async () => {
+    try {
+      console.log("Sdfsf");
+      setIsLoading(false);
+      const result = await useGetApi(
+        apiUrls.getAllPlan,
+        apiMethods.GET
+      );
+      console.log("🚀 ~ getAllPlan ~ result:", result);
+      setPlanList(result?.data?.data);
+    } catch (error) {
+      toast.error(error?.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  const postNodeRequest = async () => {
+    try {
+      console.log("1");
+      // check the nodeAddress should not be empty and plan 
+      if (!nodeAddress) {
+        toast.error("Node Address is required");
+        return;
+      }
+      console.log("1");
+
+      console.log("🚀 ~ postNodeRequest ~ choosePlan:", choosePlan)
+      if (!choosePlan) {
+        console.log("sdfwsa");
+        toast.error("Please choose a plan");
+        return;
+      }
+
+      console.log("1");
+      console.log("1");
+
+
+      const { compubKey, pubKeyInitial, signature } = await handleSign();
+
+      const extendedPlan = {
+        plan: `${choosePlan?.prices?.[0]?.quote_value} TICS/month`,
+        planId: choosePlan?.id,
+        provAddress: choosePlan?.prov_address,
+        bandwidth: choosePlan?.gigabytes,
+      };
+      console.log("1");
+
+
+      const body = {
+        orgName: orgName || undefined,
+        emailAddress: email || undefined,
+        nodeAddress,
+        choosePlan: extendedPlan,
+        address: authData,
+        pubKey: compubKey,
+        signature: {
+          pub_key: pubKeyInitial,
+          signature: signature
+        },
+        request:chooseAction
+      };
+
+      console.log("🚀 ~ postNodeRequest ~ payload:", body);
+
+      const response = await useGetApi(
+        apiUrls.postNodeRequest,             // endpoint (appended to baseApiUrl)
+        apiMethods.POST,      // method
+        body,                 // body for POST request
+        { "Content-Type": "application/json" } // headers
+      );
+
+      console.log(response, "sender")
+
+
+    } catch (error) {
+      toast.error(error?.message);
+    }
+  }
+
+  useEffect(() => {
+    getAllPlan();
+  }, []);
 
   return (
     <div className="register-overlay">
@@ -27,29 +171,55 @@ const Register = () => {
             type="text"
             className="register-popup__input"
             placeholder="Enter Organization Name"
+            value={orgName}
+            onChange={(e) => { setOrgName(e.target.value) }}
           />
           <label className="register-popup__label">Email Address</label>
           <input
             type="text"
             className="register-popup__input"
             placeholder="Enter your email address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <label className="register-popup__label">Node Address</label>
           <input
             type="text"
             className="register-popup__input"
             placeholder="Enter Node Address"
+            value={nodeAddress}
+            onChange={(e) => setNodeAddress(e.target.value)}
           />
           <label className="register-popup__label">Choose Plan</label>
-          <select name="plan" id="plan" className="register-popup__select">
-            <option value="1000 TICS/month">1000 TICS/month</option>
-            <option value="1000 BTC/month">1000 BTC/month</option>
+          <select name="plan" id="plan"
+            className="register-popup__select"
+            value={choosePlan}
+            onChange={(e) => { setChoosePlan(JSON.parse(e.target.value)) }}>
+            <option value="">-- Select a Plan --</option>
+            {Array.isArray(planList) &&
+              planList.map((plan) => (
+                <option key={plan.id} value={JSON.stringify(plan)}>
+                  {plan.prices.length > 0
+                    ? `${plan.prices[0].quote_value} ${plan.prices[0].denom.toUpperCase()}/month`
+                    : `Plan ${plan.id}`}
+                </option>
+              ))}
+          </select>
+          <label className="register-popup__label">Choose Action</label>
+          <select name="action" id='action'
+            className="register-popup__select"
+            value={chooseAction}
+            onChange={(e) => { setChooseAction(e.target.value) }}>
+              <option value="">-- Select Action --</option>
+              <option key={1} value={"Link"}>Link</option>
+              <option  key={2} value={"Unlink"}>Unlink</option>
           </select>
           <div className="register-popup__actions">
             <ButtonCustom
               regularBtn
               label="Submit"
-              onClick={() => handleClick()}
+              disabled={!authData}
+              onClick={() => postNodeRequest()}
             />
           </div>
         </div>

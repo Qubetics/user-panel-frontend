@@ -13,6 +13,9 @@
     max-width: s(1520);
     margin: 0 auto;
     padding: 0 s(16);
+    display: flex;               
+    justify-content: space-between; 
+    align-items: center;
 
     @media (min-width: 640px) {
       padding: 0 s(24);

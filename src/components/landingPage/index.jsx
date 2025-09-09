@@ -6,9 +6,10 @@ import QuickStart from "./QuickStart";
 import DownloadOptions from "./DownloadOptions";
 
 const LandingPage = () => {
+
   return (
     <>
-      <Hero />
+      <Hero/>
       <HowItWorks />
       <NetworkAnalytics />
       <QuickStart />

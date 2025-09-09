@@ -3,10 +3,13 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import LandingPage from "./components/landingPage";
 import Register from "./components/register";
+import { LoggedInProvider } from "./Context/LoggedInContext";
 
 function App() {
   return (
+
     <div className="min-h-screen">
+      <LoggedInProvider>
       <Header />
       <Routes>
         <Route path="/" element={<LandingPage />} />
@@ -14,6 +17,7 @@ function App() {
       </Routes>
 
       <Footer />
+      </LoggedInProvider>
     </div>
   );
 }
