@@ -28,8 +28,8 @@ function ButtonCustom(props) {
       tabIndex={tabIndex}
       id={id}
     >
-      {children} {label}
       {icon && <span>{icon}</span>}
+      {children} {label}
     </button>
   );
 }

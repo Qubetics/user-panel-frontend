@@ -205,7 +205,7 @@ const Register = () => {
                 </option>
               ))}
           </select>
-          <label className="register-popup__label">Choose Action</label>
+          {/* <label className="register-popup__label">Choose Action</label>
           <select name="action" id='action'
             className="register-popup__select"
             value={chooseAction}
@@ -213,7 +213,7 @@ const Register = () => {
               <option value="">-- Select Action --</option>
               <option key={1} value={"Link"}>Link</option>
               <option  key={2} value={"Unlink"}>Unlink</option>
-          </select>
+          </select> */}
           <div className="register-popup__actions">
             <ButtonCustom
               regularBtn

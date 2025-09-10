@@ -1,116 +1,143 @@
 @import "../../../utils/functions.scss";
 
+.download-section {
+  position: relative;
+  width: 100%;
+  height: 741px;
+  @media (max-width: 1024px) {
+    height: 540px;
+  }
+  @media (max-width: 992px){
+    height: auto;
+  }
+}
+.download-section-bg {
+  width: 100%;
+  height: 361px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .download-options {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  gap: s(32); // spacing between cards
-  flex-wrap: wrap; // allow wrapping
-  padding: s(40) 0; // ✅ use padding instead of fixed height
+  align-items: center;
   width: 100%;
-
-  &__wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center; // center card + button
-    gap: s(16);
-    flex: 1 1 300px; // flex shrink/grow
-    max-width: 500px;
-    width: 100%;
+  position: absolute;
+  z-index: 1;
+  top: 25%;
+  @media (max-width: 1024px) {
+    top: 40%;
   }
-
-  &__card {
-    width: 100%;
-    height: auto; // ✅ let content define height
-    min-height: 280px;
-    padding: s(32);
-    border-radius: 16px;
-    background: #0808088e; // transparent background
-    border: 1px solid rgba(14, 13, 13, 0.15);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  @media(max-width:992px){
+    top: 20%;
+  }
+  @media (max-width: 992px) {
+    margin: auto 10px;
+    width: calc(100% - 20px);
+  }
+  .download-options__card {
+    border-radius: 40px;
+    padding: s(80) s(247);
     text-align: center;
-    position: relative;
     overflow: hidden;
+    background: linear-gradient(
+      157.79deg,
+      rgba(29, 29, 29, 0.42) -0.65%,
+      rgba(29, 29, 29, 0.7) 99.59%
+    );
+    backdrop-filter: blur(10px);
+    z-index: 0;
 
     &::before {
       content: "";
       position: absolute;
       inset: 0;
-      padding: 2px;
+      padding: s(1);
       border-radius: inherit;
-      background: conic-gradient(
-        from var(--gradient-angle),
-        var(--clr-card),
-        var(--clr-1),
-        var(--clr-2),
-        var(--clr-3),
-        var(--clr-4),
-        var(--clr-5),
-        var(--clr-6),
-        var(--clr-2),
-        var(--clr-1),
-        var(--clr-card)
+      background: linear-gradient(
+        126.21deg,
+        #ffffff 16.9%,
+        rgba(8, 8, 7, 0) 43.74%,
+        rgba(31, 25, 30, 0) 63.95%,
+        #ffffff 86.73%
       );
-      animation: rotate 3s linear infinite;
-      -webkit-mask: linear-gradient(#fff 0 0) content-box,
-        linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
-      z-index: 0;
-    }
-
-    * {
-      position: relative;
       z-index: 1;
     }
-  }
-
-  &__content {
-    flex-grow: 1;
-    margin-bottom: s(24);
+    @media (max-width: 992px) {
+      padding: s(14) s(20);
+      border-radius: 20px;
+    }
   }
 
   &__heading {
-    font-size: 2rem;
-    font-weight: 600;
     margin-bottom: s(20);
+    color: white;
+    font-weight: 600;
+    font-size: s(40);
+    text-align: center;
 
-    @media (max-width: 768px) {
-      font-size: 1.5rem;
+    @media (max-width: 992px) {
+      font-size: s(14);
+      margin-bottom: s(6);
     }
   }
 
   &__message {
-    font-size: 1rem;
-    color: #a0a0a0;
+    margin-bottom: s(40);
+    font-weight: 400;
+    font-size: s(18);
+    text-align: center;
+    vertical-align: middle;
+    @media (max-width: 992px) {
+      font-size: s(10);
+      margin-bottom: s(12);
+    }
   }
 
   &__actions {
-    margin-top: auto;
-  }
-
-  &__button {
-    width: 100%; // ✅ button spans same width as card
     display: flex;
     justify-content: center;
-  }
-}
-
-// ✅ Responsive
-@media (max-width: 768px) {
-  .download-options {
-    flex-direction: column;
-    gap: s(24);
-    padding: s(20);
-
-    &__wrapper {
-      max-width: 100%;
+    gap: s(20);
+    @media (max-width: 768px) {
+      flex-wrap: wrap;
     }
+    .customButton {
+      display: inline-flex;
+      align-items: center;
+      gap: s(16);
+      border-radius: s(48);
+      padding: s(5) s(20) s(1) s(5);
 
-    &__card {
-      padding: s(24);
+      &::before {
+        border-radius: 48px;
+      }
+      @media (max-width: 992px) {
+        justify-content: flex-start;
+        min-width: s(100);
+        padding: s(4) s(4) s(2) s(4);
+        gap: s(8);
+      }
+      @media (max-width: 480px) {
+        padding: s(8) s(10) s(6) s(8);
+      }
+      svg {
+        background: #282828;
+        border-radius: 64px;
+        padding: s(14);
+        width: s(50);
+        height: s(50);
+        flex-shrink: 0;
+        @media (max-width: 992px) {
+          width: s(26);
+          height: s(26);
+          padding: s(8);
+        }
+      }
     }
   }
 }
