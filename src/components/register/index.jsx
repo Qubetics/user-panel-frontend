@@ -11,20 +11,17 @@ import { computePubKey } from "../../utils/Helper/CommonHelper";
 import { env } from "../../Constant/envConstants";
 
 const Register = () => {
-  console.log("idhaar aaye hai");
 
   const [visible, setVisible] = useState(false);
   const [status, setStatus] = useState("success");
   const [planList, setPlanList] = useState("");
-  console.log("🚀 ~ Register ~ planList:", planList)
   const [isLoading, setIsLoading] = useState(true);
   const { authData, setAuthData } = useIsLoggedIn();
   const [orgName, setOrgName] = useState("");
   const [email, setEmail] = useState("");
   const [nodeAddress, setNodeAddress] = useState("");
   const [choosePlan, setChoosePlan] = useState("");
-  const [chooseAction,setChooseAction]=useState("link");
-  console.log("🚀 ~ Register ~ choosePlan:", choosePlan)
+  const [chooseAction, setChooseAction] = useState("");
 
   const chainId = env.chainId;
 
@@ -42,14 +39,12 @@ const Register = () => {
     try {
 
       const message = authData; // OR use any unique string, like a nonce
-      console.log("🚀 Signing message:", message);
 
       const result = await window.keplr.signArbitrary(
         chainId,
         authData,
         message
       );
-      console.log("🚀 ~ handleSign ~ result:", result)
 
       const { signature, pub_key } = result;
 
@@ -63,7 +58,6 @@ const Register = () => {
       }
 
       // Log or display for dev/debug purposes
-      console.log("🔍 Computed PubKey:", pubKeyFromSignature);
       return {
         compubKey: pubKeyFromSignature,
         pubKeyInitial: pub_key,
@@ -71,20 +65,17 @@ const Register = () => {
       }
     } catch (error) {
       console.error('Signing failed:', error);
-      console.log('Signing failed: ' + error.message);
     } finally {
     }
   };
 
   const getAllPlan = async () => {
     try {
-      console.log("Sdfsf");
       setIsLoading(false);
       const result = await useGetApi(
         apiUrls.getAllPlan,
         apiMethods.GET
       );
-      console.log("🚀 ~ getAllPlan ~ result:", result);
       setPlanList(result?.data?.data);
     } catch (error) {
       toast.error(error?.message);
@@ -95,24 +86,16 @@ const Register = () => {
 
   const postNodeRequest = async () => {
     try {
-      console.log("1");
       // check the nodeAddress should not be empty and plan 
       if (!nodeAddress) {
         toast.error("Node Address is required");
         return;
       }
-      console.log("1");
 
-      console.log("🚀 ~ postNodeRequest ~ choosePlan:", choosePlan)
       if (!choosePlan) {
-        console.log("sdfwsa");
         toast.error("Please choose a plan");
         return;
       }
-
-      console.log("1");
-      console.log("1");
-
 
       const { compubKey, pubKeyInitial, signature } = await handleSign();
 
@@ -122,7 +105,6 @@ const Register = () => {
         provAddress: choosePlan?.prov_address,
         bandwidth: choosePlan?.gigabytes,
       };
-      console.log("1");
 
 
       const body = {
@@ -136,10 +118,9 @@ const Register = () => {
           pub_key: pubKeyInitial,
           signature: signature
         },
-        request:chooseAction
+        request: chooseAction
       };
 
-      console.log("🚀 ~ postNodeRequest ~ payload:", body);
 
       const response = await useGetApi(
         apiUrls.postNodeRequest,             // endpoint (appended to baseApiUrl)
@@ -148,8 +129,8 @@ const Register = () => {
         { "Content-Type": "application/json" } // headers
       );
 
-      console.log(response, "sender")
 
+      if(!response.error){setVisible(true);}
 
     } catch (error) {
       toast.error(error?.message);
@@ -191,11 +172,20 @@ const Register = () => {
             onChange={(e) => setNodeAddress(e.target.value)}
           />
           <label className="register-popup__label">Choose Plan</label>
-          <select name="plan" id="plan"
+          <select
+            name="plan"
+            id="plan"
             className="register-popup__select"
-            value={choosePlan}
-            onChange={(e) => { setChoosePlan(JSON.parse(e.target.value)) }}>
-            <option value="">-- Select a Plan --</option>
+            value={choosePlan ? JSON.stringify(choosePlan) : ""}
+            onChange={(e) => {
+              if (JSON.parse(e.target.value) !== "SELECT") {
+                setChoosePlan(JSON.parse(e.target.value))
+              } else {
+                setChoosePlan("");
+              }
+            }}
+          >
+            <option value={JSON.stringify("SELECT")}>-- Select a Plan --</option>
             {Array.isArray(planList) &&
               planList.map((plan) => (
                 <option key={plan.id} value={JSON.stringify(plan)}>
@@ -210,9 +200,9 @@ const Register = () => {
             className="register-popup__select"
             value={chooseAction}
             onChange={(e) => { setChooseAction(e.target.value) }}>
-              <option value="">-- Select Action --</option>
-              <option key={1} value={"Link"}>Link</option>
-              <option  key={2} value={"Unlink"}>Unlink</option>
+            <option value="">-- Select Action --</option>
+            <option key={1} value={"Link"}>Link</option>
+            <option key={2} value={"Unlink"}>Unlink</option>
           </select>
           <div className="register-popup__actions">
             <ButtonCustom

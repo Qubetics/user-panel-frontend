@@ -11,10 +11,7 @@ import { useLocation } from "react-router-dom";
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log("🚀 ~ Header ~ location:", location)
   const  { authData, setAuthData } = useIsLoggedIn();
-  console.log("🚀 ~ Header ~ authData:", authData)
-  console.log(import.meta.env); // ✅ should show all your vars
 
 
   const handleClick = async () => {
@@ -24,7 +21,6 @@ const Header = () => {
     }
 
     const chainId = env.chainId;
-    console.log("🚀 ~ handleClick ~ chainId:", chainId)
 
     try {
       await window.keplr.disable(chainId);
@@ -32,7 +28,6 @@ const Header = () => {
 
       const offlineSigner = window.keplr.getOfflineSigner(chainId);
       const accounts = await offlineSigner.getAccounts();
-      console.log("🚀 ~ connectWallet ~ accounts:", accounts)
 
       if (!accounts.length) {
         toast.error("No accounts found in Keplr");
