@@ -10,18 +10,25 @@ const useGetApi = async (
     isIpfs = false
 ) => {
     try {
-        const result = await axios({
+        const response = await axios({
             method: method || apiMethods.GET,
             url: env.baseApiUrls + url,
             data: body || undefined,
             withCredentials: !isIpfs,
             headers: additionalHeaders
         });
-        return result; 
+
+        return {
+            success: true,
+            data: response?.data,
+            headers: { totalCount: response.headers["total"] },
+            message: response.data.message || "Success",
+          };
     } catch (error) {
-        const { response } = error;
-        const error_message = response?.data?.message || error?.message;
-        message.error(error_message);
+        return {
+            success: false,
+            message: error?.message,
+          };
     } 
 };
 

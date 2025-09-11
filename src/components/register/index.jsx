@@ -22,13 +22,15 @@ const Register = () => {
   const [nodeAddress, setNodeAddress] = useState("");
   const [choosePlan, setChoosePlan] = useState("");
   const [chooseAction, setChooseAction] = useState("");
+  const [messageModal,setMessageModal] = useState("");
 
   const chainId = env.chainId;
 
-  const message =
-    status === "success"
+  const message = (success) => {
+    return success
       ? "Node request sent successfully!"
       : "Node request failed!";
+  };
 
   const handleClick = () => {
     setVisible(true);
@@ -82,6 +84,16 @@ const Register = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleClose = async () =>{
+    setVisible(false);
+    setOrgName("");
+    setChooseAction("");
+    setEmail("");
+    setChoosePlan("");
+    setNodeAddress("");
+    setMessageModal("");
   }
 
   const postNodeRequest = async () => {
@@ -129,8 +141,11 @@ const Register = () => {
         { "Content-Type": "application/json" } // headers
       );
 
-
-      if(!response.error){setVisible(true);}
+      if (response) {
+        const notificationMessage=message(response?.success);
+        setMessageModal(notificationMessage);
+        setVisible(true);
+      }
 
     } catch (error) {
       toast.error(error?.message);
@@ -216,8 +231,8 @@ const Register = () => {
       </div>
       <NotificationModal
         title="Node Request"
-        message={message}
-        onClose={() => setVisible(false)}
+        message={messageModal}
+        onClose={handleClose}
         show={visible}
       />
     </div>
