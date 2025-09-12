@@ -29,41 +29,6 @@ const Register = () => {
   const handleClick = () => {
     setVisible(true);
   };
-  const validateForm = () => {
-    let valid = true;
-    const newErrors = {};
-
-    if (!orgName.trim()) {
-      newErrors.orgName = "Organization name is required";
-      valid = false;
-    }
-
-    if (!email.trim()) {
-      newErrors.email = "Email is required";
-      valid = false;
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      newErrors.email = "Invalid email address";
-      valid = false;
-    }
-
-    if (!nodeAddress.trim()) {
-      newErrors.nodeAddress = "Node Address is required";
-      valid = false;
-    }
-
-    if (!choosePlan) {
-      newErrors.choosePlan = "Please choose a plan";
-      valid = false;
-    }
-
-    if (!chooseAction) {
-      newErrors.chooseAction = "Please choose an action";
-      valid = false;
-    }
-
-    setErrors(newErrors);
-    return valid;
-  };
 
   const handleSign = async () => {
     try {
@@ -94,6 +59,7 @@ const Register = () => {
     } catch (error) {
       console.error("Signing failed:", error);
     } finally {
+      setIsLoading(false);
     }
   };
 
@@ -158,12 +124,12 @@ const Register = () => {
       // }
 
       const { compubKey, pubKeyInitial, signature } = await handleSign();
-
+      const choosePlanObj = JSON.parse(choosePlan);
       const extendedPlan = {
-        plan: `${choosePlan?.prices?.[0]?.quote_value} TICS/month`,
-        planId: choosePlan?.id,
-        provAddress: choosePlan?.prov_address,
-        bandwidth: choosePlan?.gigabytes,
+        plan: `${choosePlanObj?.prices?.[0]?.quote_value} TICS/month`,
+        planId: choosePlanObj?.id,
+        provAddress: choosePlanObj?.prov_address,
+        bandwidth: choosePlanObj?.gigabytes,
       };
 
       const body = {
@@ -179,8 +145,7 @@ const Register = () => {
         },
         request: chooseAction,
       };
-      console.log("Request Body: ", body);
-      return;
+
       const response = await useGetApi(
         apiUrls.postNodeRequest, // endpoint (appended to baseApiUrl)
         apiMethods.POST, // method
