@@ -208,6 +208,18 @@ const Register = () => {
           {/* <p className="error-message">This field is required</p> */}
           </div>
           <div className="field">
+          <label className="register-popup__label">Choose Action<span className="astrick">*</span></label>
+          <select name="action" id='action'
+            className="register-popup__select"
+            value={chooseAction}
+            onChange={(e) => { setChooseAction(e.target.value) }}>
+            <option value="">-- Select Action --</option>
+            <option key={1} value={"Link"}>Link</option>
+            <option key={2} value={"Unlink"}>Unlink</option>
+          </select>
+          {/* <p className="error-message">This field is required</p> */}
+          </div>
+         {chooseAction=="Link" &&  <div className="field">
           <label className="register-popup__label">Choose Plan<span className="astrick">*</span></label>
           <select
             name="plan"
@@ -233,19 +245,7 @@ const Register = () => {
               ))}
           </select>
           {/* <p className="error-message">This field is required</p> */}
-          </div>
-          <div className="field">
-          <label className="register-popup__label">Choose Action<span className="astrick">*</span></label>
-          <select name="action" id='action'
-            className="register-popup__select"
-            value={chooseAction}
-            onChange={(e) => { setChooseAction(e.target.value) }}>
-            <option value="">-- Select Action --</option>
-            <option key={1} value={"Link"}>Link</option>
-            <option key={2} value={"Unlink"}>Unlink</option>
-          </select>
-          {/* <p className="error-message">This field is required</p> */}
-          </div>
+          </div>}
           <div className="register-popup__actions">
             <ButtonCustom
               regularBtn
