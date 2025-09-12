@@ -22,7 +22,7 @@ const Register = () => {
   const [nodeAddress, setNodeAddress] = useState("");
   const [choosePlan, setChoosePlan] = useState("");
   const [chooseAction, setChooseAction] = useState("");
-  const [messageModal,setMessageModal] = useState("");
+  const [messageModal, setMessageModal] = useState("");
 
   const chainId = env.chainId;
 
@@ -86,7 +86,7 @@ const Register = () => {
     }
   };
 
-  const handleClose = async () =>{
+  const handleClose = async () => {
     setVisible(false);
     setOrgName("");
     setChooseAction("");
@@ -98,14 +98,25 @@ const Register = () => {
 
   const postNodeRequest = async () => {
     try {
+      if (!authData) {
+        toast.error("Connect your wallet first");
+        return;
+      }
       // check the nodeAddress should not be empty and plan 
-      if (!nodeAddress) {
+      if (!nodeAddress.trim()) {
         toast.error("Node Address is required");
         return;
       }
 
+      // 5️⃣ Plan selection validation
       if (!choosePlan) {
         toast.error("Please choose a plan");
+        return;
+      }
+
+      // 6️⃣ Action selection validation
+      if (!chooseAction) {
+        toast.error("Please choose an action (Link/Unlink)");
         return;
       }
 
@@ -142,7 +153,7 @@ const Register = () => {
       );
 
       if (response) {
-        const notificationMessage=message(response?.success);
+        const notificationMessage = message(response?.success);
         setMessageModal(notificationMessage);
         setVisible(true);
       }
@@ -162,7 +173,9 @@ const Register = () => {
         <h2 className="register-popup__title">Register as Node Service</h2>
 
         <div className="register-popup__form">
-          <label className="register-popup__label">Org Name</label>
+          <div className="field">
+          <label className="register-popup__label ">Org Name  </label>
+         
           <input
             type="text"
             className="register-popup__input"
@@ -170,6 +183,9 @@ const Register = () => {
             value={orgName}
             onChange={(e) => { setOrgName(e.target.value) }}
           />
+          <p className="error-message">This field is required</p>
+          </div>
+          <div className="field">
           <label className="register-popup__label">Email Address</label>
           <input
             type="text"
@@ -178,7 +194,10 @@ const Register = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <label className="register-popup__label">Node Address</label>
+          {<p className="error-message">This field is required</p>}
+          </div>
+          <div className="field">
+          <label className="register-popup__label">Node Address<span className="astrick">*</span></label>
           <input
             type="text"
             className="register-popup__input"
@@ -186,7 +205,10 @@ const Register = () => {
             value={nodeAddress}
             onChange={(e) => setNodeAddress(e.target.value)}
           />
-          <label className="register-popup__label">Choose Plan</label>
+          <p className="error-message">This field is required</p>
+          </div>
+          <div className="field">
+          <label className="register-popup__label">Choose Plan<span className="astrick">*</span></label>
           <select
             name="plan"
             id="plan"
@@ -210,7 +232,10 @@ const Register = () => {
                 </option>
               ))}
           </select>
-          <label className="register-popup__label">Choose Action</label>
+          <p className="error-message">This field is required</p>
+          </div>
+          <div className="field">
+          <label className="register-popup__label">Choose Action<span className="astrick">*</span></label>
           <select name="action" id='action'
             className="register-popup__select"
             value={chooseAction}
@@ -219,11 +244,12 @@ const Register = () => {
             <option key={1} value={"Link"}>Link</option>
             <option key={2} value={"Unlink"}>Unlink</option>
           </select>
+          <p className="error-message">This field is required</p>
+          </div>
           <div className="register-popup__actions">
             <ButtonCustom
               regularBtn
               label="Submit"
-              disabled={!authData}
               onClick={() => postNodeRequest()}
             />
           </div>
