@@ -68,11 +68,13 @@ const Header = () => {
           <div className="header__action">
           {(location.pathname!=='/')?
           (!authData ? (
-            <ButtonCustom regularBtn label="Connect Wallet" onClick={handleClick} />
+            <ButtonCustom regularBtn label="Connect Keplr Wallet" onClick={handleClick} />
           ) : (
-            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <span>{authData.slice(0, 6)}...{authData.slice(-4)}</span>
+            <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+             <div style={{display: "flex", alignItems: "center",gap: "10px", backgroundColor: "#121212", padding: "13.5px 20px", borderRadius:"30px"}}>
+               <span>{authData.slice(0, 6)}...{authData.slice(-4)}</span>
               <CopyText text={authData}/>
+             </div>
               <ButtonCustom regularBtn label="Logout" onClick={handleLogout} />
             </div>
           )):""}
