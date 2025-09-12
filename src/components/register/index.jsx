@@ -111,7 +111,7 @@ const Register = () => {
       }
 
       // 5️⃣ Plan selection validation
-      if (!choosePlan) {
+      if (chooseAction=="Link" &&  !choosePlan) {
         toast.error("Please choose a plan");
         return;
       }
@@ -136,7 +136,7 @@ const Register = () => {
         orgName: orgName || undefined,
         emailAddress: email || undefined,
         nodeAddress,
-        choosePlan: extendedPlan,
+        ...(chooseAction === "Link" && { choosePlan: extendedPlan }),
         address: authData,
         pubKey: compubKey,
         signature: {
