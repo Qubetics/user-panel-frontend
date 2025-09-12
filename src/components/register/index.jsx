@@ -183,7 +183,7 @@ const Register = () => {
             value={orgName}
             onChange={(e) => { setOrgName(e.target.value) }}
           />
-          <p className="error-message">This field is required</p>
+          {/* <p className="error-message">This field is required</p> */}
           </div>
           <div className="field">
           <label className="register-popup__label">Email Address</label>
@@ -194,7 +194,7 @@ const Register = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          {<p className="error-message">This field is required</p>}
+          {/* {<p className="error-message">This field is required</p>} */}
           </div>
           <div className="field">
           <label className="register-popup__label">Node Address<span className="astrick">*</span></label>
@@ -205,7 +205,7 @@ const Register = () => {
             value={nodeAddress}
             onChange={(e) => setNodeAddress(e.target.value)}
           />
-          <p className="error-message">This field is required</p>
+          {/* <p className="error-message">This field is required</p> */}
           </div>
           <div className="field">
           <label className="register-popup__label">Choose Plan<span className="astrick">*</span></label>
@@ -232,7 +232,7 @@ const Register = () => {
                 </option>
               ))}
           </select>
-          <p className="error-message">This field is required</p>
+          {/* <p className="error-message">This field is required</p> */}
           </div>
           <div className="field">
           <label className="register-popup__label">Choose Action<span className="astrick">*</span></label>
@@ -244,7 +244,7 @@ const Register = () => {
             <option key={1} value={"Link"}>Link</option>
             <option key={2} value={"Unlink"}>Unlink</option>
           </select>
-          <p className="error-message">This field is required</p>
+          {/* <p className="error-message">This field is required</p> */}
           </div>
           <div className="register-popup__actions">
             <ButtonCustom
