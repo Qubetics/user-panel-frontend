@@ -9,37 +9,64 @@ import { toast } from "react-toastify";
 import { useIsLoggedIn } from "../../Context/LoggedInContext";
 import { computePubKey } from "../../utils/Helper/CommonHelper";
 import { env } from "../../Constant/envConstants";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const Register = () => {
-
   const [visible, setVisible] = useState(false);
   const [status, setStatus] = useState("success");
   const [planList, setPlanList] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const { authData, setAuthData } = useIsLoggedIn();
-  const [orgName, setOrgName] = useState("");
-  const [email, setEmail] = useState("");
-  const [nodeAddress, setNodeAddress] = useState("");
-  const [choosePlan, setChoosePlan] = useState("");
-  const [chooseAction, setChooseAction] = useState("");
   const [messageModal, setMessageModal] = useState("");
 
   const chainId = env.chainId;
 
   const message = (success) => {
-    return success
-      ? "Node request sent successfully!"
-      : "Node request failed!";
+    return success ? "Node request sent successfully!" : "Node request failed!";
   };
 
   const handleClick = () => {
     setVisible(true);
+  };
+  const validateForm = () => {
+    let valid = true;
+    const newErrors = {};
 
+    if (!orgName.trim()) {
+      newErrors.orgName = "Organization name is required";
+      valid = false;
+    }
+
+    if (!email.trim()) {
+      newErrors.email = "Email is required";
+      valid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      newErrors.email = "Invalid email address";
+      valid = false;
+    }
+
+    if (!nodeAddress.trim()) {
+      newErrors.nodeAddress = "Node Address is required";
+      valid = false;
+    }
+
+    if (!choosePlan) {
+      newErrors.choosePlan = "Please choose a plan";
+      valid = false;
+    }
+
+    if (!chooseAction) {
+      newErrors.chooseAction = "Please choose an action";
+      valid = false;
+    }
+
+    setErrors(newErrors);
+    return valid;
   };
 
   const handleSign = async () => {
     try {
-
       const message = authData; // OR use any unique string, like a nonce
 
       const result = await window.keplr.signArbitrary(
@@ -49,7 +76,6 @@ const Register = () => {
       );
 
       const { signature, pub_key } = result;
-
 
       // 🔐 Compute the public key from signature
       const pubKeyFromSignature = computePubKey(authData, signature, message);
@@ -63,10 +89,10 @@ const Register = () => {
       return {
         compubKey: pubKeyFromSignature,
         pubKeyInitial: pub_key,
-        signature: signature
-      }
+        signature: signature,
+      };
     } catch (error) {
-      console.error('Signing failed:', error);
+      console.error("Signing failed:", error);
     } finally {
     }
   };
@@ -74,10 +100,7 @@ const Register = () => {
   const getAllPlan = async () => {
     try {
       setIsLoading(false);
-      const result = await useGetApi(
-        apiUrls.getAllPlan,
-        apiMethods.GET
-      );
+      const result = await useGetApi(apiUrls.getAllPlan, apiMethods.GET);
       setPlanList(result?.data?.data);
     } catch (error) {
       toast.error(error?.message);
@@ -86,39 +109,53 @@ const Register = () => {
     }
   };
 
-  const handleClose = async () => {
-    setVisible(false);
-    setOrgName("");
-    setChooseAction("");
-    setEmail("");
-    setChoosePlan("");
-    setNodeAddress("");
-    setMessageModal("");
-  }
+  const formik = useFormik({
+    initialValues: {
+      orgName: "",
+      email: "",
+      nodeAddress: "",
+      choosePlan: "",
+      chooseAction: "",
+    },
+    validationSchema: Yup.object({
+      orgName: Yup.string().required("Organization name is required"),
+      email: Yup.string()
+        .email("Invalid email address")
+        .required("Email is required"),
+      nodeAddress: Yup.string().required("Node Address is required"),
+      choosePlan: Yup.string().required("Please choose a plan"),
+      chooseAction: Yup.string().required("Please choose an action"),
+    }),
+    onSubmit: async (values) => {
+      await postNodeRequest(values);
+    },
+  });
 
-  const postNodeRequest = async () => {
+  const postNodeRequest = async (values) => {
+    const { orgName, email, nodeAddress, choosePlan, chooseAction } = values;
     try {
       if (!authData) {
         toast.error("Connect your wallet first");
         return;
       }
-      // check the nodeAddress should not be empty and plan 
-      if (!nodeAddress.trim()) {
-        toast.error("Node Address is required");
-        return;
-      }
+
+      // check the nodeAddress should not be empty and plan
+      // if (!nodeAddress.trim()) {
+      //   toast.error("Node Address is required");
+      //   return;
+      // }
 
       // 5️⃣ Plan selection validation
-      if (!choosePlan) {
-        toast.error("Please choose a plan");
-        return;
-      }
+      // if (!choosePlan) {
+      //   toast.error("Please choose a plan");
+      //   return;
+      // }
 
       // 6️⃣ Action selection validation
-      if (!chooseAction) {
-        toast.error("Please choose an action (Link/Unlink)");
-        return;
-      }
+      // if (!chooseAction) {
+      //   toast.error("Please choose an action (Link/Unlink)");
+      //   return;
+      // }
 
       const { compubKey, pubKeyInitial, signature } = await handleSign();
 
@@ -129,7 +166,6 @@ const Register = () => {
         bandwidth: choosePlan?.gigabytes,
       };
 
-
       const body = {
         orgName: orgName || undefined,
         emailAddress: email || undefined,
@@ -139,16 +175,16 @@ const Register = () => {
         pubKey: compubKey,
         signature: {
           pub_key: pubKeyInitial,
-          signature: signature
+          signature: signature,
         },
-        request: chooseAction
+        request: chooseAction,
       };
-
-
+      console.log("Request Body: ", body);
+      return;
       const response = await useGetApi(
-        apiUrls.postNodeRequest,             // endpoint (appended to baseApiUrl)
-        apiMethods.POST,      // method
-        body,                 // body for POST request
+        apiUrls.postNodeRequest, // endpoint (appended to baseApiUrl)
+        apiMethods.POST, // method
+        body, // body for POST request
         { "Content-Type": "application/json" } // headers
       );
 
@@ -157,11 +193,20 @@ const Register = () => {
         setMessageModal(notificationMessage);
         setVisible(true);
       }
-
     } catch (error) {
       toast.error(error?.message);
     }
-  }
+  };
+  const handleClose = () => {
+    formik.resetForm();
+    // setVisible(false);
+    // setOrgName("");
+    // setChooseAction("");
+    // setEmail("");
+    // setChoosePlan("");
+    // setNodeAddress("");
+    // setMessageModal("");
+  };
 
   useEffect(() => {
     getAllPlan();
@@ -172,89 +217,117 @@ const Register = () => {
       <div className="register-popup">
         <h2 className="register-popup__title">Register as Node Service</h2>
 
-        <div className="register-popup__form">
+        <form className="register-popup__form" onSubmit={formik.handleSubmit}>
+          {/* Org Name */}
           <div className="field">
-          <label className="register-popup__label ">Org Name  </label>
-         
-          <input
-            type="text"
-            className="register-popup__input"
-            placeholder="Enter Organization Name"
-            value={orgName}
-            onChange={(e) => { setOrgName(e.target.value) }}
-          />
-          <p className="error-message">This field is required</p>
-          </div>
-          <div className="field">
-          <label className="register-popup__label">Email Address</label>
-          <input
-            type="text"
-            className="register-popup__input"
-            placeholder="Enter your email address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          {<p className="error-message">This field is required</p>}
-          </div>
-          <div className="field">
-          <label className="register-popup__label">Node Address<span className="astrick">*</span></label>
-          <input
-            type="text"
-            className="register-popup__input"
-            placeholder="Enter Node Address"
-            value={nodeAddress}
-            onChange={(e) => setNodeAddress(e.target.value)}
-          />
-          <p className="error-message">This field is required</p>
-          </div>
-          <div className="field">
-          <label className="register-popup__label">Choose Plan<span className="astrick">*</span></label>
-          <select
-            name="plan"
-            id="plan"
-            className="register-popup__select"
-            value={choosePlan ? JSON.stringify(choosePlan) : ""}
-            onChange={(e) => {
-              if (JSON.parse(e.target.value) !== "SELECT") {
-                setChoosePlan(JSON.parse(e.target.value))
-              } else {
-                setChoosePlan("");
-              }
-            }}
-          >
-            <option value={JSON.stringify("SELECT")}>-- Select a Plan --</option>
-            {Array.isArray(planList) &&
-              planList.map((plan) => (
-                <option key={plan.id} value={JSON.stringify(plan)}>
-                  {plan.prices.length > 0
-                    ? `${plan.prices[0].quote_value} ${plan.prices[0].denom.toUpperCase()}/month`
-                    : `Plan ${plan.id}`}
-                </option>
-              ))}
-          </select>
-          <p className="error-message">This field is required</p>
-          </div>
-          <div className="field">
-          <label className="register-popup__label">Choose Action<span className="astrick">*</span></label>
-          <select name="action" id='action'
-            className="register-popup__select"
-            value={chooseAction}
-            onChange={(e) => { setChooseAction(e.target.value) }}>
-            <option value="">-- Select Action --</option>
-            <option key={1} value={"Link"}>Link</option>
-            <option key={2} value={"Unlink"}>Unlink</option>
-          </select>
-          <p className="error-message">This field is required</p>
-          </div>
-          <div className="register-popup__actions">
-            <ButtonCustom
-              regularBtn
-              label="Submit"
-              onClick={() => postNodeRequest()}
+            <label className="register-popup__label">Org Name</label>
+            <input
+              type="text"
+              name="orgName"
+              className="register-popup__input"
+              placeholder="Enter Organization Name"
+              value={formik.values.orgName}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.touched.orgName && formik.errors.orgName && (
+              <p className="error-message">{formik.errors.orgName}</p>
+            )}
           </div>
-        </div>
+
+          {/* Email */}
+          <div className="field">
+            <label className="register-popup__label">Email Address</label>
+            <input
+              type="text"
+              name="email"
+              className="register-popup__input"
+              placeholder="Enter your email address"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {formik.touched.email && formik.errors.email && (
+              <p className="error-message">{formik.errors.email}</p>
+            )}
+          </div>
+
+          {/* Node Address */}
+          <div className="field">
+            <label className="register-popup__label">
+              Node Address<span className="astrick">*</span>
+            </label>
+            <input
+              type="text"
+              name="nodeAddress"
+              className="register-popup__input"
+              placeholder="Enter Node Address"
+              value={formik.values.nodeAddress}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {formik.touched.nodeAddress && formik.errors.nodeAddress && (
+              <p className="error-message">{formik.errors.nodeAddress}</p>
+            )}
+          </div>
+
+          {/* Choose Plan */}
+          <div className="field">
+            <label className="register-popup__label">
+              Choose Plan<span className="astrick">*</span>
+            </label>
+            <select
+              name="choosePlan"
+              className="register-popup__select"
+              value={formik.values.choosePlan}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            >
+              <option value="">-- Select a Plan --</option>
+              {Array.isArray(planList) &&
+                planList.map((plan) => (
+                  <option key={plan.id} value={JSON.stringify(plan)}>
+                    {plan.prices.length > 0
+                      ? `${
+                          plan.prices[0].quote_value
+                        } ${plan.prices[0].denom.toUpperCase()}/month`
+                      : `Plan ${plan.id}`}
+                  </option>
+                ))}
+            </select>
+            {formik.touched.choosePlan && formik.errors.choosePlan && (
+              <p className="error-message">{formik.errors.choosePlan}</p>
+            )}
+          </div>
+
+          {/* Choose Action */}
+          <div className="field">
+            <label className="register-popup__label">
+              Choose Action<span className="astrick">*</span>
+            </label>
+            <select
+              name="chooseAction"
+              className="register-popup__select"
+              value={formik.values.chooseAction}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            >
+              <option value="">-- Select Action --</option>
+              <option value="Link">Link</option>
+              <option value="Unlink">Unlink</option>
+            </select>
+            {formik.touched.chooseAction && formik.errors.chooseAction && (
+              <p className="error-message">{formik.errors.chooseAction}</p>
+            )}
+          </div>
+
+          {/* Submit */}
+          <div className="register-popup__actions">
+            <ButtonCustom regularBtn label="Submit" type="submit" />
+          </div>
+        </form>
       </div>
+
       <NotificationModal
         title="Node Request"
         message={messageModal}
