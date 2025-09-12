@@ -78,7 +78,9 @@ const Register = () => {
         apiUrls.getAllPlan,
         apiMethods.GET
       );
-      setPlanList(result?.data?.data);
+      const list = result?.data?.data?.length > 0  ?result?.data?.data.filter(item => item.status === "active"):[]
+      setPlanList(list);
+
     } catch (error) {
       toast.error(error?.message);
     } finally {
