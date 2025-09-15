@@ -28,6 +28,7 @@ $border-color: rgba(75, 85, 99, 1);
   initial-value: 90deg;
   inherits: false;
 }
+
 :root {
   --1: min(1px, 0.06944vw);
 
@@ -35,6 +36,7 @@ $border-color: rgba(75, 85, 99, 1);
     --1: min(0.24vw);
   }
 }
+
 :root {
   --bg-background: #111827;
   --clr-card: rgb(168, 219, 215);
@@ -47,21 +49,18 @@ $border-color: rgba(75, 85, 99, 1);
 }
 
 :root {
-  --theme-gradients-main: conic-gradient(
-      from 180deg,
+  --theme-gradients-main: conic-gradient(from 180deg,
       rgb(255, 152, 226),
       rgb(255, 200, 118) 35.77deg,
       rgb(121, 255, 247) 153.75deg,
       rgb(159, 83, 255) 258.75deg,
-      rgb(255, 152, 226) 360deg
-    ),
+      rgb(255, 152, 226) 360deg),
     linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));
-  --searchBg: linear-gradient(
-    157.79deg,
-    rgba(29, 29, 29, 0.54) -0.65%,
-    rgba(29, 29, 29, 0.9) 99.59%
-  );
+  --searchBg: linear-gradient(157.79deg,
+      rgba(29, 29, 29, 0.54) -0.65%,
+      rgba(29, 29, 29, 0.9) 99.59%);
 }
+
 // Global styles
 * {
   box-sizing: border-box;
@@ -81,8 +80,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scrollbar-width: 4px;
+
   ::-webkit-scrollbar {
     width: 4px;
+
     // }
     ::-webkit-scrollbar-thumb {
       background-color: rgb(6, 6, 6);
@@ -91,6 +92,7 @@ body {
     }
   }
 }
+
 h1,
 h2,
 h3,
@@ -122,28 +124,61 @@ p {
 }
 
 // Component styles
+.gradientbrder {
+  position: relative;
+  display: flex;
+  gap: 20px;
+  overflow: hidden;
+  padding:10px 20px;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 2px;
+    border-radius: 30px;
+    background: conic-gradient(from var(--gradient-angle),
+        var(--clr-card),
+        var(--clr-1),
+        var(--clr-2),
+        var(--clr-3),
+        var(--clr-4),
+        var(--clr-5),
+        var(--clr-6),
+        var(--clr-2),
+        var(--clr-1),
+        var(--clr-card));
+    animation: rotate 2.5s linear infinite;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: rotate 3s linear infinite;
+  }
+}
 
 .common-heading {
   font-size: 2rem;
   font-weight: 700;
   color: white;
   margin-bottom: 16px;
-  background: conic-gradient(
-    from 180deg at 50% 50%,
-    #ff98e2 0deg,
-    #ffc876 35.77deg,
-    #79fff7 153.75deg,
-    #9f53ff 258.75deg,
-    #ff98e2 360deg
-  );
+  background: conic-gradient(from 180deg at 50% 50%,
+      #ff98e2 0deg,
+      #ffc876 35.77deg,
+      #79fff7 153.75deg,
+      #9f53ff 258.75deg,
+      #ff98e2 360deg);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
+
   @media (min-width: 768px) {
     font-size: 2.5rem;
   }
 }
+
 .hero-section {
   position: relative;
   min-height: 100vh;
@@ -157,11 +192,9 @@ p {
     transform: translate(-50%, -50%);
     width: 384px;
     height: 384px;
-    background: radial-gradient(
-      circle,
-      rgba($primary-purple, 0.2) 0%,
-      transparent 70%
-    );
+    background: radial-gradient(circle,
+        rgba($primary-purple, 0.2) 0%,
+        transparent 70%);
     border-radius: 50%;
     filter: blur(60px);
   }
@@ -173,11 +206,9 @@ p {
     right: 25%;
     width: 256px;
     height: 256px;
-    background: radial-gradient(
-      circle,
-      rgba($primary-blue, 0.2) 0%,
-      transparent 70%
-    );
+    background: radial-gradient(circle,
+        rgba($primary-blue, 0.2) 0%,
+        transparent 70%);
     border-radius: 50%;
     filter: blur(60px);
   }
@@ -351,20 +382,24 @@ p {
 
 // Animations
 @keyframes pulse {
+
   0%,
   100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.5;
   }
 }
 
 @keyframes float {
+
   0%,
   100% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-10px);
   }
@@ -386,6 +421,32 @@ p {
   }
 }
 
-.header__logo{
+.header__logo {
   cursor: pointer;
+}
+
+.status-badge {
+  display: inline-block;
+  font-size: s(14);
+  font-weight: 600;
+  text-transform: capitalize;
+
+  &.active {
+    color: #1e8e3e;
+  }
+  &.inactive {
+    color: #D33535E5;
+  }
+  &.pending {
+    color: #f9a825;
+  }
+  &.approved {
+    color: #1e8e3e;
+  }
+  &.rejected {
+    color: #D33535E5;
+  }
+  &.default {
+    color: #5f6368;
+  }
 }
