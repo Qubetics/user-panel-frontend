@@ -1,5 +1,7 @@
 export const apiUrls = {
     getAllPlan: "/api/v1/plans",
-    postNodeRequest:"/api/v1/node"
+    postNodeRequest:"/api/v1/node",
+    getNetworkAnalytics:"/qubetics/dvpn/analytics"
+
 };
   
