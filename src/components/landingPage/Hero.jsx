@@ -6,6 +6,20 @@ import { useNavigate } from "react-router-dom";
 const Hero = ({onDownloadClick}) => {
   const navigate = useNavigate();
 
+  const handleDownloadClick = () => {
+    const downloadSection = document.getElementById('download-section');
+    if (downloadSection) {
+      downloadSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+    
+    if (onDownloadClick) {
+      onDownloadClick();
+    }
+  };
+
   return (
     <section className="hero">
       <div className="hero__container">
@@ -21,7 +35,11 @@ const Hero = ({onDownloadClick}) => {
               label="dVPN Node Connect"
               onClick={() => navigate("/register")}
             />
-            <ButtonCustom regularBtn label="Download dVPN App" onClick={onDownloadClick}/>
+            <ButtonCustom 
+              regularBtn 
+              label="Download dVPN App" 
+              onClick={handleDownloadClick} 
+            />
           </div>
         </div>
       </div>

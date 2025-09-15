@@ -23,6 +23,7 @@ export default function CopyText({ text }) {
       >
         <div
         onClick={handleCopyClick}
+        style={{cursor: "pointer"}}
         >
         {copied ? <CheckOutlined /> : <Copyicon />}
         </div>
