@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import Logo from "../assets/HeaderLogo.svg";
+import Logo from "../assets/LogoDvpn.svg";
 import "../styles/components/header/header.scss";
 import ButtonCustom from "../Common/ButtonCustom/ButtonCustom";
 import { useIsLoggedIn } from "../Context/LoggedInContext";
@@ -16,16 +16,12 @@ import { api } from "../utils/Helper/CommonHelper";
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { authData, setAuthData,status,setStatus } = useIsLoggedIn();
-  const [balance,setBalance] = useState("");
-
+  const { authData, setAuthData, status, setStatus } = useIsLoggedIn();
+  const [balance, setBalance] = useState("");
 
   const getStatus = async (address) => {
-    console.log("🚀 ~ getStatus ~ address:", address)
     try {
       const { success, data } = await useGetApi(apiUrls.getStatus(address), apiMethods.GET);
-      console.log("🚀 ~ getStatus ~ data:", data);
-      console.log("🚀 ~ getStatus ~ result:", data?.data?.status);
       if (!success) {
         console.error("No node address in the request");
         return;
@@ -53,16 +49,16 @@ const Header = () => {
     }
   };
 
-   const FetchAccontBalance = async (address) => {
+  const FetchAccontBalance = async (address) => {
     try {
       const uri = `${env.swagger_api}/cosmos/bank/v1beta1/balances/${address}`;
       const response = await api(uri);
-      setBalance(response.balances[0].amount/1e18);
+      setBalance(response.balances[0].amount / 1e18);
     } catch (e) {
-      toast.log("Error in fetching the balance");
-      }
+      toast.error("Error in fetching the balance");
+    }
   };
-  
+
 
   const handleClick = async () => {
     if (!window.keplr) {
@@ -92,7 +88,7 @@ const Header = () => {
 
       setAuthData(accounts[0].address);
       toast.success("Wallet connected successfully!");
-       getStatus(accounts[0].address);
+      getStatus(accounts[0].address);
       FetchAccontBalance(accounts[0].address);
     } catch (error) {
       console.error("Keplr login error:", error);
@@ -125,7 +121,7 @@ const Header = () => {
             ) : (
               <>
                 <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                  <span>{balance}</span>
+                  <span className="gradientbrder">{balance || 0} TICS</span>
                   {authData && status && <ButtonCustom className={getStatusClass(status)} regularBtn label={status} />}
                   <div className="gradientbrder">
                     <div>{authData.slice(0, 6)}...{authData.slice(-4)}</div>

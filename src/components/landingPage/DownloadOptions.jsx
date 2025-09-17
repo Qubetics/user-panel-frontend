@@ -3,7 +3,7 @@ import { AndroidIcon, IOSIcon } from "../../assets/StoreAsset/StoreAsset";
 
 const DownloadOptions = () => {
   return (
-    <section className="download">
+    <section className="download" id="download-section">
       <div className="download-options">
         <h2 className="download-options__heading">Download it now.</h2>
         <p className="download-options__message">

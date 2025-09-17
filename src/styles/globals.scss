@@ -130,9 +130,10 @@ p {
   gap: 20px;
   overflow: hidden;
   padding:10px 20px;
-
+  
   &::before {
     content: "";
+    z-index: -1;
     position: absolute;
     inset: 0;
     padding: 2px;

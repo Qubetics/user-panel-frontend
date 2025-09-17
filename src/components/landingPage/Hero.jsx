@@ -3,7 +3,7 @@ import "../../styles/components/landingPage/hero.scss";
 import ButtonCustom from "../../Common/ButtonCustom/ButtonCustom";
 import { useNavigate } from "react-router-dom";
 
-const Hero = ({onDownloadClick}) => {
+const Hero = ({ onDownloadClick }) => {
   const navigate = useNavigate();
 
   return (
@@ -21,7 +21,13 @@ const Hero = ({onDownloadClick}) => {
               label="dVPN Node Connect"
               onClick={() => navigate("/register")}
             />
-            <ButtonCustom regularBtn label="Download dVPN App" onClick={onDownloadClick}/>
+            <ButtonCustom regularBtn label="Download dVPN App"
+              onClick={() => {
+                const section = document.getElementById("download-section");
+                section?.scrollIntoView({ behavior: "smooth" });
+              }}
+
+            />
           </div>
         </div>
       </div>

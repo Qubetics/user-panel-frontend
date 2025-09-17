@@ -7,7 +7,7 @@ import { apiUrls } from "../../Constant/apiUrls";
 import { apiMethods } from "../../Constant/constants";
 import { toast } from "react-toastify";
 import { useIsLoggedIn } from "../../Context/LoggedInContext";
-import { computePubKey, formatDuration } from "../../utils/Helper/CommonHelper";
+import { computePubKey } from "../../utils/Helper/CommonHelper";
 import { env } from "../../Constant/envConstants";
 
 const Register = () => {
@@ -25,7 +25,7 @@ const Register = () => {
   const [bandwidth, setBandwidth] = useState("");
 
   const chainId = env.chainId;
-
+  const [activeline, setActiveline] = useState(true)
   const message = (success) =>
     success ? "Node request sent successfully!" : "Node request failed!";
 
@@ -54,8 +54,8 @@ const Register = () => {
     if (e.target.value !== "SELECT") {
       const plan = JSON.parse(e.target.value);
       setChoosePlan(plan);
-      setBandwidth(Math.round(plan?.gigabytes / (1024 * 1024 * 1024)) + " GB"|| "");
-      setDuration(formatDuration(plan?.hours));     
+      setBandwidth(plan?.gigabytes || "");
+      setDuration(plan?.hours + " hr" || "");
     } else {
       setChoosePlan("");
       setBandwidth("");
@@ -161,8 +161,8 @@ const Register = () => {
           <div className="step-circle">1</div>
           <span className="step-label">Register Node</span>
         </div>
-        <div className="step-line"></div>
-        <div className="step-item">
+        <div className={`step-line ${activeline ? "active-line" : ''}`}></div>
+        <div className={`step-item ${activeline ? "active" : ''}`}>
           <div className="step-circle">2</div>
           <span className="step-label">Node Linked</span>
         </div>
@@ -185,13 +185,13 @@ const Register = () => {
             <div className="process-card_inner">
               <strong>Set Operator Name</strong>:
               <p>
-                Assign a unique operator name is optional.If you choose to add one,this acts as your node’s
+                Assign a unique operator name. This acts as your node’s
                 identifier within the ecosystem.
               </p>
               <br />
               <strong>Email Address</strong>:
               <p>
-                Providing an email address is optional.If you choose to add one,you'll receive updates on approval,
+                Provide an email address to receive updates on approval,
                 rejection, or any follow-up requests regarding your node
                 registration.
               </p>{" "}
@@ -221,7 +221,6 @@ const Register = () => {
 
         {/* Right Panel */}
         <div className="register-right">
-        <h2>Join Qubetics dVPN</h2>
           <div className="form-group">
             <label>Operator Name</label>
             <input
@@ -251,38 +250,43 @@ const Register = () => {
               onChange={(e) => setNodeAddress(e.target.value)}
             />
           </div>
-          <div className="form-group">
+          <div className="form-group ">
             <label>
               Request Type <span className="astrick">*</span>
             </label>
-            <select
-              value={chooseAction}
-              onChange={handleLinkChange}
-            >
-              <option value="">-- Select Action --</option>
-              <option value="Link">Link Node</option>
-              <option value="Unlink">Unlink Node</option>
-            </select>
+            <div className="custom-select">
+              <select
+                value={chooseAction}
+                onChange={handleLinkChange}
+              >
+                <option value="">-- Select Action --</option>
+                <option value="Link">Link Node</option>
+                <option value="Unlink">Unlink Node</option>
+              </select>
+            </div>
+
           </div>
           {chooseAction === "Link" && (
             <div className="form-group">
               <label>
                 Choose Plan <span className="astrick">*</span>
               </label>
-              <select
-                value={choosePlan ? JSON.stringify(choosePlan) : ""}
-                onChange={handlePlanChange}
-              >
-                <option value="SELECT">-- Select a Plan --</option>
-                {planList.map((plan) => (
-                  <option key={plan.id} value={JSON.stringify(plan)}>
-                    {plan.prices.length > 0
-                      ? `${plan.prices[0].quote_value
-                      } ${plan.prices[0].denom.toUpperCase()}/month`
-                      : `Plan ${plan.id}`}
-                  </option>
-                ))}
-              </select>
+              <div className="custom-select">
+                <select
+                  value={choosePlan ? JSON.stringify(choosePlan) : ""}
+                  onChange={handlePlanChange}
+                >
+                  <option value="SELECT">-- Select a Plan --</option>
+                  {planList.map((plan) => (
+                    <option key={plan.id} value={JSON.stringify(plan)}>
+                      {plan.prices.length > 0
+                        ? `${plan.prices[0].quote_value
+                        } ${plan.prices[0].denom.toUpperCase()}/month`
+                        : `Plan ${plan.id}`}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
           )}
           {choosePlan && chooseAction == "Link" && <div className="form-group">
