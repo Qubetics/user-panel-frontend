@@ -4,7 +4,7 @@ import { arrayify } from "@ethersproject/bytes";
 import { serializeSignDoc } from "@cosmjs/launchpad";
 import { signatureToPubkey } from "@hanchon/signature-to-pubkey";
 
-window.Buffer=Buffer;
+window.Buffer = Buffer;
 
 function messageToAminoTransaction(signer, data) {
   return {
@@ -26,34 +26,71 @@ function messageToAminoTransaction(signer, data) {
     ],
     memo: "",
   };
-}
+};
 
 export const computePubKey = (address, signature, signMessage) => {
-    try {
-      // Encode the message into amino format
-      const aminoEncoded = messageToAminoTransaction(
-        address,
-        Buffer.from(signMessage).toString("base64")
-      );
-      const serialized = serializeSignDoc(aminoEncoded);
-  
-      // Hash the amino message that was signed
-      const hashed = sha3.keccak_256(arrayify(serialized));
-  
-      // Compare signature
-      const signatureToCompare = `0x${Buffer.from(signature, "base64").toString(
-        "hex"
-      )}`;
-  
-      const pubkeyComputed = signatureToPubkey(
-        signatureToCompare,
-        Buffer.from(hashed, "hex")
-      );
-      console.log("🚀 ~ computePubKey ~ pubkeyComputed:", pubkeyComputed)
-      return pubkeyComputed;
-    } catch (err) {
-      console.error("err", err);
+  try {
+    // Encode the message into amino format
+    const aminoEncoded = messageToAminoTransaction(
+      address,
+      Buffer.from(signMessage).toString("base64")
+    );
+    const serialized = serializeSignDoc(aminoEncoded);
+
+    // Hash the amino message that was signed
+    const hashed = sha3.keccak_256(arrayify(serialized));
+
+    // Compare signature
+    const signatureToCompare = `0x${Buffer.from(signature, "base64").toString(
+      "hex"
+    )}`;
+
+    const pubkeyComputed = signatureToPubkey(
+      signatureToCompare,
+      Buffer.from(hashed, "hex")
+    );
+    return pubkeyComputed;
+  } catch (err) {
+    console.error("err", err);
+  }
+};
+
+export const api = async (url, init) => {
+  return fetch(url, init)
+    .then(async (response) => {
+      const data = await response.json();
+
+      if (!response.ok) {
+        const errorMessage = data?.message || "Something went wrong!";
+        throw new Error(errorMessage);
+      }
+
+      return data;
+    })
+    .catch((error) => {
+      throw error;
+    });
+};
+
+export const formatDuration = (hours) => {
+  if (!hours && hours !== 0) return "";
+
+  if (hours >= 24) {
+    const days = Math.floor(hours / 24);
+    const remainingHours = hours % 24;
+
+    const dayLabel = days === 1 ? "day" : "days";
+    const hourLabel = remainingHours === 1 ? "hr" : "hrs";
+
+    if (remainingHours > 0) {
+      return `${days} ${dayLabel} ${remainingHours} ${hourLabel}`;
+    } else {
+      return `${days} ${dayLabel}`;
     }
+  } else {
+    const hourLabel = hours === 1 ? "hr" : "hrs";
+    return `${hours} ${hourLabel}`;
+  }
 };
 
 

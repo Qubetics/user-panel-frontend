@@ -7,7 +7,7 @@ import { apiUrls } from "../../Constant/apiUrls";
 import { apiMethods } from "../../Constant/constants";
 import { toast } from "react-toastify";
 import { useIsLoggedIn } from "../../Context/LoggedInContext";
-import { computePubKey } from "../../utils/Helper/CommonHelper";
+import { computePubKey, formatDuration } from "../../utils/Helper/CommonHelper";
 import { env } from "../../Constant/envConstants";
 
 const Register = () => {
@@ -54,8 +54,8 @@ const Register = () => {
     if (e.target.value !== "SELECT") {
       const plan = JSON.parse(e.target.value);
       setChoosePlan(plan);
-      setBandwidth(plan?.gigabytes || "");
-      setDuration(plan?.hours + " hr" || "");
+      setBandwidth(Math.round(plan?.gigabytes / (1024 * 1024 * 1024)) + " GB"|| "");
+      setDuration(formatDuration(plan?.hours));     
     } else {
       setChoosePlan("");
       setBandwidth("");
@@ -148,9 +148,6 @@ const Register = () => {
 
   useEffect(() => {
     getAllPlan();
-    if (authData) {
-      getStatus();
-    }
   }, []);
 
   return (
@@ -188,13 +185,13 @@ const Register = () => {
             <div className="process-card_inner">
               <strong>Set Operator Name</strong>:
               <p>
-                Assign a unique operator name. This acts as your node’s
+                Assign a unique operator name is optional.If you choose to add one,this acts as your node’s
                 identifier within the ecosystem.
               </p>
               <br />
               <strong>Email Address</strong>:
               <p>
-                Provide an email address to receive updates on approval,
+                Providing an email address is optional.If you choose to add one,you'll receive updates on approval,
                 rejection, or any follow-up requests regarding your node
                 registration.
               </p>{" "}
@@ -224,6 +221,7 @@ const Register = () => {
 
         {/* Right Panel */}
         <div className="register-right">
+        <h2>Join Qubetics dVPN</h2>
           <div className="form-group">
             <label>Operator Name</label>
             <input

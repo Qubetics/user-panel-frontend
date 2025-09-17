@@ -11,13 +11,13 @@ import { useEffect, useState } from "react";
 import useGetApi from "../Hooks/useGetApi";
 import { apiUrls } from "../Constant/apiUrls";
 import { apiMethods } from "../Constant/constants";
+import { api } from "../utils/Helper/CommonHelper";
 
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { authData, setAuthData } = useIsLoggedIn();
-  const [activity, setActivity] = useState("");
-  console.log("🚀 ~ Header ~ activity:", activity)
+  const { authData, setAuthData,status,setStatus } = useIsLoggedIn();
+  const [balance,setBalance] = useState("");
 
 
   const getStatus = async (address) => {
@@ -30,7 +30,7 @@ const Header = () => {
         console.error("No node address in the request");
         return;
       }
-      setActivity(data?.data?.status);
+      setStatus(data?.data?.status);
     } catch (error) {
       toast.error(error?.message);
     }
@@ -52,6 +52,17 @@ const Header = () => {
         return "status-badge default";
     }
   };
+
+   const FetchAccontBalance = async (address) => {
+    try {
+      const uri = `${env.swagger_api}/cosmos/bank/v1beta1/balances/${address}`;
+      const response = await api(uri);
+      setBalance(response.balances[0].amount/1e18);
+    } catch (e) {
+      toast.log("Error in fetching the balance");
+      }
+  };
+  
 
   const handleClick = async () => {
     if (!window.keplr) {
@@ -81,7 +92,8 @@ const Header = () => {
 
       setAuthData(accounts[0].address);
       toast.success("Wallet connected successfully!");
-      getStatus(accounts[0].address);
+       getStatus(accounts[0].address);
+      FetchAccontBalance(accounts[0].address);
     } catch (error) {
       console.error("Keplr login error:", error);
       toast.error("Failed to connect Keplr: " + error.message);
@@ -91,6 +103,7 @@ const Header = () => {
 
   const handleLogout = () => {
     setAuthData("");
+    setStatus("");
     toast.success("Wallet disconnected");
   };
 
@@ -108,11 +121,12 @@ const Header = () => {
         <div className="header__action">
           {(location.pathname !== '/') ?
             (!authData ? (
-              <ButtonCustom regularBtn label="Connect Wallet" onClick={handleClick} />
+              <ButtonCustom regularBtn label="Connect Keplr Wallet" onClick={handleClick} />
             ) : (
               <>
                 <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                  {authData && activity && <ButtonCustom className={getStatusClass(activity)} regularBtn label={activity} />}
+                  <span>{balance}</span>
+                  {authData && status && <ButtonCustom className={getStatusClass(status)} regularBtn label={status} />}
                   <div className="gradientbrder">
                     <div>{authData.slice(0, 6)}...{authData.slice(-4)}</div>
                     <CopyText text={authData} />
