@@ -50,7 +50,7 @@ const Header = () => {
     }
   };
 
-  const FetchAccontBalance = async (address) => {
+  const FetchAccountBalance = async (address) => {
     try {
       const uri = `${env.swagger_api}/cosmos/bank/v1beta1/balances/${address}`;
       const response = await api(uri);
@@ -87,10 +87,10 @@ const Header = () => {
       //   accounts[0].address
       // );
 
-      setAuthData(accounts[0].address);
+      setAuthData(accounts[0]?.address);
       toast.success("Wallet connected successfully!");
-      getStatus(accounts[0].address);
-      FetchAccontBalance(accounts[0].address);
+      getStatus(accounts[0]?.address);
+      FetchAccountBalance(accounts[0]?.address);
     } catch (error) {
       console.error("Keplr login error:", error);
       toast.error("Failed to connect Keplr: " + error.message);

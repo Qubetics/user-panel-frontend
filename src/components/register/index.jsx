@@ -4,7 +4,7 @@ import "../../styles/components/register/style.scss";
 import { NotificationModal } from "./ResponseTabs";
 import useGetApi from "../../Hooks/useGetApi";
 import { apiUrls } from "../../Constant/apiUrls";
-import { apiMethods } from "../../Constant/constants";
+import { apiMethods, NODE_FAILED, NODE_REQUEST } from "../../Constant/constants";
 import { toast } from "react-toastify";
 import { useIsLoggedIn } from "../../Context/LoggedInContext";
 import { computePubKey, formatDuration, progressbar } from "../../utils/Helper/CommonHelper";
@@ -27,7 +27,7 @@ const Register = () => {
   const chainId = env.chainId;
   const [activeline, setActiveline] = useState();
   const message = (success) =>
-    success ? "Node request sent successfully!" : "Node request failed!";
+    success ? NODE_REQUEST : NODE_FAILED;
 
   const handleSign = async () => {
     try {
@@ -154,11 +154,14 @@ const Register = () => {
 
   useEffect(() => {
     getAllPlan();
+  }, []);
+
+  useEffect(() => {
     if (authData) { progressbarAction(); }
   }, [authData, status, request]);
 
   return (
-    <div className="register-container">
+  <div className="register-container">
       <div>
         <h1>Register as Node Operator</h1>
       </div>

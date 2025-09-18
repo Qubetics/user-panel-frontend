@@ -2,6 +2,7 @@ import React from "react";
 import "../../styles/components/landingPage/hero.scss";
 import ButtonCustom from "../../Common/ButtonCustom/ButtonCustom";
 import { useNavigate } from "react-router-dom";
+import { env } from "../../Constant/envConstants";
 
 const Hero = ({ onDownloadClick }) => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const Hero = ({ onDownloadClick }) => {
             <ButtonCustom
               regularBtn
               label="Become Service Provider"
-              onClick={() => window.open("https://dvpn-provider.qubetics.work/landing", "_blank")}
+              onClick={() => window.open(env.provider_api, "_blank")}
             />
             <ButtonCustom regularBtn label="Download dVPN App"
               onClick={() => {
