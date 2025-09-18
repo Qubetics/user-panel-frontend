@@ -164,16 +164,16 @@ p {
   font-weight: 700;
   color: white;
   margin-bottom: 16px;
-  background: conic-gradient(from 180deg at 50% 50%,
-      #ff98e2 0deg,
-      #ffc876 35.77deg,
-      #79fff7 153.75deg,
-      #9f53ff 258.75deg,
-      #ff98e2 360deg);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
+  // background: conic-gradient(from 180deg at 50% 50%,
+  //     #ff98e2 0deg,
+  //     #ffc876 35.77deg,
+  //     #79fff7 153.75deg,
+  //     #9f53ff 258.75deg,
+  //     #ff98e2 360deg);
+  // -webkit-background-clip: text;
+  // background-clip: text;
+  // -webkit-text-fill-color: transparent;
+  // color: transparent;
 
   @media (min-width: 768px) {
     font-size: 2.5rem;
@@ -433,19 +433,19 @@ p {
   text-transform: capitalize;
 
   &.active {
-    color: #1e8e3e;
+    color: #34C759;
   }
   &.inactive {
-    color: #D33535E5;
+    color: #FF3B30;
   }
   &.pending {
-    color: #f9a825;
+    color: #F5DA76;
   }
   &.approved {
-    color: #1e8e3e;
+    color: #34C759;
   }
   &.rejected {
-    color: #D33535E5;
+    color: #FF3B30;
   }
   &.default {
     color: #5f6368;

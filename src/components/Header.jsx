@@ -11,12 +11,12 @@ import { useEffect, useState } from "react";
 import useGetApi from "../Hooks/useGetApi";
 import { apiUrls } from "../Constant/apiUrls";
 import { apiMethods } from "../Constant/constants";
-import { api } from "../utils/Helper/CommonHelper";
+import { api, toFirstCapital } from "../utils/Helper/CommonHelper";
 
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { authData, setAuthData, status, setStatus } = useIsLoggedIn();
+  const { authData, setAuthData, status, setStatus,setRequest } = useIsLoggedIn();
   const [balance, setBalance] = useState("");
 
   const getStatus = async (address) => {
@@ -26,6 +26,7 @@ const Header = () => {
         console.error("No node address in the request");
         return;
       }
+      setRequest(data?.data?.requestFor);
       setStatus(data?.data?.status);
     } catch (error) {
       toast.error(error?.message);
@@ -122,7 +123,7 @@ const Header = () => {
               <>
                 <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                   <span className="gradientbrder">{balance || 0} TICS</span>
-                  {authData && status && <ButtonCustom className={getStatusClass(status)} regularBtn label={status} />}
+                  {authData && status && <ButtonCustom className={getStatusClass(status)} regularBtn label={toFirstCapital(status)} />}
                   <div className="gradientbrder">
                     <div>{authData.slice(0, 6)}...{authData.slice(-4)}</div>
                     <CopyText text={authData} />

@@ -93,4 +93,15 @@ export const formatDuration = (hours) => {
   }
 };
 
+export const progressbar = (status) => {
+  if(!status) return false;
+  if (status === "PENDING" || status === "REJECTED") return false;
+  return true;
+};
+
+export const toFirstCapital = (str) => {
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+};
+
 

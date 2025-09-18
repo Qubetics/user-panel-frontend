@@ -7,13 +7,13 @@ import { apiUrls } from "../../Constant/apiUrls";
 import { apiMethods } from "../../Constant/constants";
 import { toast } from "react-toastify";
 import { useIsLoggedIn } from "../../Context/LoggedInContext";
-import { computePubKey } from "../../utils/Helper/CommonHelper";
+import { computePubKey, formatDuration, progressbar } from "../../utils/Helper/CommonHelper";
 import { env } from "../../Constant/envConstants";
 
 const Register = () => {
   const [visible, setVisible] = useState(false);
   const [planList, setPlanList] = useState([]);
-  const { authData } = useIsLoggedIn();
+  const { authData, status, request } = useIsLoggedIn();
 
   const [orgName, setOrgName] = useState("");
   const [email, setEmail] = useState("");
@@ -25,7 +25,7 @@ const Register = () => {
   const [bandwidth, setBandwidth] = useState("");
 
   const chainId = env.chainId;
-  const [activeline, setActiveline] = useState(true)
+  const [activeline, setActiveline] = useState();
   const message = (success) =>
     success ? "Node request sent successfully!" : "Node request failed!";
 
@@ -54,8 +54,8 @@ const Register = () => {
     if (e.target.value !== "SELECT") {
       const plan = JSON.parse(e.target.value);
       setChoosePlan(plan);
-      setBandwidth(plan?.gigabytes || "");
-      setDuration(plan?.hours + " hr" || "");
+      setBandwidth(Math.round(plan?.gigabytes / (1024 * 1024 * 1024)) + " GB" || "");
+      setDuration(formatDuration(plan?.hours));
     } else {
       setChoosePlan("");
       setBandwidth("");
@@ -114,6 +114,7 @@ const Register = () => {
           planId: choosePlan?.id,
           provAddress: choosePlan?.prov_address,
           bandwidth: choosePlan?.gigabytes,
+          hours: choosePlan?.hours
         }
         : null;
 
@@ -146,9 +147,15 @@ const Register = () => {
     }
   };
 
+  const progressbarAction = () => {
+    const value = progressbar(status);
+    setActiveline(value);
+  }
+
   useEffect(() => {
     getAllPlan();
-  }, []);
+    if (authData) { progressbarAction(); }
+  }, [authData, status, request]);
 
   return (
     <div className="register-container">
@@ -164,7 +171,9 @@ const Register = () => {
         <div className={`step-line ${activeline ? "active-line" : ''}`}></div>
         <div className={`step-item ${activeline ? "active" : ''}`}>
           <div className="step-circle">2</div>
-          <span className="step-label">Node Linked</span>
+          <span className="step-label">
+            Node {request ? `${request}ed` : 'Linked'}
+          </span>
         </div>
       </div>
 
@@ -185,13 +194,13 @@ const Register = () => {
             <div className="process-card_inner">
               <strong>Set Operator Name</strong>:
               <p>
-                Assign a unique operator name. This acts as your node’s
+                Assign a unique operator name is optional.If you choose to add one,this acts as your node’s
                 identifier within the ecosystem.
               </p>
               <br />
               <strong>Email Address</strong>:
               <p>
-                Provide an email address to receive updates on approval,
+                Provide an email address is optional.If you choose to add one,you'll receive updates on approval,
                 rejection, or any follow-up requests regarding your node
                 registration.
               </p>{" "}
@@ -221,6 +230,7 @@ const Register = () => {
 
         {/* Right Panel */}
         <div className="register-right">
+          <h2>Join Qubetics dVPN</h2>
           <div className="form-group">
             <label>Operator Name</label>
             <input
