@@ -3,6 +3,7 @@ import sha3 from "js-sha3";
 import { arrayify } from "@ethersproject/bytes";
 import { serializeSignDoc } from "@cosmjs/launchpad";
 import { signatureToPubkey } from "@hanchon/signature-to-pubkey";
+import { REJECTED } from '../../Constant/constants';
 
 window.Buffer = Buffer;
 
@@ -95,7 +96,7 @@ export const formatDuration = (hours) => {
 
 export const progressbar = (status) => {
   if(!status) return false;
-  if (status === "PENDING" || status === "REJECTED") return false;
+  if (status === PENDING || status === REJECTED) return false;
   return true;
 };
 
