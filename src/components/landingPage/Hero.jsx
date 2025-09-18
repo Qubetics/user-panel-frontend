@@ -2,8 +2,9 @@ import React from "react";
 import "../../styles/components/landingPage/hero.scss";
 import ButtonCustom from "../../Common/ButtonCustom/ButtonCustom";
 import { useNavigate } from "react-router-dom";
+import { env } from "../../Constant/envConstants";
 
-const Hero = ({onDownloadClick}) => {
+const Hero = ({ onDownloadClick }) => {
   const navigate = useNavigate();
 
   return (
@@ -16,12 +17,23 @@ const Hero = ({onDownloadClick}) => {
             <span className="hero__title-gradient">dVPN Node Today</span>
           </h1>
           <div className="hero__cta">
-            <ButtonCustom
+          <ButtonCustom
               regularBtn
-              label="dVPN Node Connect"
+              label="Become Node Provider"
               onClick={() => navigate("/register")}
             />
-            <ButtonCustom regularBtn label="Download dVPN App" onClick={onDownloadClick}/>
+            <ButtonCustom
+              regularBtn
+              label="Become Service Provider"
+              onClick={() => window.open(env.provider_api, "_blank")}
+            />
+            <ButtonCustom regularBtn label="Download dVPN App"
+              onClick={() => {
+                const section = document.getElementById("download-section");
+                section?.scrollIntoView({ behavior: "smooth" });
+              }}
+
+            />
           </div>
         </div>
       </div>

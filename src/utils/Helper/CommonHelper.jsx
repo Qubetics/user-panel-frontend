@@ -3,6 +3,7 @@ import sha3 from "js-sha3";
 import { arrayify } from "@ethersproject/bytes";
 import { serializeSignDoc } from "@cosmjs/launchpad";
 import { signatureToPubkey } from "@hanchon/signature-to-pubkey";
+import { PENDING, REJECTED } from '../../Constant/constants';
 
 window.Buffer = Buffer;
 
@@ -91,6 +92,17 @@ export const formatDuration = (hours) => {
     const hourLabel = hours === 1 ? "hr" : "hrs";
     return `${hours} ${hourLabel}`;
   }
+};
+
+export const progressbar = (status) => {
+  if(!status) return false;
+  if (status === PENDING || status === REJECTED) return false;
+  return true;
+};
+
+export const toFirstCapital = (str) => {
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 };
 
 

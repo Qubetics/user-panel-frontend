@@ -4,16 +4,24 @@ import "../../styles/components/register/style.scss";
 import { NotificationModal } from "./ResponseTabs";
 import useGetApi from "../../Hooks/useGetApi";
 import { apiUrls } from "../../Constant/apiUrls";
-import { apiMethods } from "../../Constant/constants";
+import {
+  apiMethods,
+  NODE_FAILED,
+  NODE_REQUEST,
+} from "../../Constant/constants";
 import { toast } from "react-toastify";
 import { useIsLoggedIn } from "../../Context/LoggedInContext";
-import { computePubKey, formatDuration } from "../../utils/Helper/CommonHelper";
+import {
+  computePubKey,
+  formatDuration,
+  progressbar,
+} from "../../utils/Helper/CommonHelper";
 import { env } from "../../Constant/envConstants";
 
 const Register = () => {
   const [visible, setVisible] = useState(false);
   const [planList, setPlanList] = useState([]);
-  const { authData } = useIsLoggedIn();
+  const { authData, status, request } = useIsLoggedIn();
 
   const [orgName, setOrgName] = useState("");
   const [email, setEmail] = useState("");
@@ -25,9 +33,8 @@ const Register = () => {
   const [bandwidth, setBandwidth] = useState("");
 
   const chainId = env.chainId;
-
-  const message = (success) =>
-    success ? "Node request sent successfully!" : "Node request failed!";
+  const [activeline, setActiveline] = useState();
+  const message = (success) => (success ? NODE_REQUEST : NODE_FAILED);
 
   const handleSign = async () => {
     try {
@@ -54,8 +61,10 @@ const Register = () => {
     if (e.target.value !== "SELECT") {
       const plan = JSON.parse(e.target.value);
       setChoosePlan(plan);
-      setBandwidth(Math.round(plan?.gigabytes / (1024 * 1024 * 1024)) + " GB"|| "");
-      setDuration(formatDuration(plan?.hours));     
+      setBandwidth(
+        Math.round(plan?.gigabytes / (1024 * 1024 * 1024)) + " GB" || ""
+      );
+      setDuration(formatDuration(plan?.hours));
     } else {
       setChoosePlan("");
       setBandwidth("");
@@ -70,7 +79,7 @@ const Register = () => {
       setBandwidth("");
       setDuration("");
     }
-  }
+  };
 
   const getAllPlan = async () => {
     try {
@@ -110,11 +119,12 @@ const Register = () => {
     const extendedPlan =
       chooseAction === "Link"
         ? {
-          plan: `${choosePlan?.prices?.[0]?.quote_value} TICS/month`,
-          planId: choosePlan?.id,
-          provAddress: choosePlan?.prov_address,
-          bandwidth: choosePlan?.gigabytes,
-        }
+            plan: `${choosePlan?.prices?.[0]?.quote_value} TICS/month`,
+            planId: choosePlan?.id,
+            provAddress: choosePlan?.prov_address,
+            bandwidth: choosePlan?.gigabytes,
+            hours: choosePlan?.hours,
+          }
         : null;
 
     const body = {
@@ -146,9 +156,20 @@ const Register = () => {
     }
   };
 
+  const progressbarAction = () => {
+    const value = progressbar(status);
+    setActiveline(value);
+  };
+
   useEffect(() => {
     getAllPlan();
   }, []);
+
+  useEffect(() => {
+    if (authData) {
+      progressbarAction();
+    }
+  }, [authData, status, request]);
 
   return (
     <div className="register-container">
@@ -161,10 +182,12 @@ const Register = () => {
           <div className="step-circle">1</div>
           <span className="step-label">Register Node</span>
         </div>
-        <div className="step-line"></div>
-        <div className="step-item">
+        <div className={`step-line ${activeline ? "active-line" : ""}`}></div>
+        <div className={`step-item ${activeline ? "active" : ""}`}>
           <div className="step-circle">2</div>
-          <span className="step-label">Node Linked</span>
+          <span className="step-label">
+            Node {request ? `${request}ed` : "Linked"}
+          </span>
         </div>
       </div>
 
@@ -185,15 +208,15 @@ const Register = () => {
             <div className="process-card_inner">
               <strong>Set Operator Name</strong>:
               <p>
-                Assign a unique operator name is optional.If you choose to add one,this acts as your node’s
-                identifier within the ecosystem.
+                Assign a unique operator name is optional.If you choose to add
+                one,this acts as your node’s identifier within the ecosystem.
               </p>
               <br />
               <strong>Email Address</strong>:
               <p>
-                Providing an email address is optional.If you choose to add one,you'll receive updates on approval,
-                rejection, or any follow-up requests regarding your node
-                registration.
+                Provide an email address is optional.If you choose to add
+                one,you'll receive updates on approval, rejection, or any
+                follow-up requests regarding your node registration.
               </p>{" "}
               <br />
               <strong>Node Address</strong>:
@@ -204,7 +227,8 @@ const Register = () => {
               <br />
               <strong>Request Type</strong>:
               <p>
-                Choose whether you want to send a request to link your node to the provider’s ecosystem or to unlink an existing node from it.
+                Choose whether you want to send a request to link your node to
+                the provider’s ecosystem or to unlink an existing node from it.
               </p>{" "}
               <br />
               <strong>Choose Plan</strong>:
@@ -221,7 +245,7 @@ const Register = () => {
 
         {/* Right Panel */}
         <div className="register-right">
-        <h2>Join Qubetics dVPN</h2>
+          <h2>Join Qubetics dVPN</h2>
           <div className="form-group">
             <label>Operator Name</label>
             <input
@@ -251,60 +275,66 @@ const Register = () => {
               onChange={(e) => setNodeAddress(e.target.value)}
             />
           </div>
-          <div className="form-group">
+          <div className="form-group ">
             <label>
               Request Type <span className="astrick">*</span>
             </label>
-            <select
-              value={chooseAction}
-              onChange={handleLinkChange}
-            >
-              <option value="">-- Select Action --</option>
-              <option value="Link">Link Node</option>
-              <option value="Unlink">Unlink Node</option>
-            </select>
+            <div className="custom-select">
+              <select value={chooseAction} onChange={handleLinkChange}>
+                <option value="">-- Select Action --</option>
+                <option value="Link">Link Node</option>
+                <option value="Unlink">Unlink Node</option>
+              </select>
+            </div>
           </div>
           {chooseAction === "Link" && (
             <div className="form-group">
               <label>
                 Choose Plan <span className="astrick">*</span>
               </label>
-              <select
-                value={choosePlan ? JSON.stringify(choosePlan) : ""}
-                onChange={handlePlanChange}
-              >
-                <option value="SELECT">-- Select a Plan --</option>
-                {planList.map((plan) => (
-                  <option key={plan.id} value={JSON.stringify(plan)}>
-                    {plan.prices.length > 0
-                      ? `${plan.prices[0].quote_value
-                      } ${plan.prices[0].denom.toUpperCase()}/month`
-                      : `Plan ${plan.id}`}
-                  </option>
-                ))}
-              </select>
+              <div className="custom-select">
+                <select
+                  value={choosePlan ? JSON.stringify(choosePlan) : ""}
+                  onChange={handlePlanChange}
+                >
+                  <option value="SELECT">-- Select a Plan --</option>
+                  {planList.map((plan) => (
+                    <option key={plan.id} value={JSON.stringify(plan)}>
+                      {plan.prices.length > 0
+                        ? `${
+                            plan.prices[0].quote_value
+                          } ${plan.prices[0].denom.toUpperCase()}/month`
+                        : `Plan ${plan.id}`}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
           )}
-          {choosePlan && chooseAction == "Link" && <div className="form-group">
-            <label>Duration</label>
-            <input
-              type="text"
-              placeholder="Duration"
-              value={duration}
-              disabled={true}
-            // onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>}{" "}
-          {choosePlan && chooseAction == "Link" && <div className="form-group">
-            <label>Bandwidth</label>
-            <input
-              type="text"
-              placeholder="Bandwidth in bytes"
-              value={bandwidth}
-              disabled={true}
-            // onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>}
+          {choosePlan && chooseAction == "Link" && (
+            <div className="form-group">
+              <label>Duration</label>
+              <input
+                type="text"
+                placeholder="Duration"
+                value={duration}
+                disabled={true}
+                // onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+          )}{" "}
+          {choosePlan && chooseAction == "Link" && (
+            <div className="form-group">
+              <label>Bandwidth</label>
+              <input
+                type="text"
+                placeholder="Bandwidth in bytes"
+                value={bandwidth}
+                disabled={true}
+                // onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+          )}
           <div className="form-actions">
             <ButtonCustom regularBtn label="Submit" onClick={postNodeRequest} />
           </div>
