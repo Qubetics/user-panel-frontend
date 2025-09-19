@@ -8,6 +8,7 @@ import YouTube from "../assets/YouTube.svg";
 import Instagram from "../assets/Instagram.svg";
 import TickTok from "../assets/TickTok.svg";
 import coinmarketcap from "../assets/coinmarketcap.svg";
+import { env } from "../Constant/envConstants";
 
 const Footer = () => {
   return (
@@ -98,6 +99,15 @@ const Footer = () => {
                   className="footer__link"
                 >
                   QubeQode
+                </a>
+              </li>
+              <li>
+              <a
+                  target="blank"
+                  href={env.app_link}
+                  className="footer__link"
+                >
+                  Qubetics dVPN
                 </a>
               </li>
             </ul>
