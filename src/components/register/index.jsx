@@ -110,10 +110,13 @@ const Register = () => {
     if (chooseAction === "Link" && !choosePlan)
       return toast.error("Please choose a plan");
     if (!chooseAction)
-      return toast.error("Please choose an action (Link/Unlink)");
+      return toast.error("Please choose an Request Type (Link/Unlink)");
 
     const signData = await handleSign();
-    if (!signData) return;
+    if (!signData){
+      toast.error("User Rejected the Action");
+      return;
+    }
     const { compubKey, pubKeyInitial, signature } = signData;
 
     const extendedPlan =
@@ -148,10 +151,12 @@ const Register = () => {
         }
       );
       if (response) {
-        setMessageModal(message(response?.success));
+        setMessageModal(response?.success ? message(response?.success):response?.message);
         setVisible(true);
       }
     } catch (error) {
+      console.log(error?.message,"error?.message");
+      setMessageModal(error?.message)
       toast.error(error?.message);
     }
   };

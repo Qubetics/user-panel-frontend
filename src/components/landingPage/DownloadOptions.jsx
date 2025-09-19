@@ -1,7 +1,16 @@
 import "../../styles/components/landingPage/downloadOptions.scss";
 import { AndroidIcon, IOSIcon } from "../../assets/StoreAsset/StoreAsset";
+import { toast } from "react-toastify";
+import { env } from "../../Constant/envConstants";
+import { message } from "../../Constant/constants";
 
 const DownloadOptions = () => {
+
+  const handleToast=()=>{
+    toast.success(message.app_store_coming);
+    return;
+  }
+
   return (
     <section className="download" id="download-section">
       <div className="download-options">
@@ -17,7 +26,7 @@ const DownloadOptions = () => {
             <span className="download-options__store-btn_icon">
               <IOSIcon />
             </span>
-            <span>App Store</span>
+            <span  onClick={handleToast}>App Store</span>
           </a>
           <a
             href="#"
@@ -26,7 +35,12 @@ const DownloadOptions = () => {
             <span className="download-options__store-btn_icon">
               <AndroidIcon />
             </span>{" "}
-            <span>Play Store</span>
+            <span onClick={() =>
+              window.open(
+                env.app_link,
+                "_blank"
+              )
+            } >Play Store</span>
           </a>
         </div>
       </div>
