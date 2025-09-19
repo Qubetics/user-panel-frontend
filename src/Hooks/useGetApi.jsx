@@ -27,8 +27,8 @@ const useGetApi = async (
     } catch (error) {
         return {
             success: false,
-            message: error?.message,
-          };
+            message: error?.response?.data?.message || error?.message ,
+        };
     } 
 };
 
