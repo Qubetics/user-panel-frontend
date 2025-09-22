@@ -63,7 +63,7 @@ const Header = () => {
 
   const handleClick = async () => {
     if (!window.keplr) {
-      toast.error("Install Keplr Wallet extension");
+      toast.error("Install Keplr wallet first");
       return;
     }
 
@@ -123,10 +123,10 @@ const Header = () => {
               <>
                 <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                   <span className="gradientbrder">{balance || 0} TICS</span>
-                  {authData && status && <ButtonCustom className={getStatusClass(status)} regularBtn label={toFirstCapital(status)} />}
+                  {authData && status && <ButtonCustom className={getStatusClass(status) + " cursorIntial"} regularBtn label={toFirstCapital(status)} />}
                   <div className="gradientbrder">
                     <div>{authData.slice(0, 6)}...{authData.slice(-4)}</div>
-                    <CopyText text={authData} />
+                    <CopyText  text={authData} />
                   </div>
                   <ButtonCustom regularBtn label="Logout" onClick={handleLogout} />
                 </div>

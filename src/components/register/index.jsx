@@ -110,7 +110,7 @@ const Register = () => {
     if (chooseAction === "Link" && !choosePlan)
       return toast.error("Please choose a plan");
     if (!chooseAction)
-      return toast.error("Please choose an Request Type (Link/Unlink)");
+      return toast.error("Please choose an action");
 
     const signData = await handleSign();
     if (!signData){
