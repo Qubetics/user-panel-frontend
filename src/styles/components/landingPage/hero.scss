@@ -6,7 +6,7 @@
   &__container {
     position: relative;
     margin: 0 auto;
-    padding-top: s(100);
+    padding-top: 100px;
     height: s(1080);
 
     &::after {
@@ -52,6 +52,7 @@
     gap: s(24);
     justify-content: center;
     margin-bottom: 64px;
+    flex-wrap: wrap;
     @media #{mobile()} {
       gap: s(12);
     }

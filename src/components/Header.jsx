@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { env } from "../Constant/envConstants";
 import CopyText from "../Common/Copy/copyText";
 import { useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import useGetApi from "../Hooks/useGetApi";
 import { apiUrls } from "../Constant/apiUrls";
 import { apiMethods } from "../Constant/constants";
@@ -18,6 +18,22 @@ const Header = () => {
   const location = useLocation();
   const { authData, setAuthData, status, setStatus,setRequest } = useIsLoggedIn();
   const [balance, setBalance] = useState("");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target) && !event.target.closest('.hamburger')) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const getStatus = async (address) => {
     try {
@@ -104,35 +120,75 @@ const Header = () => {
     toast.success("Wallet disconnected");
   };
 
+  // Toggle mobile menu
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  // Check if there are any header actions to show
+  const hasHeaderActions = location.pathname !== '/';
+
   return (
     <header className="header">
       <div className="header__container">
-        <div
-          className="header__logo"
-          onClick={() => {
-            navigate("/");
-          }}
-        >
+        <div className="header__logo" onClick={() => navigate("/")}>
           <img src={Logo} alt="" />
         </div>
-        <div className="header__action">
-          {(location.pathname !== '/') ?
-            (!authData ? (
-              <ButtonCustom regularBtn label="Connect Keplr Wallet" onClick={handleClick} />
+        
+        {/* Mobile menu button - only show if there are header actions */}
+        {hasHeaderActions && (
+          <button 
+            className={`hamburger ${isMenuOpen ? 'active' : ''}`} 
+            onClick={toggleMenu}
+            aria-label="Toggle menu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        )}
+
+        {hasHeaderActions && (
+          <div className={`header__action ${isMenuOpen ? 'active' : ''}`} ref={menuRef}>
+          {location.pathname !== '/' && (
+            !authData ? (
+              <ButtonCustom 
+                regularBtn 
+                label="Connect Keplr Wallet" 
+                onClick={() => {
+                  handleClick();
+                  setIsMenuOpen(false);
+                }} 
+                className="menu-item"
+              />
             ) : (
-              <>
-                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                  <span className="gradientbrder">{balance || 0} TICS</span>
-                  {authData && status && <ButtonCustom className={getStatusClass(status)} regularBtn label={toFirstCapital(status)} />}
-                  <div className="gradientbrder">
-                    <div>{authData.slice(0, 6)}...{authData.slice(-4)}</div>
-                    <CopyText text={authData} />
-                  </div>
-                  <ButtonCustom regularBtn label="Logout" onClick={handleLogout} />
+              <div className="header__action-content">
+                <span className="gradientbrder menu-item">{balance || 0} TICS</span>
+                {authData && status && (
+                  <ButtonCustom 
+                    className={`${getStatusClass(status)} menu-item`} 
+                    regularBtn 
+                    label={toFirstCapital(status)} 
+                  />
+                )}
+                <div className="gradientbrder menu-item">
+                  <div>{authData.slice(0, 6)}...{authData.slice(-4)}</div>
+                  <CopyText text={authData} />
                 </div>
-              </>
-            )) : ""}
+                <ButtonCustom 
+                  regularBtn 
+                  label="Logout" 
+                  onClick={() => {
+                    handleLogout();
+                    setIsMenuOpen(false);
+                  }}
+                  className="menu-item"
+                />
+              </div>
+            )
+          )}
         </div>
+        )}
       </div>
     </header>
   );
