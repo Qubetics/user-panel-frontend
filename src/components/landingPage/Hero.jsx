@@ -17,17 +17,20 @@ const Hero = ({ onDownloadClick }) => {
             <span className="hero__title-gradient">dVPN Node Today</span>
           </h1>
           <div className="hero__cta">
-          <ButtonCustom
+            <ButtonCustom
+              className='btn'
               regularBtn
               label="Become Node Provider"
               onClick={() => navigate("/register")}
             />
             <ButtonCustom
+              className='btn'
               regularBtn
               label="Become Service Provider"
               onClick={() => window.open(env.provider_api, "_blank")}
             />
             <ButtonCustom regularBtn label="Download dVPN App"
+              className='btn'
               onClick={() => {
                 const section = document.getElementById("download-section");
                 section?.scrollIntoView({ behavior: "smooth" });

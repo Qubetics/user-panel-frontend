@@ -6,6 +6,12 @@
   height: s(549);
   display: flex;
   align-items: center;
+
+  @media #{mobile()} {
+    padding: s(20);
+    height: s(280);
+  }
+
   &::before {
     content: "";
     position: absolute;
@@ -19,11 +25,9 @@
   }
 
   &-options {
-    background: linear-gradient(
-      157.79deg,
-      rgba(29, 29, 29, 0.42) -0.65%,
-      rgba(29, 29, 29, 0.7) 99.59%
-    );
+    background: linear-gradient(157.79deg,
+        rgba(29, 29, 29, 0.42) -0.65%,
+        rgba(29, 29, 29, 0.7) 99.59%);
     backdrop-filter: blur(6px);
     border-radius: s(40);
     padding: s(80);
@@ -34,19 +38,23 @@
     overflow: hidden;
     margin: 0 auto;
 
+    @media #{mobile()} {
+      padding: s(20);
+      border-radius: s(20);
+      max-width: s(300);
+    }
+
     &::before {
       content: "";
       position: absolute;
       inset: 0;
       padding: 1px; // thickness of border
       border-radius: inherit;
-      background: linear-gradient(
-        126.21deg,
-        #ffffff 16.9%,
-        rgba(8, 8, 7, 0) 43.74%,
-        rgba(31, 25, 30, 0) 63.95%,
-        #ffffff 86.73%
-      );
+      background: linear-gradient(126.21deg,
+          #ffffff 16.9%,
+          rgba(8, 8, 7, 0) 43.74%,
+          rgba(31, 25, 30, 0) 63.95%,
+          #ffffff 86.73%);
       -webkit-mask: linear-gradient(#fff 0 0) content-box,
         linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
@@ -63,12 +71,23 @@
       font-size: s(40);
       font-weight: 600;
       margin-bottom: s(16);
+
+      @media #{mobile()} {
+        font-size: s(12);
+        margin-bottom: s(7);
+      }
     }
 
     &__message {
       font-size: s(18);
       color: #c2b6b6;
       margin-bottom: s(32);
+
+      @media #{mobile()} {
+        font-size: s(10);
+        margin-bottom: s(10);
+        line-height: 1.3;
+      }
     }
 
     &__actions {
@@ -76,6 +95,10 @@
       justify-content: center;
       gap: s(20);
       flex-wrap: wrap;
+
+      @media #{mobile()} {
+        gap: s(12);
+      }
     }
 
     &__store-btn {
@@ -87,22 +110,39 @@
       border: 1px solid rgba(255, 255, 255, 0.2);
       background: rgba(0, 0, 0, 0.6);
       color: #fff;
-      font-size: 1rem;
+      font-size: 14px;
       font-weight: 500;
       text-decoration: none;
       transition: all 0.3s ease;
+
+      @media #{mobile()} {
+        padding: s(8) s(10);
+        font-size: 12px;
+        border-radius: 12px;
+      }
 
       &:hover {
         border-color: #fff;
         transform: translateY(-2px);
       }
+
       &_icon {
         padding: s(8) s(10);
         border-radius: s(50);
         background: #282828;
+
+        @media #{mobile()} {
+          padding: s(6) s(8);
+        }
+
         svg {
           width: s(18);
           height: s(18);
+
+          @media #{mobile()} {
+            width: s(10);
+            height: s(10);
+          }
         }
       }
     }
@@ -115,11 +155,11 @@
     padding: s(24);
 
     &__heading {
-      font-size: 1.5rem;
+      font-size: 14px;
     }
 
     &__message {
-      font-size: 0.9rem;
+      font-size: 12px;
     }
   }
 }

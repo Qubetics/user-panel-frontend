@@ -16,8 +16,8 @@
      justify-content: space-between;
      align-items: center;
 
-     @media (min-width: 640px) {
-       padding: 0 s(24);
+     @media (max-width: 991px) {
+       padding: 10px;
      }
 
      @media (min-width: 1024px) {
@@ -31,9 +31,17 @@
      gap: 8px;
      padding: s(20) 0;
 
+     @media (max-width: 991px) {
+       padding: s(5) 0;
+     }
+
      img {
        max-width: s(226);
        width: 100%;
+
+       @media (max-width: 991px) {
+         max-width: s(86);
+       }
 
        @media (max-width: 767px) {
          max-width: s(106);
@@ -41,6 +49,7 @@
      }
    }
  }
- .cursorIntial{
-  cursor: initial !important;
+
+ .cursorIntial {
+   cursor: initial !important;
  }

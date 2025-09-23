@@ -1,10 +1,13 @@
 @import "../../../utils/functions.scss";
+
 .how-it-works {
   padding: s(80) 0;
   background: linear-gradient(180deg, #000000 0%, rgba(88, 28, 135, 0.1) 100%);
+
   @media #{mobile()} {
-    padding: s(20) 0;
+    padding: s(10) 0;
   }
+
   &__container {
     max-width: s(1380);
     margin: 0 auto;
@@ -22,6 +25,14 @@
   &__header {
     text-align: center;
     margin-bottom: s(64);
+
+    @media #{desktop()} {
+      margin-bottom: s(30);
+    }
+
+    @media #{mobile()} {
+      margin-bottom: s(12);
+    }
   }
 }
 
@@ -30,9 +41,11 @@
   color: #fff;
   padding: s(80) s(20);
   text-align: center;
+
   @media #{mobile()} {
-    padding: s(20) 0;
+    padding: s(10) 0;
   }
+
   &__curve {
     position: absolute;
     top: s(60);
@@ -41,6 +54,7 @@
     width: 73%;
     height: s(100);
     z-index: 0;
+
     @media #{mobile()} {
       display: none;
     }
@@ -71,16 +85,30 @@
     background-size: contain;
     margin-bottom: s(16);
     padding: 2px;
-    > div {
+
+    @media #{mobile()} {
+      margin-bottom: s(12);
+    }
+
+    >div {
       border-radius: s(50);
       padding: s(20);
       background: #1f1b20;
+
+      @media #{mobile()} {
+        padding: s(12);
+      }
     }
 
     svg {
       width: s(24);
       height: s(24);
       color: #fff;
+
+      @media #{mobile()} {
+        width: s(14);
+        height: s(14);
+      }
     }
   }
 
@@ -88,6 +116,11 @@
     font-size: s(24);
     font-weight: 600;
     margin-bottom: s(10);
+
+    @media #{mobile()} {
+      font-size: s(12);
+      margin-bottom: s(7);
+    }
   }
 
   &__desc {
@@ -95,11 +128,14 @@
     font-weight: 400;
     color: #aaa;
     line-height: s(18);
+
     @media #{mobile()} {
-      font-size: s(10);
+      font-size: s(8);
+      line-height: s(12);
     }
   }
 }
+
 .step-title {
   font-size: s(22);
   font-weight: 600;
