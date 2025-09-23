@@ -70,7 +70,7 @@ const Header = () => {
     const chainId = env.chainId;
 
     try {
-      await window.keplr.disable(chainId);
+      // await window.keplr.disable(chainId);
       await window.keplr.enable(chainId);
 
       const offlineSigner = window.keplr.getOfflineSigner(chainId);
