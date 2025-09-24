@@ -124,7 +124,7 @@ const Header = () => {
         >
           <img src={Logo} alt="" />
         </div>
-        <div className="header__action">
+        <div className={`header__action ${isMenuOpen ? "active" : ""}`}>
           {(location.pathname !== '/') ? (
             !authData ? (
               <ButtonCustom regularBtn label="Connect Keplr Wallet" onClick={handleClick} />

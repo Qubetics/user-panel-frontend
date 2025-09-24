@@ -4,6 +4,22 @@
   padding: 60px 0;
   background: linear-gradient(180deg, rgba(88, 28, 135, 0.1) 0%, #000000 100%);
 
+  @media (max-width: 1679px) {
+    padding: 50px 0;
+  }
+
+  @media (max-width: 1399px) {
+    padding: 40px 0;
+  }
+
+  @media (max-width: 1199px) {
+    padding: 30px 0;
+  }
+
+  @media (max-width: 991px) {
+    padding: 20px 0;
+  }
+
   &__container {
     max-width: 1440px;
     margin: 0 auto;

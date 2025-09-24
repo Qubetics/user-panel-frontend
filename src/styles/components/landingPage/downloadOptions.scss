@@ -7,6 +7,26 @@
   display: flex;
   align-items: center;
 
+  @media (max-width: 1679px) {
+    padding: 50px;
+    height: 500px;
+  }
+
+  @media (max-width: 1399px) {
+    padding: 40px;
+    height: 450px;
+  }
+
+  @media (max-width: 1199px) {
+    padding: 30px;
+    height: 400px;
+  }
+
+  @media (max-width: 991px) {
+    padding: 20px;
+    height: 350px;
+  }
+
   &::before {
     content: "";
     position: absolute;
@@ -16,7 +36,13 @@
     background-image: url("../../../assets/DownLoadBg.png");
     background-repeat: no-repeat;
     mask-composite: exclude;
+    background-position: center;
     z-index: 0;
+    background-size: 100% 100%;
+
+    @media (max-width: 991px) {
+      background-size: 100% 100%;
+    }
   }
 
   &-options {
@@ -31,10 +57,21 @@
     overflow: hidden;
     margin: 0 auto;
 
-    @media #{mobile()} {
-      padding: s(20);
-      border-radius: s(20);
-      max-width: s(300);
+    @media (max-width: 1679px) {
+      padding: 40px;
+    }
+
+    @media (max-width: 1399px) {
+      padding: 30px;
+    }
+
+    @media (max-width: 1199px) {
+      padding: 20px;
+    }
+
+    @media (max-width: 991px) {
+      padding: 15px;
+      max-width: 380px;
     }
 
     &::before {
@@ -144,7 +181,6 @@
             width: 24px;
             height: 24px;
           }
-
         }
       }
 

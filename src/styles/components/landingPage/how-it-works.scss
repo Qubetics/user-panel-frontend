@@ -4,6 +4,22 @@
   padding: 119px 0 60px;
   background: linear-gradient(180deg, #000000 0%, rgba(88, 28, 135, 0.1) 100%);
 
+  @media (max-width: 1679px) {
+    padding: 100px 0 50px;
+  }
+
+  @media (max-width: 1399px) {
+    padding: 80px 0 40px;
+  }
+
+  @media (max-width: 1199px) {
+    padding: 60px 0 30px;
+  }
+
+  @media (max-width: 991px) {
+    padding: 40px 0 20px;
+  }
+
   &__container {
     max-width: 1380px;
     margin: 0 auto;
@@ -13,6 +29,22 @@
   &__header {
     text-align: center;
     margin-bottom: 50px;
+
+    @media (max-width: 1679px) {
+      margin-bottom: 40px;
+    }
+
+    @media (max-width: 1399px) {
+      margin-bottom: 30px;
+    }
+
+    @media (max-width: 1199px) {
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 991px) {
+      margin-bottom: 15px;
+    }
   }
 }
 
@@ -30,6 +62,30 @@
     height: 100%;
     z-index: 0;
 
+    @media (max-width: 1679px) {
+      width: 70%;
+    }
+
+    @media (max-width: 1399px) {
+      top: -6px;
+    }
+
+    @media (max-width: 1199px) {
+      top: -10px;
+    }
+
+    @media (max-width: 991px) {
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 63%;
+      height: auto;
+    }
+
+    @media (max-width: 767px) {
+      display: none;
+    }
+
     svg {
       width: 100%;
     }
@@ -39,11 +95,16 @@
     position: relative;
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
-    gap: s(20);
+    // flex-wrap: wrap;
+    gap: 20px;
     z-index: 1;
     max-width: 1298px;
     margin: 0 auto;
+
+    @media (max-width: 767px) {
+      flex-wrap: wrap;
+      align-items: center;
+    }
   }
 }
 
@@ -54,12 +115,45 @@
   width: 100%;
   max-width: 292px;
 
+  @media (max-width: 767px) {
+    max-width: calc(96% / 2);
+  }
+
+  @media (max-width: 575px) {
+    max-width: 100%;
+  }
+
   &__icon {
     width: 100px;
     height: 100px;
     background: linear-gradient(157.79deg, rgb(29 29 29) -0.65%, rgb(29 29 29) 99.59%);
     border-radius: 50%;
-    margin-bottom: 3rem;
+    margin-bottom: 30px;
+
+    @media (max-width: 1679px) {
+      width: 90px;
+      height: 90px;
+      margin-bottom: 26px;
+    }
+
+    @media (max-width: 1399px) {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 22px;
+    }
+
+    @media (max-width: 1199px) {
+      width: 70px;
+      height: 70px;
+      margin-bottom: 18px;
+    }
+
+    @media (max-width: 991px) {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 14px;
+    }
+
 
     img {
       width: 100%;
@@ -76,6 +170,11 @@
   &__desc {
     font-weight: 400;
     color: #aaa;
+
+    @media (max-width: 575px) {
+      width: 100%;
+      max-width: 90%;
+    }
   }
 }
 

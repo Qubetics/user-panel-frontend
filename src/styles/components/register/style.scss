@@ -163,18 +163,14 @@
 
 .process-card {
   h3 {
-    font-size: s(20);
+    font-size: 20px;
     font-weight: 600;
     margin-bottom: s(14);
     text-align: left;
 
     @media (max-width: 991px) {
-      font-size: s(8);
+      font-size: 16px;
       margin-bottom: s(7);
-    }
-
-    @media (max-width: 479px) {
-      font-size: s(11);
     }
   }
 
@@ -183,7 +179,7 @@
     border-radius: s(12);
     padding: s(24);
     margin-bottom: s(16);
-    font-size: s(18);
+    font-size: 14px;
     color: #aaa;
     line-height: 1.5;
     text-align: left;
@@ -193,7 +189,6 @@
     @media (max-width: 991px) {
       padding: s(10);
       margin-bottom: s(10);
-      font-size: s(7);
       border-radius: s(8);
     }
 
@@ -225,16 +220,12 @@
     strong {
       color: #fff;
       font-weight: 600;
-      font-size: s(15);
+      font-size: 16px;
       padding-bottom: s(10);
 
       @media (max-width: 991px) {
         padding-bottom: s(7);
-        font-size: s(7);
-      }
-
-      @media (max-width: 479px) {
-        font-size: s(9);
+        font-size: 14px;
       }
     }
   }

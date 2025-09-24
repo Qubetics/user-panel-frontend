@@ -669,7 +669,7 @@ h5 {
     font-size: 16px;
   }
 
-  @media (max-width: 1399px) {
+  @media (max-width: 1199px) {
     font-size: 14px;
   }
 }
@@ -678,11 +678,7 @@ h6 {
   font-size: 16px;
   line-height: 1.2;
 
-  @media (max-width: 1679px) {
+  @media (max-width: 1399px) {
     font-size: 14px;
-  }
-
-  @media (max-width: 1199px) {
-    font-size: 12px;
   }
 }
