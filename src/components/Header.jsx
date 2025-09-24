@@ -60,11 +60,19 @@ const Header = () => {
     }
   };
   const handleClick = async () => {
+
     if (!window.keplr) {
-      toast.error("Install Keplr wallet first");
+      if (/Android/i.test(navigator.userAgent)) {
+        // Android
+        window.location.href = "intent://wc#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;";
+      } else if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        // iOS
+        window.location.href = "keplrwallet://";
+      } else {
+        toast.error("Install Keplr extension first");
+      }
       return;
     }
-
     const chainId = env.chainId;
 
     try {
@@ -116,37 +124,37 @@ const Header = () => {
         >
           <img src={Logo} alt="" />
         </div>
-        {hasHeaderActions && (
-          <div className={`header__action ${isMenuOpen ? "open" : ""}`}>
-            {(location.pathname !== '/') ?
-              (!authData ? (
-                <ButtonCustom regularBtn label="Connect Keplr Wallet" onClick={handleClick} />
-              ) : (
-                <>
-                  <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                    <span className="gradientbrder">{balance || 0} TICS</span>
-                    {authData && status && <ButtonCustom className={getStatusClass(status) + " cursorIntial"} regularBtn label={toFirstCapital(status)} />}
-                    <div className="gradientbrder">
-                      <div>{authData.slice(0, 6)}...{authData.slice(-4)}</div>
-                      <CopyText text={authData} />
-                    </div>
-                    <ButtonCustom regularBtn label="Logout" onClick={handleLogout} />
-                  </div>
-                </>
-              )) : ""}
-          </div>
-        )}
-        {hasHeaderActions && (
-          <button
-            className={`hamburger ${isMenuOpen ? "active" : ""}`}
-            onClick={toggleMenu}
-            aria-label="Toggle menu"
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
-        )}
+        <div className="header__action">
+          {(location.pathname !== '/') ? (
+            !authData ? (
+              <ButtonCustom regularBtn label="Connect Keplr Wallet" onClick={handleClick} />
+            ) : (
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                <span className="gradientbrder">
+                  {Number(balance || 0).toFixed(2)} TICS
+                </span>
+                {authData && status && (
+                  <ButtonCustom className={getStatusClass(status) + " cursorIntial"} regularBtn label={toFirstCapital(status)} />
+                )}
+                <div className="gradientbrder">
+                  <div>{authData.slice(0, 4)}...{authData.slice(-4)}</div>
+                  <CopyText text={authData} />
+                </div>
+              </div>
+            )
+          ) : null}
+          {hasHeaderActions && (
+            <button
+              className={`hamburger ${isMenuOpen ? "active" : ""}`}
+              onClick={toggleMenu}
+              aria-label="Toggle menu"
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+          )}
+        </div>
       </div>
     </header>
   );
