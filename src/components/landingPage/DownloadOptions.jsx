@@ -6,7 +6,7 @@ import { message } from "../../Constant/constants";
 
 const DownloadOptions = () => {
 
-  const handleToast=()=>{
+  const handleToast = () => {
     toast.success(message.app_store_coming);
     return;
   }
@@ -14,33 +14,36 @@ const DownloadOptions = () => {
   return (
     <section className="download" id="download-section">
       <div className="download-options">
-        <h2 className="download-options__heading">Download it now.</h2>
-        <p className="download-options__message">
+        <h2 className="smallText download-options__heading">Download it now.</h2>
+        <h6 className="download-options__message">
           Secure, fast and decentralized VPN powered by blockchain
-        </p>
+        </h6>
         <div className="download-options__actions">
           <a
             href="#"
-            className="download-options__store-btn customButton-regular"
+            className="download-options__store-btn customButton"
+            onClick={handleToast}
           >
             <span className="download-options__store-btn_icon">
               <IOSIcon />
             </span>
-            <span  onClick={handleToast}>App Store</span>
+            <span
+              className="text-btn" >App Store</span>
           </a>
           <a
             href="#"
-            className="download-options__store-btn customButton-regular"
-          >
-            <span className="download-options__store-btn_icon">
-              <AndroidIcon />
-            </span>{" "}
-            <span onClick={() =>
+            className="download-options__store-btn customButton"
+            onClick={() =>
               window.open(
                 env.app_link,
                 "_blank"
               )
-            } >Play Store</span>
+            } 
+          >
+            <span className="download-options__store-btn_icon">
+              <AndroidIcon />
+            </span>{" "}
+            <span className="text-btn">Play Store</span>
           </a>
         </div>
       </div>

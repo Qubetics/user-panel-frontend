@@ -1,15 +1,30 @@
 @import "../../../utils/functions.scss";
 
 .download {
-  padding: s(40);
+  padding: 60px;
   position: relative;
-  height: s(549);
+  height: 544px;
   display: flex;
   align-items: center;
 
-  @media #{mobile()} {
-    padding: s(20);
-    height: s(280);
+  @media (max-width: 1679px) {
+    padding: 50px;
+    height: 500px;
+  }
+
+  @media (max-width: 1399px) {
+    padding: 40px;
+    height: 450px;
+  }
+
+  @media (max-width: 1199px) {
+    padding: 30px;
+    height: 400px;
+  }
+
+  @media (max-width: 991px) {
+    padding: 20px;
+    height: 350px;
   }
 
   &::before {
@@ -21,27 +36,42 @@
     background-image: url("../../../assets/DownLoadBg.png");
     background-repeat: no-repeat;
     mask-composite: exclude;
+    background-position: center;
     z-index: 0;
+    background-size: 100% 100%;
+
+    @media (max-width: 991px) {
+      background-size: 100% 100%;
+    }
   }
 
   &-options {
-    background: linear-gradient(157.79deg,
-        rgba(29, 29, 29, 0.42) -0.65%,
-        rgba(29, 29, 29, 0.7) 99.59%);
-    backdrop-filter: blur(6px);
-    border-radius: s(40);
-    padding: s(80);
+    background: #77777726;
+    backdrop-filter: blur(8px);
+    border-radius: 30px;
+    padding: 50px;
     text-align: center;
-    max-width: s(800);
+    max-width: 485px;
     color: #fff;
     position: relative;
     overflow: hidden;
     margin: 0 auto;
 
-    @media #{mobile()} {
-      padding: s(20);
-      border-radius: s(20);
-      max-width: s(300);
+    @media (max-width: 1679px) {
+      padding: 40px;
+    }
+
+    @media (max-width: 1399px) {
+      padding: 30px;
+    }
+
+    @media (max-width: 1199px) {
+      padding: 20px;
+    }
+
+    @media (max-width: 991px) {
+      padding: 15px;
+      max-width: 380px;
     }
 
     &::before {
@@ -68,57 +98,49 @@
     }
 
     &__heading {
-      font-size: s(40);
-      font-weight: 600;
-      margin-bottom: s(16);
-
-      @media #{mobile()} {
-        font-size: s(12);
-        margin-bottom: s(7);
-      }
+      color: #fff;
+      font-weight: 700;
+      line-height: 1.4;
+      margin-bottom: 10px;
     }
 
     &__message {
-      font-size: s(18);
-      color: #c2b6b6;
-      margin-bottom: s(32);
-
-      @media #{mobile()} {
-        font-size: s(10);
-        margin-bottom: s(10);
-        line-height: 1.3;
-      }
+      color: #fff;
+      line-height: 1.5;
+      font-weight: 400;
+      width: 100%;
+      max-width: 336px;
+      margin: auto;
     }
 
     &__actions {
       display: flex;
       justify-content: center;
-      gap: s(20);
-      flex-wrap: wrap;
-
-      @media #{mobile()} {
-        gap: s(12);
-      }
+      gap: 19px;
+      margin-top: 30px;
     }
 
     &__store-btn {
       display: flex;
       align-items: center;
-      gap: s(8);
-      padding: s(8) s(20) s(8) s(8);
-      border-radius: s(30);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      background: rgba(0, 0, 0, 0.6);
+      padding: 5px;
+      border-radius: 48px;
       color: #fff;
-      font-size: 14px;
-      font-weight: 500;
+      font-size: 18px;
+      font-weight: 600;
       text-decoration: none;
       transition: all 0.3s ease;
+      height: 60px;
+      width: 100%;
 
-      @media #{mobile()} {
-        padding: s(8) s(10);
-        font-size: 12px;
-        border-radius: 12px;
+      @media (max-width: 1679px) {
+        font-size: 16px;
+        height: 55px;
+      }
+
+      @media (max-width: 1399px) {
+        font-size: 14px;
+        height: 48px;
       }
 
       &:hover {
@@ -127,39 +149,44 @@
       }
 
       &_icon {
-        padding: s(8) s(10);
-        border-radius: s(50);
+        padding: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
         background: #282828;
 
-        @media #{mobile()} {
-          padding: s(6) s(8);
+        @media (max-width: 1679px) {
+          width: 42px;
+          height: 42px;
+        }
+
+        @media (max-width: 1399px) {
+          width: 38px;
+          height: 38px;
         }
 
         svg {
-          width: s(18);
-          height: s(18);
+          width: 32px;
+          height: 32px;
 
-          @media #{mobile()} {
-            width: s(10);
-            height: s(10);
+          @media (max-width: 1679px) {
+            width: 28px;
+            height: 28px;
+          }
+
+          @media (max-width: 1399px) {
+            width: 24px;
+            height: 24px;
           }
         }
       }
-    }
-  }
-}
 
-// ✅ Responsive
-@media (max-width: 768px) {
-  .download-options {
-    padding: s(24);
-
-    &__heading {
-      font-size: 14px;
-    }
-
-    &__message {
-      font-size: 12px;
+      .text-btn {
+        padding-left: 10px;
+      }
     }
   }
 }

@@ -18,6 +18,8 @@ const Header = () => {
   const location = useLocation();
   const { authData, setAuthData, status, setStatus, setRequest } = useIsLoggedIn();
   const [balance, setBalance] = useState("");
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // ✅ menu state
+  const hasHeaderActions = true; // ✅ define this, or make it conditional based on route
 
   const getStatus = async (address) => {
     try {
@@ -32,7 +34,6 @@ const Header = () => {
       toast.error(error?.message);
     }
   };
-
   const getStatusClass = (status) => {
     switch (status?.toLowerCase()) {
       case "active":
@@ -49,7 +50,6 @@ const Header = () => {
         return "status-badge default";
     }
   };
-
   const FetchAccountBalance = async (address) => {
     try {
       const uri = `${env.swagger_api}/cosmos/bank/v1beta1/balances/${address}`;
@@ -59,8 +59,6 @@ const Header = () => {
       toast.error("Error in fetching the balance");
     }
   };
-
-
   const handleClick = async () => {
 
     if (!window.keplr) {
@@ -104,12 +102,15 @@ const Header = () => {
       toast.error("Failed to connect Keplr: " + error.message);
     }
   };
-
-
   const handleLogout = () => {
     setAuthData("");
     setStatus("");
     toast.success("Wallet disconnected");
+  };
+
+  // ✅ toggle menu function
+  const toggleMenu = () => {
+    setIsMenuOpen((prev) => !prev);
   };
 
   return (
@@ -123,27 +124,38 @@ const Header = () => {
         >
           <img src={Logo} alt="" />
         </div>
-        <div className="header__action">
-          {(location.pathname !== '/') ?
-            (!authData ? (
+        <div className={`header__action ${isMenuOpen ? "active" : ""}`}>
+          {(location.pathname !== '/') ? (
+            !authData ? (
               <ButtonCustom regularBtn label="Connect Keplr Wallet" onClick={handleClick} />
             ) : (
-              <>
-                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                  <span className="gradientbrder">
-                    {Number(balance || 0).toFixed(2)} TICS
-                  </span>
-
-                  {authData && status && <ButtonCustom className={getStatusClass(status) + " cursorIntial"} regularBtn label={toFirstCapital(status)} />}
-                  <div className="gradientbrder">
-                    <div>{authData.slice(0, 4)}...{authData.slice(-4)}</div>
-                    <CopyText text={authData} />
-                  </div>
-                  <ButtonCustom regularBtn label="Logout" onClick={handleLogout} />
+              <div className={`header__nav ${isMenuOpen ? "active" : ""}`} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                <span className="gradientbrder">
+                  {Number(balance || 0).toFixed(2)} TICS
+                </span>
+                {authData && status && (
+                  <ButtonCustom className={getStatusClass(status) + " cursorIntial"} regularBtn label={toFirstCapital(status)} />
+                )}
+                <div className="gradientbrder">
+                  <div className="text-add">{authData.slice(0, 4)}...{authData.slice(-4)}</div>
+                  <CopyText text={authData} />
                 </div>
-              </>
-            )) : ""}
+                <ButtonCustom regularBtn label="Logout" onClick={handleLogout} />
+              </div>
+            )
+          ) : null}
         </div>
+        {hasHeaderActions && (
+          <button
+            className={`hamburger ${isMenuOpen ? "active" : ""}`}
+            onClick={toggleMenu}
+            aria-label="Toggle menu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        )}
       </div>
     </header>
   );

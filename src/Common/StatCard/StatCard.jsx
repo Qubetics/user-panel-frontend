@@ -6,7 +6,7 @@ const StatCard = ({ icon, label, value }) => {
       <div className="icon">{icon}</div>
       <div className="stat-card-right">
         <p className="label">{label}</p>
-        <h5 className="value">{value}</h5>
+        <h4 className="value">{value}</h4>
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import useGetApi from "../../Hooks/useGetApi";
 import { apiUrls } from "../../Constant/apiUrls";
 import {
   apiMethods,
+  emailRegex,
   NODE_FAILED,
   NODE_REQUEST,
 } from "../../Constant/constants";
@@ -111,9 +112,13 @@ const Register = () => {
       return toast.error("Please choose a plan");
     if (!chooseAction)
       return toast.error("Please choose an action");
-
+    if(email){
+      if(!emailRegex.test(email)){
+        return toast.error("Please enter the valid email address");
+      }
+    }
     const signData = await handleSign();
-    if (!signData){
+    if (!signData) {
       toast.error("User Rejected the Action");
       return;
     }
@@ -122,12 +127,12 @@ const Register = () => {
     const extendedPlan =
       chooseAction === "Link"
         ? {
-            plan: `${choosePlan?.prices?.[0]?.quote_value} TICS/month`,
-            planId: choosePlan?.id,
-            provAddress: choosePlan?.prov_address,
-            bandwidth: choosePlan?.gigabytes,
-            hours: choosePlan?.hours,
-          }
+          plan: `${choosePlan?.prices?.[0]?.quote_value} TICS/month`,
+          planId: choosePlan?.id,
+          provAddress: choosePlan?.prov_address,
+          bandwidth: choosePlan?.gigabytes,
+          hours: choosePlan?.hours,
+        }
         : null;
 
     const body = {
@@ -151,11 +156,11 @@ const Register = () => {
         }
       );
       if (response) {
-        setMessageModal(response?.success ? message(response?.success):response?.message);
+        setMessageModal(response?.success ? message(response?.success) : response?.message);
         setVisible(true);
       }
     } catch (error) {
-      console.log(error?.message,"error?.message");
+      console.log(error?.message, "error?.message");
       setMessageModal(error?.message)
       toast.error(error?.message);
     }
@@ -179,7 +184,7 @@ const Register = () => {
   return (
     <div className="register-container">
       <div>
-        <h1>Register as Node Operator</h1>
+        <h3>Register as Node Operator</h3>
       </div>
       {/* Header */}
       <div className="stepper">
@@ -306,9 +311,8 @@ const Register = () => {
                   {planList.map((plan) => (
                     <option key={plan.id} value={JSON.stringify(plan)}>
                       {plan.prices.length > 0
-                        ? `${
-                            plan.prices[0].quote_value
-                          } ${plan.prices[0].denom.toUpperCase()}/month`
+                        ? `${plan.prices[0].quote_value
+                        } ${plan.prices[0].denom.toUpperCase()}/month`
                         : `Plan ${plan.id}`}
                     </option>
                   ))}
@@ -324,7 +328,7 @@ const Register = () => {
                 placeholder="Duration"
                 value={duration}
                 disabled={true}
-                // onChange={(e) => setEmail(e.target.value)}
+              // onChange={(e) => setEmail(e.target.value)}
               />
             </div>
           )}{" "}
@@ -336,7 +340,7 @@ const Register = () => {
                 placeholder="Bandwidth in bytes"
                 value={bandwidth}
                 disabled={true}
-                // onChange={(e) => setEmail(e.target.value)}
+              // onChange={(e) => setEmail(e.target.value)}
               />
             </div>
           )}
