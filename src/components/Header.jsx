@@ -16,7 +16,7 @@ import { api, toFirstCapital } from "../utils/Helper/CommonHelper";
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { authData, setAuthData, status, setStatus,setRequest } = useIsLoggedIn();
+  const { authData, setAuthData, status, setStatus, setRequest } = useIsLoggedIn();
   const [balance, setBalance] = useState("");
 
   const getStatus = async (address) => {
@@ -75,7 +75,6 @@ const Header = () => {
       }
       return;
     }
-    
     const chainId = env.chainId;
 
     try {
@@ -131,11 +130,14 @@ const Header = () => {
             ) : (
               <>
                 <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                  <span className="gradientbrder">{balance || 0} TICS</span>
+                  <span className="gradientbrder">
+                    {Number(balance || 0).toFixed(2)} TICS
+                  </span>
+
                   {authData && status && <ButtonCustom className={getStatusClass(status) + " cursorIntial"} regularBtn label={toFirstCapital(status)} />}
                   <div className="gradientbrder">
-                    <div>{authData.slice(0, 6)}...{authData.slice(-4)}</div>
-                    <CopyText  text={authData} />
+                    <div>{authData.slice(0, 4)}...{authData.slice(-4)}</div>
+                    <CopyText text={authData} />
                   </div>
                   <ButtonCustom regularBtn label="Logout" onClick={handleLogout} />
                 </div>
