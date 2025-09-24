@@ -1,34 +1,18 @@
 @import "../../../utils/functions.scss";
 
 .network-analytics {
-  padding: s(80) 0;
+  padding: 60px 0;
   background: linear-gradient(180deg, rgba(88, 28, 135, 0.1) 0%, #000000 100%);
 
-  @media #{mobile()} {
-    padding: s(10) 0;
-  }
-
   &__container {
-    max-width: s(1380);
+    max-width: 1440px;
     margin: 0 auto;
-    padding: 0 s(16);
-
-    @media (min-width: 640px) {
-      padding: 0 s(24);
-    }
-
-    @media (min-width: 1024px) {
-      padding: 0 s(32);
-    }
+    padding: 0 20px;
   }
 
   &__header {
     text-align: center;
-    margin-bottom: s(64);
-
-    @media #{mobile()} {
-      margin-bottom: s(10);
-    }
+    margin-bottom: 50px;
   }
 
   &__title {
@@ -46,23 +30,24 @@
 
 .stats-dashboard {
   display: flex;
-  gap: s(20);
-  flex-wrap: wrap;
 
-  @media #{mobile()} {
-    gap: s(12);
+  .card-row {
+    width: 100%;
+  }
+
+  @media (max-width: 767px) {
+    .card-row {
+      width: auto;
+    }
   }
 }
 
 .stat-card {
-  border-radius: 12px;
-  padding: s(20);
+  border-radius: 14px;
+  padding: 20px;
   color: white;
   display: flex;
   align-items: center;
-  gap: s(10);
-  flex: 32%;
-  min-width: s(280);
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
   transition: transform 0.3s ease;
   background: linear-gradient(157.79deg,
@@ -71,46 +56,36 @@
   border: 1px solid rgba(255, 255, 255, 0.15);
   text-align: left;
 
-  @media #{mobile()} {
-    padding: s(7);
-  }
-
   .icon {
     border: 1px solid #454545;
     background: #161616;
-    padding: s(14);
+    padding: 4px;
     display: flex;
     align-items: center;
+    justify-content: center;
     border-radius: 50%;
+    width: 60px;
+    height: 60px;
 
-    @media #{mobile()} {
-      padding: s(7);
-
-      svg {
-        width: s(14);
-        height: s(14);
-      }
+    svg {
+      width: 30px;
+      height: 30px;
     }
+  }
+
+  &-right {
+    padding-left: 16px;
   }
 
   .label {
-    font-size: s(16);
+    font-size: 16px;
     color: #a0a0a0;
     font-weight: 400;
-    margin-bottom: 0.3rem;
-
-    @media #{mobile()} {
-      font-size: s(9);
-    }
+    margin-bottom: 10px;
   }
 
   .value {
-    font-size: s(20);
     font-weight: 600;
     color: #ffffff;
-
-    @media #{mobile()} {
-      font-size: s(12);
-    }
   }
 }

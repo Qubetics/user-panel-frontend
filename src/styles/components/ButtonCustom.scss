@@ -2,74 +2,85 @@
 
 .customButton {
   white-space: nowrap;
-  min-width: s(174);
-  padding: s(12.5) s(20);
-  font-size: s(16);
-  background-color: #000;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 5px 20px;
+  font-size: 16px;
   font-weight: bold;
   color: #fff;
+  background-color: #000;
   text-decoration: none;
   border: none;
   border-radius: s(30);
+  overflow: hidden;
   cursor: pointer;
-  line-height: 1;
+  height: 51px;
 
-  @media (max-width: 991px) {
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
-    font-size: 14px;
-    padding: s(5) s(12);
-    min-width: s(50);
+  @media (max-width: 1679px) {
+    height: 50px;
+    padding: 5px 16px;
+  }
+
+  @media (max-width: 1399px) {
+    height: 45px;
+    padding: 5px 12px;
+  }
+
+  @media (max-width: 1199px) {
     height: 40px;
-    border-radius: 12px;
+    font-size: 14px;
+    padding: 4px 10px;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 2px;
+    border-radius: 30px;
+    background: conic-gradient(from var(--gradient-angle),
+        var(--clr-card),
+        var(--clr-1),
+        var(--clr-2),
+        var(--clr-3),
+        var(--clr-4),
+        var(--clr-5),
+        var(--clr-6),
+        var(--clr-2),
+        var(--clr-1),
+        var(--clr-card));
+    animation: rotate 2.5s linear infinite;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: rotate 3s linear infinite;
+  }
+
+  @keyframes rotate {
+    0% {
+      --gradient-angle: 0deg;
+    }
+
+    100% {
+      --gradient-angle: 360deg;
+    }
   }
 
   &:disabled {
     cursor: not-allowed;
   }
 
-  @media (max-width: 767px) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 35px;
-    border-radius: 12px;
-  }
+  &-bordered {
+    border: 1px solid var(--brandPurple);
+    background-color: transparent;
+    color: var(--brandPurple);
 
-  &-regular {
-    position: relative;
-    display: inline-block;
-    overflow: hidden;
-
-    &::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      padding: s(2);
-      border-radius: s(30);
-      background: conic-gradient(from var(--gradient-angle),
-          var(--clr-card),
-          var(--clr-1),
-          var(--clr-2),
-          var(--clr-3),
-          var(--clr-4),
-          var(--clr-5),
-          var(--clr-6),
-          var(--clr-2),
-          var(--clr-1),
-          var(--clr-card));
-      animation: rotate 3s linear infinite;
-      -webkit-mask: linear-gradient(#fff 0 0) content-box,
-        linear-gradient(#fff 0 0);
-      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-
-      @media (max-width: 991px) {
-        padding: s(1.2);
-        border-radius: 12px;
-      }
+    &:hover {
+      background-color: var(--darkPurple);
+      color: var(--white);
     }
   }
 }

@@ -32,15 +32,15 @@ const QuickStart = () => {
     <section className="quick-start">
       <div className="quick-start__container">
         <div className="quick-start__header">
-          <h2 className="common-heading">Set Up Your Node in 3 Easy Steps</h2>
+          <h2 className="">Set Up Your Node in 3 Easy Steps</h2>
         </div>
         <div className="stepsWrapper">
           {steps.map((step, index) => (
             <div key={step.id} className={`card ${[`card${index + 1}`]}`}>
               <div className="iconWrapper">{step.icon}</div>
               <div className="textWrapper">
-                <h3>{step.title}</h3>
-                <p>{step.description}</p>
+                <h4>{step.title}</h4>
+                <h6>{step.description}</h6>
               </div>
             </div>
           ))}

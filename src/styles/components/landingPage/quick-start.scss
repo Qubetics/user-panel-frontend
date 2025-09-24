@@ -1,24 +1,28 @@
 @import "../../../utils/functions.scss";
 
 .quick-start {
-  padding: s(80) 0;
+  padding: 60px 0 119px;
+  position: relative;
+  z-index: 1;
 
-  @media #{mobile()} {
-    padding: s(15) 0;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 668px;
+    height: 617px;
+    border-radius: 50%;
+    background: #9F53FF;
+    filter: blur(380px);
+    z-index: 0;
   }
 
   &__container {
-    max-width: s(1280);
+    max-width: 1415px;
     margin: 0 auto;
-    padding: 0 s(16);
-
-    @media (min-width: 640px) {
-      padding: 0 s(24);
-    }
-
-    @media (min-width: 1024px) {
-      padding: 0 s(32);
-    }
+    padding: 0 20px;
   }
 
   &__header {
@@ -45,29 +49,24 @@
 
 .card {
   display: flex;
-  gap: s(30);
+  gap: 40px;
   justify-content: center;
-
-  @media #{mobile()} {
-    gap: s(12);
-  }
 }
 
 .card2 {
   flex-direction: row-reverse;
   justify-content: flex-end;
-  margin-top: s(-40);
+  text-align: right;
+  padding-left: 95px;
+  margin-top: -56px;
   position: relative;
   z-index: 1;
-
-  @media #{mobile()} {
-    margin-top: s(12);
-  }
 
   .textWrapper {
     display: flex;
     flex-direction: column;
     justify-content: end;
+    padding-bottom: 18px;
 
     @media #{mobile()} {
       justify-content: center;
@@ -77,13 +76,10 @@
 
 .card3 {
   justify-content: flex-end;
-  margin-top: s(-40);
   position: relative;
   z-index: 2;
-
-  @media #{mobile()} {
-    margin-top: s(12);
-  }
+  margin-top: -58px;
+  padding-right: 16px;
 
   .textWrapper {
     display: flex;
@@ -97,28 +93,17 @@
 .textWrapper {
   max-width: s(400);
   width: 100%;
+  padding-top: 17px;
 
-  h3 {
-    font-size: s(22);
+  h4 {
     font-weight: 600;
-    margin-bottom: s(10);
-
-    @media #{mobile()} {
-      font-size: s(12);
-      margin-bottom: s(7);
-    }
+    margin-bottom: 10px;
   }
 
-  p {
+  h6 {
     color: #a0a0a0;
-    font-size: s(16);
     font-weight: 400;
-    line-height: s(26);
-
-    @media #{mobile()} {
-      font-size: s(10);
-      line-height: 1.4;
-    }
+    line-height: 1.5;
   }
 }
 
