@@ -129,7 +129,7 @@ const Header = () => {
             !authData ? (
               <ButtonCustom regularBtn label="Connect Keplr Wallet" onClick={handleClick} />
             ) : (
-              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <div className={`header__nav ${isMenuOpen ? "active" : ""}`} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                 <span className="gradientbrder">
                   {Number(balance || 0).toFixed(2)} TICS
                 </span>
@@ -137,24 +137,25 @@ const Header = () => {
                   <ButtonCustom className={getStatusClass(status) + " cursorIntial"} regularBtn label={toFirstCapital(status)} />
                 )}
                 <div className="gradientbrder">
-                  <div>{authData.slice(0, 4)}...{authData.slice(-4)}</div>
+                  <div className="text-add">{authData.slice(0, 4)}...{authData.slice(-4)}</div>
                   <CopyText text={authData} />
                 </div>
+                <ButtonCustom regularBtn label="Logout" onClick={handleLogout} />
               </div>
             )
           ) : null}
-          {hasHeaderActions && (
-            <button
-              className={`hamburger ${isMenuOpen ? "active" : ""}`}
-              onClick={toggleMenu}
-              aria-label="Toggle menu"
-            >
-              <span></span>
-              <span></span>
-              <span></span>
-            </button>
-          )}
         </div>
+        {hasHeaderActions && (
+          <button
+            className={`hamburger ${isMenuOpen ? "active" : ""}`}
+            onClick={toggleMenu}
+            aria-label="Toggle menu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        )}
       </div>
     </header>
   );
