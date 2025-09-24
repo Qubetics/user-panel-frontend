@@ -62,11 +62,20 @@ const Header = () => {
 
 
   const handleClick = async () => {
+
     if (!window.keplr) {
-      toast.error("Install Keplr wallet first");
+      if (/Android/i.test(navigator.userAgent)) {
+        // Android
+        window.location.href = "intent://wc#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;";
+      } else if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        // iOS
+        window.location.href = "keplrwallet://";
+      } else {
+        toast.error("Install Keplr extension first");
+      }
       return;
     }
-
+    
     const chainId = env.chainId;
 
     try {
