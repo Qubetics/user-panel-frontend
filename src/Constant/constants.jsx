@@ -15,5 +15,7 @@ export const message={
     app_store_coming:"Coming Soon"
 };
 
+export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 
   

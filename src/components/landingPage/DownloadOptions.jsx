@@ -22,28 +22,28 @@ const DownloadOptions = () => {
           <a
             href="#"
             className="download-options__store-btn customButton"
+            onClick={handleToast}
           >
             <span className="download-options__store-btn_icon">
               <IOSIcon />
             </span>
             <span
-              className="text-btn" onClick={handleToast}>App Store</span>
+              className="text-btn" >App Store</span>
           </a>
           <a
             href="#"
             className="download-options__store-btn customButton"
+            onClick={() =>
+              window.open(
+                env.app_link,
+                "_blank"
+              )
+            } 
           >
             <span className="download-options__store-btn_icon">
               <AndroidIcon />
             </span>{" "}
-            <span
-              className="text-btn"
-              onClick={() =>
-                window.open(
-                  env.app_link,
-                  "_blank"
-                )
-              } >Play Store</span>
+            <span className="text-btn">Play Store</span>
           </a>
         </div>
       </div>

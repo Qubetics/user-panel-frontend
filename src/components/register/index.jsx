@@ -6,6 +6,7 @@ import useGetApi from "../../Hooks/useGetApi";
 import { apiUrls } from "../../Constant/apiUrls";
 import {
   apiMethods,
+  emailRegex,
   NODE_FAILED,
   NODE_REQUEST,
 } from "../../Constant/constants";
@@ -111,7 +112,11 @@ const Register = () => {
       return toast.error("Please choose a plan");
     if (!chooseAction)
       return toast.error("Please choose an action");
-
+    if(email){
+      if(!emailRegex.test(email)){
+        return toast.error("Please enter the valid email address");
+      }
+    }
     const signData = await handleSign();
     if (!signData) {
       toast.error("User Rejected the Action");
