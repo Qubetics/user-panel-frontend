@@ -2,7 +2,7 @@ import React from "react";
 import { CheckOutlined } from "@ant-design/icons";
 import { Tooltip } from "antd";
 import { useState } from "react";
-import { Copyicon } from "../../assets/SvgIcon/SvgIcon";
+import { NewCopyIcon } from "../../assets/SvgIcon/SvgIcon";
 
 export default function CopyText({ text }) {
   const [copied, setCopied] = useState(false);
@@ -22,9 +22,9 @@ export default function CopyText({ text }) {
         className="copyIconToolTip"
       >
         <div
-        onClick={handleCopyClick}
+          onClick={handleCopyClick}
         >
-        {copied ? <CheckOutlined /> : <Copyicon />}
+          {copied ? <CheckOutlined /> : <NewCopyIcon />}
         </div>
       </Tooltip>
     </>
