@@ -1,16 +1,16 @@
-import { useNavigate } from "react-router-dom";
-import Logo from "../assets/LogoDvpn.svg";
-import "../styles/components/header/header.scss";
-import ButtonCustom from "../Common/ButtonCustom/ButtonCustom";
-import { useIsLoggedIn } from "../Context/LoggedInContext";
+import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { env } from "../Constant/envConstants";
+import Logo from "../assets/LogoDvpn.svg";
+import mobLogo from "../assets/MobileLogo.svg";
+import ButtonCustom from "../Common/ButtonCustom/ButtonCustom";
 import CopyText from "../Common/Copy/copyText";
-import { useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
-import useGetApi from "../Hooks/useGetApi";
 import { apiUrls } from "../Constant/apiUrls";
 import { apiMethods } from "../Constant/constants";
+import { env } from "../Constant/envConstants";
+import { useIsLoggedIn } from "../Context/LoggedInContext";
+import useGetApi from "../Hooks/useGetApi";
+import "../styles/components/header/header.scss";
 import { api, toFirstCapital } from "../utils/Helper/CommonHelper";
 
 const Header = () => {
@@ -18,8 +18,19 @@ const Header = () => {
   const location = useLocation();
   const { authData, setAuthData, status, setStatus, setRequest } = useIsLoggedIn();
   const [balance, setBalance] = useState("");
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // ✅ menu state
-  const hasHeaderActions = true; // ✅ define this, or make it conditional based on route
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // menu state
+  const hasHeaderActions = true; // define this, or make it conditional based on route
+  const [isMobile, setIsMobile] = useState(false);
+
+  console.log("location", location);
+
+  // const handleResize = () => {
+  //   setIsMobile(window.innerWidth <= 768);
+  // };
+  // useEffect(() => {
+  //   window.addEventListener("resize", handleResize);
+  //   return () => window.removeEventListener("resize", handleResize);
+  // }, []);
 
   const getStatus = async (address) => {
     try {
@@ -122,7 +133,11 @@ const Header = () => {
             navigate("/");
           }}
         >
-          <img src={Logo} alt="" />
+          <img
+            src={isMobile ? mobLogo : Logo}
+            alt="Logo"
+            className={isMobile ? "mobile-logo" : "web-logo"}
+          />
         </div>
         <div className={`header__action ${isMenuOpen ? "active" : ""}`}>
           {(location.pathname !== '/') ? (
@@ -145,7 +160,7 @@ const Header = () => {
             )
           ) : null}
         </div>
-        {hasHeaderActions && (
+        {hasHeaderActions && location.pathname != '/' && (
           <button
             className={`hamburger ${isMenuOpen ? "active" : ""}`}
             onClick={toggleMenu}
