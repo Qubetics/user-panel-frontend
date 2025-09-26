@@ -31,27 +31,22 @@ const Footer = () => {
             <h5 className="footer__section-title">Quick Links</h5>
             <ul className="footer__links">
               <li>
-                <a target="blank" href="#" className="footer__link">
+                <a target="blank" href={`${env.explorer_link}/token`} className="footer__link">
                   Tokens
                 </a>
               </li>
               <li>
-                <a target="blank" href="#" className="footer__link">
+                <a target="blank" href={`${env.explorer_link}/blocks`} className="footer__link">
                   Blockchain
                 </a>
               </li>
               <li>
-                <a target="blank" href="#" className="footer__link">
+                <a target="blank" href={`${env.explorer_link}/validators`} className="footer__link">
                   Validators
                 </a>
               </li>
               <li>
-                <a target="blank" href="#" className="footer__link">
-                  Analytics
-                </a>
-              </li>
-              <li>
-                <a target="blank" href="#" className="footer__link">
+                <a target="blank" href={`${env.explorer_link}/nodes`} className="footer__link">
                   Nodes
                 </a>
               </li>
