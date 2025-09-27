@@ -4,6 +4,7 @@
   text-align: center;
   margin: auto;
   max-width: 1640px;
+  margin-top: s(40);
 
   h3 {
     margin-bottom: 40;
@@ -41,7 +42,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: s(24) auto;
+  margin: s(40) auto;
   max-width: s(400);
 
   @media (max-width: 991px) {
@@ -136,6 +137,7 @@
   gap: s(24);
   flex-wrap: wrap;
   justify-content: center;
+  text-align: left;
 
   h2 {
     font-size: s(24);
