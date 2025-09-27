@@ -208,7 +208,7 @@ const Register = () => {
           <div className="process-card">
             <h3>Step 1: Connect Keplr Wallet</h3>
             <div className="process-card_inner">
-              Import your node address into Keplr and connect with the same
+              Import your node wallet into Keplr and connect with the same
               wallet used during node setup. This ensures proper ownership
               validation and links your wallet address to the deployed node.
             </div>

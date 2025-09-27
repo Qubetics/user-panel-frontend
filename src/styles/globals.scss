@@ -82,8 +82,6 @@ body {
   scrollbar-width: 4px;
 
   ::-webkit-scrollbar {
-    width: s(4);
-
     // }
     ::-webkit-scrollbar-thumb {
       background-color: rgb(6, 6, 6);
@@ -93,6 +91,10 @@ body {
   }
 }
 
+body::-webkit-scrollbar {
+  width: s(0);
+  display: none;
+}
 .register-page {
   background-image: url(../assets/homeBG.png);
 }

@@ -16,7 +16,7 @@ const DownloadOptions = () => {
       <div className="download-options">
         <h2 className="smallText download-options__heading">Download it now.</h2>
         <h6 className="download-options__message">
-          Secure, fast and decentralized VPN powered by blockchain
+          Secure, fast and decentralized VPN powered by Qubetics
         </h6>
         <div className="download-options__actions">
           <a
