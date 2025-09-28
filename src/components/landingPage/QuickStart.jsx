@@ -16,14 +16,14 @@ const QuickStart = () => {
       id: 2,
       title: " Deploy & Validate",
       description:
-        "Run the deployment script on your local machine or cloud server. We automatically check connectivity, bandwidth, and wallet.",
+        "Run the deployment script on your local machine or cloud server. We automatically check connectivity, bandwidth, and wallet address.",
       icon: <img src={NodeImage2} alt="" />,
     },
     {
       id: 3,
       title: "Stake & Go Live",
       description:
-        "Once your node goes live in the dVPN app, users can connect and you can start earning as a provider",
+        "Once your node goes live on the dVPN app, users can connect and you can start earning as a node operator",
       icon: <img src={NodeImage3} alt="" />,
     },
   ];
