@@ -6,7 +6,7 @@ export const NotificationModal = ({
   title = "Node Request",
   message = "",
   onClose,
-  buttonLabel = "Ok",
+  buttonLabel = "OK",
   show = true,
   children,
 }) =>

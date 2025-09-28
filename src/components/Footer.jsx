@@ -26,9 +26,35 @@ const Footer = () => {
             </p>
           </div>
 
+          {/* Quick Links */}
+          <div className="footer__section">
+            <h5 className="footer__section-title">Quick Links</h5>
+            <ul className="footer__links">
+              <li>
+                <a target="blank" href={`${env.explorer_link}/token`} className="footer__link">
+                  Tokens
+                </a>
+              </li>
+              <li>
+                <a target="blank" href={`${env.explorer_link}/blocks`} className="footer__link">
+                  Blockchain
+                </a>
+              </li>
+              <li>
+                <a target="blank" href={`${env.explorer_link}/validators`} className="footer__link">
+                  Validators
+                </a>
+              </li>
+              <li>
+                <a target="blank" href={`${env.explorer_link}/nodes`} className="footer__link">
+                  Nodes
+                </a>
+              </li>
+            </ul>
+          </div>
           {/* About Us */}
           <div className="footer__section">
-            <h3 className="footer__section-title">About Us</h3>
+            <h5 className="footer__section-title">About Us</h5>
             <ul className="footer__links">
               <li>
                 <a
@@ -53,7 +79,7 @@ const Footer = () => {
 
           {/* Products & Services */}
           <div className="footer__section">
-            <h3 className="footer__section-title">Products & Services</h3>
+            <h5 className="footer__section-title">Products & Services</h5>
             <ul className="footer__links">
               <li>
                 <a
@@ -102,7 +128,7 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-              <a
+                <a
                   target="blank"
                   href={env.app_link}
                   className="footer__link"
@@ -115,7 +141,7 @@ const Footer = () => {
 
           {/* Resources */}
           <div className="footer__section">
-            <h3 className="footer__section-title">Resources</h3>
+            <h5 className="footer__section-title">Resources</h5>
             <ul className="footer__links">
               <li>
                 <a

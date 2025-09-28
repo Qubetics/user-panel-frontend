@@ -19,7 +19,7 @@ const Hero = ({ onDownloadClick }) => {
           <div className="hero__cta">
             <ButtonCustom
               regularBtn
-              label="Become Node Provider"
+              label="Become Node Operator"
               onClick={() => navigate("/register")}
             />
             <ButtonCustom
