@@ -211,15 +211,21 @@ const Register = () => {
         <div className="register-left">
           <h2>Registration Process </h2>
           <div className="process-card">
-            <h3>Step 1: How to install</h3>
+            <h3>
+              Step 1: Run the script and follow the steps mentioned in gitbook{" "}
+              <span style={{ color: "red" }}>*</span>
+            </h3>
             <div className="process-card_inner">
-              <a
-                href={import.meta.env.VITE_GITBOOK_LINK}
-                target="_blank"
-                rel="noopener"
-              >
-                Gitbook link
-              </a>
+              <p>
+                <a
+                  href={import.meta.env.VITE_GITBOOK_LINK}
+                  target="_blank"
+                  rel="noopener"
+                >
+                  Gitbook link
+                </a>
+              </p>
+              <p>After running the script follow the step 2 and step 3</p>
             </div>
           </div>
           <div className="process-card">
