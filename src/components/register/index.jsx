@@ -212,11 +212,37 @@ const Register = () => {
           <h2>Registration Process </h2>
           <div className="process-card">
             <h3>
-              Step 1: Run the script and follow the steps mentioned in gitbook{" "}
+              Step 1: Run the script and follow the steps mentioned in{" "}
+              <a
+                href="https://qubetics.gitbook.io/dvpn-user-panel/"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: "white" }}
+              >
+                gitbook
+              </a>{" "}
               <span style={{ color: "red" }}>*</span>
             </h3>
             <div className="process-card_inner">
               <p>
+                Run the provided setup script to initialize your own DVPN node.{" "}
+                <a
+                  href="https://qubetics.gitbook.io/dvpn-user-panel/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block underline"
+                  style={{ color: "white" }}
+                >
+                  (Guide Link)
+                </a>
+              </p>
+              <br></br>
+              <p>
+                After running the script, continue with <strong>Step 2</strong>{" "}
+                and <strong>Step 3</strong> in the guide.
+              </p>
+
+              {/* <p>
                 <a
                   href={import.meta.env.VITE_GITBOOK_LINK}
                   target="_blank"
@@ -225,7 +251,7 @@ const Register = () => {
                   Gitbook link
                 </a>
               </p>
-              <p>After running the script follow the step 2 and step 3</p>
+              <p>After running the script follow the step 2 and step 3</p> */}
             </div>
           </div>
           <div className="process-card">
