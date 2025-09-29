@@ -22,11 +22,11 @@ const Hero = ({ onDownloadClick }) => {
               label="Become Node Operator"
               onClick={() => navigate("/register")}
             />
-            <ButtonCustom
-              regularBtn
-              label="Become Service Provider"
-              onClick={() => window.open(env.provider_api, "_blank")}
-            />
+            {/* <ButtonCustom
+                regularBtn
+                label="Become Service Provider"
+                onClick={() => window.open(env.provider_api, "_blank")}
+              /> */}
             <ButtonCustom
               regularBtn
               label="Download dVPN App"
