@@ -15,6 +15,7 @@ import { useIsLoggedIn } from "../../Context/LoggedInContext";
 import {
   computePubKey,
   formatDuration,
+  getValueWithUnit,
   progressbar,
 } from "../../utils/Helper/CommonHelper";
 import { env } from "../../Constant/envConstants";
@@ -311,8 +312,7 @@ const Register = () => {
                   {planList.map((plan) => (
                     <option key={plan.id} value={JSON.stringify(plan)}>
                       {plan.prices.length > 0
-                        ? `${plan.prices[0].quote_value
-                        } ${plan.prices[0].denom.toUpperCase()}/month`
+                        ? `${getValueWithUnit(plan.prices[0]?.quote_value)} ${plan.prices[0].denom.toUpperCase()}/month`
                         : `Plan ${plan.id}`}
                     </option>
                   ))}

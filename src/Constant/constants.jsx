@@ -1,3 +1,5 @@
+import BigNumber from "bignumber.js";
+
 export const apiMethods = {
     GET: "get",
     POST: "post",
@@ -14,6 +16,8 @@ export const NODE_FAILED="Node request failed!";
 export const message={
     app_store_coming:"Coming Soon"
 };
+
+export const WEI = new BigNumber(10 ** 18);
 
 export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
