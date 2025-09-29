@@ -111,10 +111,9 @@ const Register = () => {
     if (!nodeAddress.trim()) return toast.error("Node Address is required");
     if (chooseAction === "Link" && !choosePlan)
       return toast.error("Please choose a plan");
-    if (!chooseAction)
-      return toast.error("Please choose an action");
-    if(email){
-      if(!emailRegex.test(email)){
+    if (!chooseAction) return toast.error("Please choose an action");
+    if (email) {
+      if (!emailRegex.test(email)) {
         return toast.error("Please enter the valid email address");
       }
     }
@@ -128,12 +127,12 @@ const Register = () => {
     const extendedPlan =
       chooseAction === "Link"
         ? {
-          plan: `${choosePlan?.prices?.[0]?.quote_value} TICS/month`,
-          planId: choosePlan?.id,
-          provAddress: choosePlan?.prov_address,
-          bandwidth: choosePlan?.gigabytes,
-          hours: choosePlan?.hours,
-        }
+            plan: `${choosePlan?.prices?.[0]?.quote_value} TICS/month`,
+            planId: choosePlan?.id,
+            provAddress: choosePlan?.prov_address,
+            bandwidth: choosePlan?.gigabytes,
+            hours: choosePlan?.hours,
+          }
         : null;
 
     const body = {
@@ -157,12 +156,13 @@ const Register = () => {
         }
       );
       if (response) {
-        setMessageModal(response?.success ? message(response?.success) : response?.message);
+        setMessageModal(
+          response?.success ? message(response?.success) : response?.message
+        );
         setVisible(true);
       }
     } catch (error) {
-      console.log(error?.message, "error?.message");
-      setMessageModal(error?.message)
+      setMessageModal(error?.message);
       toast.error(error?.message);
     }
   };
@@ -181,7 +181,11 @@ const Register = () => {
       progressbarAction();
     }
   }, [authData, status, request]);
-
+  console.log(
+    env,
+    import.meta.env.VITE_GITBOOK_LINK,
+    "import.meta.env.VITE_GITBOOK_LINK"
+  );
   return (
     <div className="register-container">
       <div>
@@ -207,7 +211,19 @@ const Register = () => {
         <div className="register-left">
           <h2>Registration Process </h2>
           <div className="process-card">
-            <h3>Step 1: Connect Keplr Wallet</h3>
+            <h3>Step 1: How to install</h3>
+            <div className="process-card_inner">
+              <a
+                href={import.meta.env.VITE_GITBOOK_LINK}
+                target="_blank"
+                rel="noopener"
+              >
+                Gitbook link
+              </a>
+            </div>
+          </div>
+          <div className="process-card">
+            <h3>Step 2: Connect Keplr Wallet</h3>
             <div className="process-card_inner">
               Import your node wallet into Keplr and connect with the same
               wallet used during node setup. This ensures proper ownership
@@ -215,7 +231,7 @@ const Register = () => {
             </div>
           </div>
           <div className="process-card">
-            <h3>Step 2: Details Required to become a Node Operator</h3>
+            <h3>Step 3: Details Required to become a Node Operator</h3>
             <div className="process-card_inner">
               <strong>Set Operator Name</strong>:
               <p>
@@ -312,7 +328,9 @@ const Register = () => {
                   {planList.map((plan) => (
                     <option key={plan.id} value={JSON.stringify(plan)}>
                       {plan.prices.length > 0
-                        ? `${getValueWithUnit(plan.prices[0]?.quote_value)} ${plan.prices[0].denom.toUpperCase()}/month`
+                        ? `${getValueWithUnit(
+                            plan.prices[0]?.quote_value
+                          )} ${plan.prices[0].denom.toUpperCase()}/month`
                         : `Plan ${plan.id}`}
                     </option>
                   ))}
@@ -328,7 +346,7 @@ const Register = () => {
                 placeholder="Duration"
                 value={duration}
                 disabled={true}
-              // onChange={(e) => setEmail(e.target.value)}
+                // onChange={(e) => setEmail(e.target.value)}
               />
             </div>
           )}{" "}
@@ -340,7 +358,7 @@ const Register = () => {
                 placeholder="Bandwidth in bytes"
                 value={bandwidth}
                 disabled={true}
-              // onChange={(e) => setEmail(e.target.value)}
+                // onChange={(e) => setEmail(e.target.value)}
               />
             </div>
           )}
