@@ -22,17 +22,18 @@ const Hero = ({ onDownloadClick }) => {
               label="Become Node Operator"
               onClick={() => navigate("/register")}
             />
+            {/* <ButtonCustom
+                regularBtn
+                label="Become Service Provider"
+                onClick={() => window.open(env.provider_api, "_blank")}
+              /> */}
             <ButtonCustom
               regularBtn
-              label="Become Service Provider"
-              onClick={() => window.open(env.provider_api, "_blank")}
-            />
-            <ButtonCustom regularBtn label="Download dVPN App"
+              label="Download dVPN App"
               onClick={() => {
                 const section = document.getElementById("download-section");
                 section?.scrollIntoView({ behavior: "smooth" });
               }}
-
             />
           </div>
         </div>
