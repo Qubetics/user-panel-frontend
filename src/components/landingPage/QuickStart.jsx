@@ -9,14 +9,14 @@ const QuickStart = () => {
       id: 1,
       title: "Setup Node",
       description:
-        "Download the shell file, add your node info (IP, wallet, region), and follow the setup guide to get started.",
+        "Download the shell file, add your node info (IP, wallet, region), and follow the setup guide to get started",
       icon: <img src={NodeImage1} alt="" />,
     },
     {
       id: 2,
       title: " Deploy & Validate",
       description:
-        "Run the deployment script on your local machine or cloud server. We automatically check connectivity, bandwidth, and wallet address.",
+        "Run the deployment script on your local machine or cloud server. We automatically check connectivity, bandwidth, and wallet address",
       icon: <img src={NodeImage2} alt="" />,
     },
     {

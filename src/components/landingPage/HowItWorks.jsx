@@ -13,19 +13,19 @@ const HowItWorks = () => {
     {
       icon: downloanIcon,
       title: "Download the dVPN App",
-      description: "Get the Qubetics dVPN App and install it in seconds.",
+      description: "Get the Qubetics Wallet App and install it in seconds",
     },
     {
       icon: connectIcon,
       title: "Connect to a Node",
       description:
-        "Launch the app, choose a secure node from the global network, and connect.",
+        "Launch the app, choose a secure node from the global network, and connect",
     },
     {
       icon: browseIcon,
       title: " Browse Anonymously",
       description:
-        "You’re now protected — surf the web with privacy, freedom, and no restrictions.",
+        "You’re now protected — surf the web with privacy, freedom, and no restrictions",
     },
   ];
 
