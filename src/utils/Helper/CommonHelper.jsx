@@ -3,7 +3,9 @@ import sha3 from "js-sha3";
 import { arrayify } from "@ethersproject/bytes";
 import { serializeSignDoc } from "@cosmjs/launchpad";
 import { signatureToPubkey } from "@hanchon/signature-to-pubkey";
-import { PENDING, REJECTED } from '../../Constant/constants';
+import { PENDING, REJECTED, WEI } from '../../Constant/constants';
+import { env } from '../../Constant/envConstants';
+import BigNumber from 'bignumber.js';
 
 window.Buffer = Buffer;
 
@@ -103,6 +105,22 @@ export const progressbar = (status) => {
 export const toFirstCapital = (str) => {
   if (!str) return "";
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+};
+
+export const getValueWithUnit = (value, unit = env.currency) => {
+  let unitBn;
+  switch (unit) {
+    case env.currency:
+      unitBn = WEI;
+      break;
+    default:
+      unitBn = new BigNumber(1);
+  }
+
+  const valueBn = new BigNumber(value);
+  const valueCurr = valueBn.dividedBy(unitBn);
+  const valueStr = valueCurr.toFixed();
+  return valueStr;
 };
 
 
