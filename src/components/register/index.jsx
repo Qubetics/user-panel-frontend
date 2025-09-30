@@ -214,7 +214,7 @@ const Register = () => {
             <h3>
               Step 1: Run the script and follow the steps mentioned in{" "}
               <a
-                href="https://qubetics.gitbook.io/dvpn-user-panel/"
+                href={import.meta.env.VITE_GITBOOK_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ color: "white" }}
@@ -227,7 +227,7 @@ const Register = () => {
               <p>
                 Run the provided setup script to initialize your own DVPN node.{" "}
                 <a
-                  href="https://qubetics.gitbook.io/dvpn-user-panel/"
+                  href={import.meta.env.VITE_GITBOOK_LINK}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-block underline"
