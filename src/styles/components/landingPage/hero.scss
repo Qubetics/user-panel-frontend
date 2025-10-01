@@ -92,6 +92,16 @@
       margin-bottom: 30px;
       padding-inline: 20px;
     }
+    .hero__cta{
+     button{
+      min-width: 219px;
+      @media (max-width:480px) {
+       width: 190px;
+       margin:auto;
+       min-width: unset;
+      }
+     }
+    }
   }
 
   &__title {

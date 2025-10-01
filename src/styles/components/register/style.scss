@@ -214,10 +214,11 @@
       -webkit-mask-composite: xor;
       mask-composite: exclude;
       pointer-events: none; // ensures clicks go through
+      padding-left: 1px;
 
-      @media (max-width: 991px) {
-        padding: s(0.7); // border thickness
-      }
+      // @media (max-width: 991px) {
+      //   padding: s(0.7); // border thickness
+      // }
     }
 
     strong {
