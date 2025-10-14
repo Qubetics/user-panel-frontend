@@ -23,10 +23,14 @@ export default function CopyText({ text, copy }) {
   }, [copy]);
 
   return (
-    <div onClick={handleCopyClick}>
-      <Tooltip title={copied ? " Copied" : "Copy"} className="copyIconToolTip">
-        <div>{copied ? <CheckOutlined /> : <NewCopyIcon />}</div>
-      </Tooltip>
-    </div>
+    <Tooltip
+      title={copied ? " Copied" : "Copy"}
+      placement="bottom"
+      className="copyIconToolTip"
+    >
+      <div onClick={handleCopyClick}>
+        {copied ? <CheckOutlined /> : <NewCopyIcon />}
+      </div>
+    </Tooltip>
   );
 }

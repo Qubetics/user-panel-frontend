@@ -174,9 +174,11 @@ p {
   }
 
   .copyIconToolTip {
+    z-index: 999;
     margin-left: 6px;
     width: 16px;
     height: 16px;
+    position: relative;
 
     svg {
       width: 100%;

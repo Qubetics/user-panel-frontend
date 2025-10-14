@@ -111,7 +111,7 @@ const Register = () => {
     if (!nodeAddress.trim()) return toast.error("Node Address is required");
     if (chooseAction === "Link" && !choosePlan)
       return toast.error("Please choose a plan");
-    if (!chooseAction) return toast.error("Please choose an action");
+    if (!chooseAction) return toast.error("Please choose a Request Type");
     if (email) {
       if (!emailRegex.test(email)) {
         return toast.error("Please enter the valid email address");
@@ -267,14 +267,14 @@ const Register = () => {
             <div className="process-card_inner">
               <strong>Set Operator Name</strong>:
               <p>
-                Assign a unique operator name is optional.If you choose to add
-                one,this acts as your node’s identifier within the ecosystem.
+                Assign a unique operator name is optional. If you choose to add
+                one, this acts as your node’s identifier within the ecosystem.
               </p>
               <br />
               <strong>Email Address</strong>:
               <p>
-                Provide an email address is optional.If you choose to add
-                one,you'll receive updates on approval, rejection, or any
+                Provide an email address is optional. If you choose to add
+                one, you'll receive updates on approval, rejection, or any
                 follow-up requests regarding your node registration.
               </p>{" "}
               <br />

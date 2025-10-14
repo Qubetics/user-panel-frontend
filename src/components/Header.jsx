@@ -12,6 +12,7 @@ import { useIsLoggedIn } from "../Context/LoggedInContext";
 import useGetApi from "../Hooks/useGetApi";
 import "../styles/components/header/header.scss";
 import { api, toFirstCapital } from "../utils/Helper/CommonHelper";
+import { Tooltip } from "antd";
 
 const Header = () => {
   const navigate = useNavigate();
