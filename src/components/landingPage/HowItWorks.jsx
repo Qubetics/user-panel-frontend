@@ -12,7 +12,7 @@ const HowItWorks = () => {
   const steps = [
     {
       icon: downloanIcon,
-      title: "Download the dVPN App",
+      title: "Download the Wallet App",
       description: "Get the Qubetics Wallet App and install it in seconds",
     },
     {
