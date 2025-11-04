@@ -1,11 +1,11 @@
-import { Buffer } from 'buffer';
+import { Buffer } from "buffer";
 import sha3 from "js-sha3";
 import { arrayify } from "@ethersproject/bytes";
 import { serializeSignDoc } from "@cosmjs/launchpad";
 import { signatureToPubkey } from "@hanchon/signature-to-pubkey";
-import { PENDING, REJECTED, WEI } from '../../Constant/constants';
-import { env } from '../../Constant/envConstants';
-import BigNumber from 'bignumber.js';
+import { PENDING, REJECTED, WEI } from "../../Constant/constants";
+import { env } from "../../Constant/envConstants";
+import BigNumber from "bignumber.js";
 
 window.Buffer = Buffer;
 
@@ -29,29 +29,21 @@ function messageToAminoTransaction(signer, data) {
     ],
     memo: "",
   };
-};
+}
 
 export const computePubKey = (address, signature, signMessage) => {
   try {
     // Encode the message into amino format
-    const aminoEncoded = messageToAminoTransaction(
-      address,
-      Buffer.from(signMessage).toString("base64")
-    );
+    const aminoEncoded = messageToAminoTransaction(address, Buffer.from(signMessage).toString("base64"));
     const serialized = serializeSignDoc(aminoEncoded);
 
     // Hash the amino message that was signed
     const hashed = sha3.keccak_256(arrayify(serialized));
 
     // Compare signature
-    const signatureToCompare = `0x${Buffer.from(signature, "base64").toString(
-      "hex"
-    )}`;
+    const signatureToCompare = `0x${Buffer.from(signature, "base64").toString("hex")}`;
 
-    const pubkeyComputed = signatureToPubkey(
-      signatureToCompare,
-      Buffer.from(hashed, "hex")
-    );
+    const pubkeyComputed = signatureToPubkey(signatureToCompare, Buffer.from(hashed, "hex"));
     return pubkeyComputed;
   } catch (err) {
     console.error("err", err);
@@ -97,7 +89,7 @@ export const formatDuration = (hours) => {
 };
 
 export const progressbar = (status) => {
-  if(!status) return false;
+  if (!status) return false;
   if (status === PENDING || status === REJECTED) return false;
   return true;
 };
@@ -123,4 +115,8 @@ export const getValueWithUnit = (value, unit = env.currency) => {
   return valueStr;
 };
 
-
+export const calculateBandwidth = (plan) => {
+  if (!plan?.gigabytes) return "";
+  const gb = Math.round(plan.gigabytes / (1024 * 1024 * 1024));
+  return `${gb} GB`;
+};
