@@ -4,10 +4,16 @@ import "../../styles/components/register/style.scss";
 import { NotificationModal } from "./ResponseTabs";
 import useGetApi from "../../Hooks/useGetApi";
 import { apiUrls } from "../../Constant/apiUrls";
-import { apiMethods, emailRegex, NODE_FAILED, NODE_REQUEST } from "../../Constant/constants";
+import { apiMethods, emailRegex, NODE_FAILED, NODE_REQUEST, STATUS } from "../../Constant/constants";
 import { toast } from "react-toastify";
 import { useIsLoggedIn } from "../../Context/LoggedInContext";
-import { computePubKey, formatDuration, getValueWithUnit, progressbar } from "../../utils/Helper/CommonHelper";
+import {
+  calculateBandwidth,
+  computePubKey,
+  formatDuration,
+  getValueWithUnit,
+  progressbar,
+} from "../../utils/Helper/CommonHelper";
 import { env } from "../../Constant/envConstants";
 
 const Register = () => {
@@ -51,7 +57,7 @@ const Register = () => {
     if (e.target.value !== "SELECT") {
       const plan = JSON.parse(e.target.value);
       setChoosePlan(plan);
-      setBandwidth(Math.round(plan?.gigabytes / (1024 * 1024 * 1024)) + " GB" || "");
+      setBandwidth(calculateBandwidth(plan));
       setDuration(formatDuration(plan?.hours));
     } else {
       setChoosePlan("");
@@ -61,7 +67,7 @@ const Register = () => {
   };
 
   const handleProviderChange = (e) => {
-    e.target.value ? setChooseProvider(e.target.value) : setChooseProvider("");
+    setChooseProvider(e.target.value);
   };
   const handleLinkChange = (e) => {
     setChooseAction(e.target.value);
@@ -74,13 +80,13 @@ const Register = () => {
 
   const getAllPlan = async () => {
     const result = await useGetApi(apiUrls.getAllPlan(chooseProvider), apiMethods.GET);
-    const list = result?.data?.data?.filter((item) => item.status === "active") || [];
+    const list = result?.data?.data?.filter((item) => item.status === STATUS.ACTIVE) || [];
     setPlanList(list);
   };
 
   const getProviderList = async () => {
     const result = await useGetApi(apiUrls.getAllProviders, apiMethods.GET);
-    const activeProviders = result?.data?.data?.providers?.filter((item) => item.status === "active") || [];
+    const activeProviders = result?.data?.data?.providers?.filter((item) => item.status === STATUS.ACTIVE) || [];
 
     setProviderList(activeProviders);
   };
