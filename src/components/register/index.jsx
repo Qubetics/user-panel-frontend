@@ -169,7 +169,7 @@ const Register = () => {
       progressbarAction();
     }
   }, [authData, status, request]);
-  console.log(env, import.meta.env.VITE_GITBOOK_LINK, "import.meta.env.VITE_GITBOOK_LINK");
+
   return (
     <div className='register-container'>
       <div>
