@@ -68,6 +68,7 @@ const Register = () => {
 
   const handleProviderChange = (e) => {
     setChooseProvider(e.target.value);
+    setChoosePlan("");
   };
   const handleLinkChange = (e) => {
     setChooseAction(e.target.value);
