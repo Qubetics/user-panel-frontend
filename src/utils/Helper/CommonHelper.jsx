@@ -99,7 +99,7 @@ export const toFirstCapital = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 };
 
-export const getValueWithUnit = (value, unit = env.currency) => {
+export const getValueWithUnit = (value, noDivision = false, unit = env.currency) => {
   let unitBn;
   switch (unit) {
     case env.currency:
@@ -110,7 +110,7 @@ export const getValueWithUnit = (value, unit = env.currency) => {
   }
 
   const valueBn = new BigNumber(value);
-  const valueCurr = valueBn.dividedBy(unitBn);
+  const valueCurr = noDivision ? valueBn : valueBn.dividedBy(unitBn);
   const valueStr = valueCurr.toFixed();
   return valueStr;
 };

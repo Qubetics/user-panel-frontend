@@ -360,7 +360,10 @@ const Register = () => {
                   {planList.map((plan) => (
                     <option key={plan.id} value={JSON.stringify(plan)}>
                       {plan.prices.length > 0
-                        ? `${getValueWithUnit(plan.prices[0]?.quote_value)} ${plan.prices[0].denom.toUpperCase()}/month`
+                        ? `${getValueWithUnit(
+                            plan.prices[0]?.quote_value,
+                            true
+                          )} ${plan.prices[0].denom.toUpperCase()}/month`
                         : `Plan ${plan.id}`}
                     </option>
                   ))}
