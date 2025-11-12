@@ -15,6 +15,8 @@ import {
   progressbar,
 } from "../../utils/Helper/CommonHelper";
 import { env } from "../../Constant/envConstants";
+import { Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const Register = () => {
   const [visible, setVisible] = useState(false);
@@ -31,6 +33,7 @@ const Register = () => {
   const [messageModal, setMessageModal] = useState("");
   const [duration, setDuration] = useState("");
   const [bandwidth, setBandwidth] = useState("");
+  const [planLoading, setPlanLoading] = useState(false);
 
   const chainId = env.chainId;
   const [activeline, setActiveline] = useState();
@@ -69,7 +72,9 @@ const Register = () => {
   const handleProviderChange = (e) => {
     setChooseProvider(e.target.value);
     setChoosePlan("");
+    setPlanList([]);
   };
+
   const handleLinkChange = (e) => {
     setChooseAction(e.target.value);
     if (e.target.value === "Unlink") {
@@ -80,16 +85,24 @@ const Register = () => {
   };
 
   const getAllPlan = async () => {
+    setPlanLoading(true);
     const result = await useGetApi(apiUrls.getAllPlan(chooseProvider), apiMethods.GET);
+
     const list = result?.data?.data?.filter((item) => item.status === STATUS.ACTIVE) || [];
-    setPlanList(list);
+
+    const sortedList = [...list].sort((a, b) => {
+      const aValue = a?.prices?.[0]?.quote_value || 0;
+      const bValue = b?.prices?.[0]?.quote_value || 0;
+      return bValue - aValue;
+    });
+
+    setPlanList(sortedList);
+    setPlanLoading(false);
   };
 
   const getProviderList = async () => {
-    const result = await useGetApi(apiUrls.getAllProviders, apiMethods.GET);
-    const activeProviders = result?.data?.data?.providers?.filter((item) => item.status === STATUS.ACTIVE) || [];
-
-    setProviderList(activeProviders);
+    const result = await useGetApi(apiUrls.getProvidersWithPlans, apiMethods.GET);
+    setProviderList(result?.data?.data?.providers);
   };
 
   const handleClose = () => {
@@ -168,7 +181,9 @@ const Register = () => {
   }, []);
 
   useEffect(() => {
-    getAllPlan();
+    if (chooseProvider) {
+      getAllPlan();
+    }
   }, [chooseProvider]);
 
   useEffect(() => {
@@ -338,18 +353,27 @@ const Register = () => {
                 Choose Provider <span className='astrick'>*</span>
               </label>
               <div className='custom-select'>
-                <select value={chooseProvider ? chooseProvider : ""} onChange={handleProviderChange}>
+                <select
+                  value={chooseProvider ? chooseProvider : ""}
+                  onChange={handleProviderChange}
+                  disabled={planLoading}
+                >
                   <option value='SELECT'>-- Select a Provider --</option>
-                  {providerList.map((provider) => (
-                    <option key={provider.address} value={provider.address}>
-                      {provider.address}
+                  {providerList.map((provider, index) => (
+                    <option key={index} value={provider}>
+                      {provider}
                     </option>
                   ))}
                 </select>
               </div>
+              {planLoading && (
+                <span className='astrick'>
+                  <Spin indicator={<LoadingOutlined spin />} size='small' />
+                </span>
+              )}
             </div>
           )}
-          {chooseAction === "Link" && chooseProvider && (
+          {chooseAction === "Link" && chooseProvider && !planLoading && (
             <div className='form-group'>
               <label>
                 Choose Plan <span className='astrick'>*</span>
@@ -360,10 +384,7 @@ const Register = () => {
                   {planList.map((plan) => (
                     <option key={plan.id} value={JSON.stringify(plan)}>
                       {plan.prices.length > 0
-                        ? `${getValueWithUnit(
-                            plan.prices[0]?.quote_value,
-                            true
-                          )} ${plan.prices[0].denom.toUpperCase()}/month`
+                        ? `${getValueWithUnit(plan.prices[0]?.quote_value)} ${plan.prices[0].denom.toUpperCase()}/month`
                         : `Plan ${plan.id}`}
                     </option>
                   ))}
