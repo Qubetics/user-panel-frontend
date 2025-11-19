@@ -24,3 +24,8 @@ export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const STATUS = {
   ACTIVE: "active",
 };
+
+export const navTabs = [
+  { label: "Request", path: "/register" },
+  { label: "Request History", path: "/request-history" },
+];
