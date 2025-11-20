@@ -21,6 +21,7 @@ import {
   formatDuration,
   getValueWithUnit,
   progressbar,
+  truncateValue,
 } from "../../utils/Helper/CommonHelper";
 import { env } from "../../Constant/envConstants";
 import { Spin } from "antd";
@@ -111,6 +112,13 @@ const Register = () => {
   const getProviderList = async () => {
     const result = await useGetApi(apiUrls.getProvidersWithPlans, apiMethods.GET);
     setProviderList(result?.data?.data?.providers);
+  };
+
+  const getPrefillValues = async () => {
+    const result = await useGetApi(apiUrls.getLinkedNodeDetails(authData), apiMethods.GET);
+    setOrgName(result?.data?.data?.data?.orgName);
+    setEmail(result?.data?.data?.data?.email);
+    setNodeAddress(result?.data?.data?.data?.nodeAddress);
   };
 
   const handleClose = () => {
@@ -204,6 +212,7 @@ const Register = () => {
   useEffect(() => {
     if (status === APPROVED) {
       setChooseAction(REQUEST_TYPE.UNLINK);
+      getPrefillValues();
     }
   }, [status]);
 
@@ -230,6 +239,7 @@ const Register = () => {
         <div className="register-left">
           <h2>Registration Process </h2>
           <div className="process-card">
+            <div className="process-card_inner">
             <h3>
               Step 1: Run the script and follow the steps mentioned in{" "}
               <a
@@ -240,9 +250,8 @@ const Register = () => {
               >
                 gitbook
               </a>{" "}
-              <span style={{ color: "red" }}>*</span>
+              {/* <span style={{ color: "red" }}>*</span> */}
             </h3>
-            <div className="process-card_inner">
               <p>
                 Run the provided setup script to initialize your own DVPN node.{" "}
                 <a
@@ -250,12 +259,11 @@ const Register = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-block underline"
-                  style={{ color: "white" }}
+                  style={{ color: "white", textDecoration: "underline" }}
                 >
-                  (Gitbook Link)
+                  Gitbook Link
                 </a>
               </p>
-              <br></br>
               <p>
                 After running the script, continue with <strong>Step 2</strong> and <strong>Step 3</strong> in the
                 guide.
@@ -274,15 +282,15 @@ const Register = () => {
             </div>
           </div>
           <div className="process-card">
-            <h3>Step 2: Connect Keplr Wallet</h3>
             <div className="process-card_inner">
+            <h3>Step 2: Connect Keplr Wallet</h3>
               Import your node wallet into Keplr and connect with the same wallet used during node setup. This ensures
               proper ownership validation and links your wallet address to the deployed node.
             </div>
           </div>
           <div className="process-card">
-            <h3>Step 3: Details Required to become a Node Operator</h3>
             <div className="process-card_inner">
+            <h3>Step 3: Details Required to become a Node Operator</h3>
               <strong>Set Operator Name</strong>:
               <p>Assign a unique operator name. This acts as your node’s identifier within the ecosystem.</p>
               <br />
@@ -309,7 +317,6 @@ const Register = () => {
                 When you choose a hosting plan, its predefined bandwidth, duration, and platform fees are automatically
                 applied to your node, so no manual setup is needed.
               </p>{" "}
-              <br />
             </div>
           </div>
         </div>
@@ -368,15 +375,11 @@ const Register = () => {
                 Choose Provider <span className="astrick">*</span>
               </label>
               <div className="custom-select">
-                <select
-                  value={chooseProvider ? chooseProvider : ""}
-                  onChange={handleProviderChange}
-                  disabled={planLoading}
-                >
+                <select value={chooseProvider} onChange={handleProviderChange} disabled={planLoading}>
                   <option value="SELECT">-- Select a Provider --</option>
-                  {providerList.map((provider, index) => (
-                    <option key={index} value={provider}>
-                      {provider}
+                  {providerList?.map((provider, index) => (
+                    <option key={index} value={provider?.providerAddress}>
+                      {truncateValue(provider?.providerAddress) + ` (${provider?.name})`}
                     </option>
                   ))}
                 </select>
