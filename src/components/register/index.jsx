@@ -21,6 +21,7 @@ import {
   formatDuration,
   getValueWithUnit,
   progressbar,
+  truncateValue,
 } from "../../utils/Helper/CommonHelper";
 import { env } from "../../Constant/envConstants";
 import { Spin } from "antd";
@@ -111,6 +112,13 @@ const Register = () => {
   const getProviderList = async () => {
     const result = await useGetApi(apiUrls.getProvidersWithPlans, apiMethods.GET);
     setProviderList(result?.data?.data?.providers);
+  };
+
+  const getPrefillValues = async () => {
+    const result = await useGetApi(apiUrls.getLinkedNodeDetails(authData), apiMethods.GET);
+    setOrgName(result?.data?.data?.data?.orgName);
+    setEmail(result?.data?.data?.data?.email);
+    setNodeAddress(result?.data?.data?.data?.nodeAddress);
   };
 
   const handleClose = () => {
@@ -204,6 +212,7 @@ const Register = () => {
   useEffect(() => {
     if (status === APPROVED) {
       setChooseAction(REQUEST_TYPE.UNLINK);
+      getPrefillValues();
     }
   }, [status]);
 
@@ -368,15 +377,11 @@ const Register = () => {
                 Choose Provider <span className="astrick">*</span>
               </label>
               <div className="custom-select">
-                <select
-                  value={chooseProvider ? chooseProvider : ""}
-                  onChange={handleProviderChange}
-                  disabled={planLoading}
-                >
+                <select value={chooseProvider} onChange={handleProviderChange} disabled={planLoading}>
                   <option value="SELECT">-- Select a Provider --</option>
-                  {providerList.map((provider, index) => (
-                    <option key={index} value={provider}>
-                      {provider}
+                  {providerList?.map((provider, index) => (
+                    <option key={index} value={provider?.providerAddress}>
+                      {truncateValue(provider?.providerAddress) + ` (${provider?.name})`}
                     </option>
                   ))}
                 </select>

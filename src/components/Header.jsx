@@ -16,8 +16,7 @@ import { api, toFirstCapital } from "../utils/Helper/CommonHelper";
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { authData, setAuthData, status, setStatus, setRequest } =
-    useIsLoggedIn();
+  const { authData, setAuthData, status, setStatus, setRequest } = useIsLoggedIn();
   const [balance, setBalance] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false); // menu state
   const hasHeaderActions = true; // define this, or make it conditional based on route
@@ -34,10 +33,7 @@ const Header = () => {
 
   const getStatus = async (address) => {
     try {
-      const { success, data } = await useGetApi(
-        apiUrls.getStatus(address),
-        apiMethods.GET
-      );
+      const { success, data } = await useGetApi(apiUrls.getStatus(address), apiMethods.GET);
       if (!success) {
         console.error("No node address in the request");
         return;
@@ -77,8 +73,7 @@ const Header = () => {
     if (!window.keplr) {
       if (/Android/i.test(navigator.userAgent)) {
         // Android
-        window.location.href =
-          "intent://wc#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;";
+        window.location.href = "intent://wc#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;";
       } else if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
         // iOS
         window.location.href = "keplrwallet://";
@@ -120,6 +115,7 @@ const Header = () => {
     setAuthData("");
     setStatus("");
     toast.success("Wallet disconnected");
+    navigate("/");
   };
 
   // ✅ toggle menu function
@@ -136,28 +132,18 @@ const Header = () => {
             navigate("/");
           }}
         >
-          <img
-            src={isMobile ? mobLogo : Logo}
-            alt="Logo"
-            className={isMobile ? "mobile-logo" : "web-logo"}
-          />
+          <img src={isMobile ? mobLogo : Logo} alt="Logo" className={isMobile ? "mobile-logo" : "web-logo"} />
         </div>
         <div className={`header__action ${isMenuOpen ? "active" : ""}`}>
           {location.pathname !== "/" ? (
             !authData ? (
-              <ButtonCustom
-                regularBtn
-                label="Connect Keplr Wallet"
-                onClick={handleClick}
-              />
+              <ButtonCustom regularBtn label="Connect Keplr Wallet" onClick={handleClick} />
             ) : (
               <div
                 className={`header__nav ${isMenuOpen ? "active" : ""}`}
                 style={{ display: "flex", alignItems: "center", gap: "10px" }}
               >
-                <span className="gradientbrder">
-                  {Number(balance || 0).toFixed(2)} TICS
-                </span>
+                <span className="gradientbrder">{Number(balance || 0).toFixed(2)} TICS</span>
                 {authData && status && (
                   <ButtonCustom
                     className={getStatusClass(status) + " cursorIntial"}
@@ -180,21 +166,13 @@ const Header = () => {
                   </div>
                   <CopyText text={authData} copy={copied} />
                 </div>
-                <ButtonCustom
-                  regularBtn
-                  label="Logout"
-                  onClick={handleLogout}
-                />
+                <ButtonCustom regularBtn label="Logout" onClick={handleLogout} />
               </div>
             )
           ) : null}
         </div>
         {hasHeaderActions && location.pathname != "/" && (
-          <button
-            className={`hamburger ${isMenuOpen ? "active" : ""}`}
-            onClick={toggleMenu}
-            aria-label="Toggle menu"
-          >
+          <button className={`hamburger ${isMenuOpen ? "active" : ""}`} onClick={toggleMenu} aria-label="Toggle menu">
             <span></span>
             <span></span>
             <span></span>

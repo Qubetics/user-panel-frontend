@@ -120,3 +120,9 @@ export const calculateBandwidth = (plan) => {
   const gb = Math.round(plan.gigabytes / (1024 * 1024 * 1024));
   return `${gb} GB`;
 };
+
+export const truncateValue = (value, start = 7, end = 7) => {
+  if (!value) return "";
+  if (value.length <= start + end) return value;
+  return `${value.slice(0, start)}...${value.slice(-end)}`;
+};
