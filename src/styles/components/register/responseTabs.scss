@@ -15,34 +15,34 @@
 
 
   &__content {
-    background: #080808;
-    padding: 2rem 1.5rem;
-    border-radius: 12px;
+    background: #121212;
+    // padding: 2rem 1.5rem;
+    border: 1px solid #3B393C;
+    border-radius: 14px;
     width: 100%;
     max-width: 500px; // ✅ responsive width
     min-height: 200px;
-    box-shadow: 0 4.5px 20px rgba(255, 255, 255, 0.3);
+    // box-shadow: 0 4.5px 20px rgba(255, 255, 255, 0.3);
     text-align: center;
     box-sizing: border-box;
     position: relative;
 
     &__heading {
-      margin: 1.5rem 0;
-      font-size: 1.5rem;
+      margin-top: s(30);
+      margin-bottom: 20px;
+      font-size: s(24);
 
       @media (max-width: 480px) {
-        font-size: 1.25rem;
         margin: 1rem 0;
       }
     }
 
     &__message {
-      font-size: 1.12rem;
-      margin-bottom: 2rem;
+      font-size: s(17);
+      margin-bottom: s(40);
 
       @media (max-width: 480px) {
-        font-size: 1rem;
-        margin-bottom: 1.5rem;
+        margin-bottom: s(12);
       }
     }
   }
