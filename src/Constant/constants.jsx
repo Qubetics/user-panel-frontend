@@ -7,8 +7,13 @@ export const apiMethods = {
   DELETE: "delete",
 };
 
+export const APPROVED = "APPROVED";
 export const PENDING = "PENDING";
 export const REJECTED = "REJECTED";
+export const REQUEST_TYPE = {
+  LINK: "Link",
+  UNLINK: "Unlink",
+};
 
 export const NODE_REQUEST = "Node request sent successfully!";
 export const NODE_FAILED = "Node request failed!";

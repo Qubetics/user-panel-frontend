@@ -4,7 +4,15 @@ import "../../styles/components/register/style.scss";
 import { NotificationModal } from "./ResponseTabs";
 import useGetApi from "../../Hooks/useGetApi";
 import { apiUrls } from "../../Constant/apiUrls";
-import { apiMethods, emailRegex, NODE_FAILED, NODE_REQUEST, STATUS } from "../../Constant/constants";
+import {
+  apiMethods,
+  APPROVED,
+  emailRegex,
+  NODE_FAILED,
+  NODE_REQUEST,
+  REQUEST_TYPE,
+  STATUS,
+} from "../../Constant/constants";
 import { toast } from "react-toastify";
 import { useIsLoggedIn } from "../../Context/LoggedInContext";
 import {
@@ -119,6 +127,7 @@ const Register = () => {
 
   const postNodeRequest = async () => {
     if (!authData) return toast.error("Connect your wallet first");
+    if (!orgName.trim()) return toast.error("Operator name is required");
     if (!nodeAddress.trim()) return toast.error("Node Address is required");
     if (chooseAction === "Link" && !choosePlan) return toast.error("Please choose a plan");
     if (!chooseAction) return toast.error("Please choose an action");
@@ -147,7 +156,7 @@ const Register = () => {
 
     const body = {
       orgName: orgName || undefined,
-      emailAddress: email || undefined,
+      emailAddress: email?.toLowerCase() || undefined,
       nodeAddress,
       providerAddress: chooseProvider,
       ...(chooseAction === "Link" && { choosePlan: extendedPlan }),
@@ -192,52 +201,58 @@ const Register = () => {
     }
   }, [authData, status, request]);
 
+  useEffect(() => {
+    if (status === APPROVED) {
+      setChooseAction(REQUEST_TYPE.UNLINK);
+    }
+  }, [status]);
+
   return (
-    <div className='register-container'>
+    <div className="register-container">
       <div>
         <h3>Register as Node Operator</h3>
       </div>
       {/* Header */}
-      <div className='stepper'>
-        <div className='step-item active'>
-          <div className='step-circle'>1</div>
-          <span className='step-label'>Register Node</span>
+      <div className="stepper">
+        <div className="step-item active">
+          <div className="step-circle">1</div>
+          <span className="step-label">Register Node</span>
         </div>
         <div className={`step-line ${activeline ? "active-line" : ""}`}></div>
         <div className={`step-item ${activeline ? "active" : ""}`}>
-          <div className='step-circle'>2</div>
-          <span className='step-label'>Node {request ? `${request}ed` : "Linked"}</span>
+          <div className="step-circle">2</div>
+          <span className="step-label">Node {request ? `${request}ed` : "Linked"}</span>
         </div>
       </div>
 
-      <div className='register-content'>
+      <div className="register-content">
         {/* Left Panel */}
-        <div className='register-left'>
+        <div className="register-left">
           <h2>Registration Process </h2>
-          <div className='process-card'>
+          <div className="process-card">
             <h3>
               Step 1: Run the script and follow the steps mentioned in{" "}
               <a
                 href={import.meta.env.VITE_GITBOOK_LINK}
-                target='_blank'
-                rel='noopener noreferrer'
+                target="_blank"
+                rel="noopener noreferrer"
                 style={{ color: "white" }}
               >
                 gitbook
               </a>{" "}
               <span style={{ color: "red" }}>*</span>
             </h3>
-            <div className='process-card_inner'>
+            <div className="process-card_inner">
               <p>
                 Run the provided setup script to initialize your own DVPN node.{" "}
                 <a
                   href={import.meta.env.VITE_GITBOOK_LINK}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='inline-block underline'
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block underline"
                   style={{ color: "white" }}
                 >
-                  (Guide Link)
+                  (Gitbook Link)
                 </a>
               </p>
               <br></br>
@@ -258,26 +273,23 @@ const Register = () => {
               <p>After running the script follow the step 2 and step 3</p> */}
             </div>
           </div>
-          <div className='process-card'>
+          <div className="process-card">
             <h3>Step 2: Connect Keplr Wallet</h3>
-            <div className='process-card_inner'>
+            <div className="process-card_inner">
               Import your node wallet into Keplr and connect with the same wallet used during node setup. This ensures
               proper ownership validation and links your wallet address to the deployed node.
             </div>
           </div>
-          <div className='process-card'>
+          <div className="process-card">
             <h3>Step 3: Details Required to become a Node Operator</h3>
-            <div className='process-card_inner'>
+            <div className="process-card_inner">
               <strong>Set Operator Name</strong>:
-              <p>
-                Assign a unique operator name is optional.If you choose to add one,this acts as your node’s identifier
-                within the ecosystem.
-              </p>
+              <p>Assign a unique operator name. This acts as your node’s identifier within the ecosystem.</p>
               <br />
               <strong>Email Address</strong>:
               <p>
-                Provide an email address is optional.If you choose to add one,you'll receive updates on approval,
-                rejection, or any follow-up requests regarding your node registration.
+                Providing an email address is optional however, if you choose to include it, you will receive updates
+                regarding the status of your node registration.
               </p>{" "}
               <br />
               <strong>Node Address</strong>:
@@ -294,9 +306,8 @@ const Register = () => {
               <br />
               <strong>Choose Plan</strong>:
               <p>
-                when choose a hosting plan from Qubetics, each plan comes with predefined bandwidth, duration, and
-                platform fees. Once you select a plan, these details are automatically applied to your node, so you
-                don’t need to set them manually.
+                When you choose a hosting plan, its predefined bandwidth, duration, and platform fees are automatically
+                applied to your node, so no manual setup is needed.
               </p>{" "}
               <br />
             </div>
@@ -304,61 +315,65 @@ const Register = () => {
         </div>
 
         {/* Right Panel */}
-        <div className='register-right'>
+        <div className="register-right">
           <h2>Join Qubetics dVPN</h2>
-          <div className='form-group'>
-            <label>Operator Name</label>
+          <div className="form-group">
+            <label>
+              Operator Name <span className="astrick">*</span>
+            </label>
             <input
-              type='text'
-              placeholder='Enter operator name'
+              type="text"
+              placeholder="Enter operator name"
               value={orgName}
               onChange={(e) => setOrgName(e.target.value)}
             />
           </div>
-          <div className='form-group'>
+          <div className="form-group">
             <label>Email Address</label>
             <input
-              type='text'
-              placeholder='Enter your email address'
+              type="text"
+              placeholder="Enter your email address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <div className='form-group'>
+          <div className="form-group">
             <label>
-              Node Address <span className='astrick'>*</span>
+              Node Address <span className="astrick">*</span>
             </label>
             <input
-              type='text'
-              placeholder='Enter node address'
+              type="text"
+              placeholder="Enter node address"
               value={nodeAddress}
               onChange={(e) => setNodeAddress(e.target.value)}
             />
           </div>
-          <div className='form-group '>
+          <div className="form-group ">
             <label>
-              Request Type <span className='astrick'>*</span>
+              Request Type <span className="astrick">*</span>
             </label>
-            <div className='custom-select'>
+            <div className="custom-select">
               <select value={chooseAction} onChange={handleLinkChange}>
-                <option value=''>-- Select Action --</option>
-                <option value='Link'>Link Node</option>
-                <option value='Unlink'>Unlink Node</option>
+                <option value="">-- Select Action --</option>
+                <option value="Link" disabled={status === APPROVED}>
+                  Link Node
+                </option>
+                <option value="Unlink">Unlink Node</option>
               </select>
             </div>
           </div>
           {chooseAction === "Link" && (
-            <div className='form-group'>
+            <div className="form-group">
               <label>
-                Choose Provider <span className='astrick'>*</span>
+                Choose Provider <span className="astrick">*</span>
               </label>
-              <div className='custom-select'>
+              <div className="custom-select">
                 <select
                   value={chooseProvider ? chooseProvider : ""}
                   onChange={handleProviderChange}
                   disabled={planLoading}
                 >
-                  <option value='SELECT'>-- Select a Provider --</option>
+                  <option value="SELECT">-- Select a Provider --</option>
                   {providerList.map((provider, index) => (
                     <option key={index} value={provider}>
                       {provider}
@@ -367,20 +382,20 @@ const Register = () => {
                 </select>
               </div>
               {planLoading && (
-                <span className='astrick'>
-                  <Spin indicator={<LoadingOutlined spin />} size='small' />
+                <span className="astrick">
+                  <Spin indicator={<LoadingOutlined spin />} size="small" />
                 </span>
               )}
             </div>
           )}
           {chooseAction === "Link" && chooseProvider && !planLoading && (
-            <div className='form-group'>
+            <div className="form-group">
               <label>
-                Choose Plan <span className='astrick'>*</span>
+                Choose Plan <span className="astrick">*</span>
               </label>
-              <div className='custom-select'>
+              <div className="custom-select">
                 <select value={choosePlan ? JSON.stringify(choosePlan) : ""} onChange={handlePlanChange}>
-                  <option value='SELECT'>-- Select a Plan --</option>
+                  <option value="SELECT">-- Select a Plan --</option>
                   {planList.map((plan) => (
                     <option key={plan.id} value={JSON.stringify(plan)}>
                       {plan.prices.length > 0
@@ -393,11 +408,11 @@ const Register = () => {
             </div>
           )}
           {choosePlan && chooseAction == "Link" && (
-            <div className='form-group'>
+            <div className="form-group">
               <label>Duration</label>
               <input
-                type='text'
-                placeholder='Duration'
+                type="text"
+                placeholder="Duration"
                 value={duration}
                 disabled={true}
                 // onChange={(e) => setEmail(e.target.value)}
@@ -405,24 +420,24 @@ const Register = () => {
             </div>
           )}{" "}
           {choosePlan && chooseAction == "Link" && (
-            <div className='form-group'>
+            <div className="form-group">
               <label>Bandwidth</label>
               <input
-                type='text'
-                placeholder='Bandwidth in bytes'
+                type="text"
+                placeholder="Bandwidth in bytes"
                 value={bandwidth}
                 disabled={true}
                 // onChange={(e) => setEmail(e.target.value)}
               />
             </div>
           )}
-          <div className='form-actions'>
-            <ButtonCustom regularBtn label='Submit' onClick={postNodeRequest} />
+          <div className="form-actions">
+            <ButtonCustom regularBtn label="Submit" onClick={postNodeRequest} />
           </div>
         </div>
       </div>
 
-      <NotificationModal title='Node Request' message={messageModal} onClose={handleClose} show={visible} />
+      <NotificationModal title="Node Request" message={messageModal} onClose={handleClose} show={visible} />
     </div>
   );
 };
