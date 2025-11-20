@@ -211,8 +211,10 @@ const Register = () => {
 
   useEffect(() => {
     if (status === APPROVED) {
-      setChooseAction(REQUEST_TYPE.UNLINK);
-      getPrefillValues();
+      if (request === REQUEST_TYPE.LINK) {
+        setChooseAction(REQUEST_TYPE.UNLINK);
+        getPrefillValues();
+      }
     }
   }, [status]);
 
@@ -240,18 +242,18 @@ const Register = () => {
           <h2>Registration Process </h2>
           <div className="process-card">
             <div className="process-card_inner">
-            <h3>
-              Step 1: Run the script and follow the steps mentioned in{" "}
-              <a
-                href={import.meta.env.VITE_GITBOOK_LINK}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ color: "white" }}
-              >
-                gitbook
-              </a>{" "}
-              {/* <span style={{ color: "red" }}>*</span> */}
-            </h3>
+              <h3>
+                Step 1: Run the script and follow the steps mentioned in{" "}
+                <a
+                  href={import.meta.env.VITE_GITBOOK_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: "white" }}
+                >
+                  gitbook
+                </a>{" "}
+                {/* <span style={{ color: "red" }}>*</span> */}
+              </h3>
               <p>
                 Run the provided setup script to initialize your own DVPN node.{" "}
                 <a
@@ -283,14 +285,14 @@ const Register = () => {
           </div>
           <div className="process-card">
             <div className="process-card_inner">
-            <h3>Step 2: Connect Keplr Wallet</h3>
+              <h3>Step 2: Connect Keplr Wallet</h3>
               Import your node wallet into Keplr and connect with the same wallet used during node setup. This ensures
               proper ownership validation and links your wallet address to the deployed node.
             </div>
           </div>
           <div className="process-card">
             <div className="process-card_inner">
-            <h3>Step 3: Details Required to become a Node Operator</h3>
+              <h3>Step 3: Details Required to become a Node Operator</h3>
               <strong>Set Operator Name</strong>:
               <p>Assign a unique operator name. This acts as your node’s identifier within the ecosystem.</p>
               <br />
@@ -362,7 +364,7 @@ const Register = () => {
             <div className="custom-select">
               <select value={chooseAction} onChange={handleLinkChange}>
                 <option value="">-- Select Action --</option>
-                <option value="Link" disabled={status === APPROVED}>
+                <option value="Link" disabled={status === APPROVED && request === REQUEST_TYPE.LINK}>
                   Link Node
                 </option>
                 <option value="Unlink">Unlink Node</option>
