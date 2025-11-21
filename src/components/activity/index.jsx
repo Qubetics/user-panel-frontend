@@ -4,7 +4,7 @@ import { useIsLoggedIn } from "../../Context/LoggedInContext";
 import useGetApi from "../../Hooks/useGetApi";
 import Pagination from "../../utils/Helper/Pagination";
 import "./Activity.scss";
-import { formatTimestamp } from "../../utils/Helper/CommonHelper";
+import { formatTimestamp, toFirstCapital } from "../../utils/Helper/CommonHelper";
 import InnerLoader from "../../Common/Loader/InnerLoader";
 
 function Activity() {
@@ -67,7 +67,7 @@ function Activity() {
               ) : (
                 activityList?.map((row, i) => (
                   <tr key={i}>
-                    <td>{row?.providerName ?? "-"}</td>
+                    <td>{toFirstCapital(row?.providerName)}</td>
                     <td>{row?.type ?? "-"}</td>
                     <td>{formatTimestamp(row?.createdAt) ?? "-"}</td>
                     <td>{row?.metaData?.plan ?? "-"}</td>
