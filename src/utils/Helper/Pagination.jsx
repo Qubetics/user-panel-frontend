@@ -10,8 +10,6 @@ const Pagination = ({ currentPage, totalPages, onPageChange, limit = 5, onLimitC
     return pages;
   };
 
-  console.log("[DEBUG] Testing Log limit===========================>", limit);
-
   return (
     <div className="pagination">
       <div className="pagination_left">
