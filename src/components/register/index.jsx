@@ -51,8 +51,7 @@ const Register = () => {
   const message = (success) => (success ? NODE_REQUEST : NODE_FAILED);
   const autoFill =
     (status === APPROVED && request === REQUEST_TYPE.LINK) ||
-    status === REJECTED ||
-    (status === PENDING && request === REQUEST_TYPE.UNLINK);
+    (status === REJECTED && request === REQUEST_TYPE.UNLINK);
 
   const handleSign = async () => {
     try {
