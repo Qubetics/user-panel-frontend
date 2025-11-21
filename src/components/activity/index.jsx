@@ -67,7 +67,7 @@ function Activity() {
               ) : (
                 activityList?.map((row, i) => (
                   <tr key={i}>
-                    <td>{toFirstCapital(row?.providerName ?? "-")}</td>
+                    <td>{toFirstCapital(row?.providerName)}</td>
                     <td>{row?.type ?? "-"}</td>
                     <td>{formatTimestamp(row?.createdAt) ?? "-"}</td>
                     <td>{row?.metaData?.plan ?? "-"}</td>
