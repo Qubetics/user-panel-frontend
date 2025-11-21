@@ -10,15 +10,17 @@ const Pagination = ({ currentPage, totalPages, onPageChange, limit = 5, onLimitC
     return pages;
   };
 
+  console.log("[DEBUG] Testing Log limit===========================>", limit);
+
   return (
-    <div className='pagination'>
-      <div className='pagination_left'>
+    <div className="pagination">
+      <div className="pagination_left">
         <span>Show rows</span>
         <select
-          id='limit'
+          id="limit"
           value={limit}
           onChange={(e) => onLimitChange(Number(e.target.value))}
-          className='border rounded px-2 py-1'
+          className="border rounded px-2 py-1"
         >
           {[5, 10, 20].map((size) => (
             <option key={size} value={size}>
@@ -28,7 +30,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange, limit = 5, onLimitC
         </select>
       </div>
       {/* Prev button */}
-      <div className='page-numbers'>
+      <div className="page-numbers">
         <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1}>
           {"<"}
         </button>

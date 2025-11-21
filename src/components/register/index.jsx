@@ -10,6 +10,8 @@ import {
   emailRegex,
   NODE_FAILED,
   NODE_REQUEST,
+  PENDING,
+  REJECTED,
   REQUEST_TYPE,
   STATUS,
 } from "../../Constant/constants";
@@ -47,6 +49,10 @@ const Register = () => {
   const chainId = env.chainId;
   const [activeline, setActiveline] = useState();
   const message = (success) => (success ? NODE_REQUEST : NODE_FAILED);
+  const autoFill =
+    (status === APPROVED && request === REQUEST_TYPE.LINK) ||
+    status === REJECTED ||
+    (status === PENDING && request === REQUEST_TYPE.UNLINK);
 
   const handleSign = async () => {
     try {
@@ -210,11 +216,9 @@ const Register = () => {
   }, [authData, status, request]);
 
   useEffect(() => {
-    if (status === APPROVED) {
-      if (request === REQUEST_TYPE.LINK) {
-        setChooseAction(REQUEST_TYPE.UNLINK);
-        getPrefillValues();
-      }
+    if (autoFill) {
+      setChooseAction(REQUEST_TYPE.UNLINK);
+      getPrefillValues();
     }
   }, [status]);
 
@@ -364,7 +368,7 @@ const Register = () => {
             <div className="custom-select">
               <select value={chooseAction} onChange={handleLinkChange}>
                 <option value="">-- Select Action --</option>
-                <option value="Link" disabled={status === APPROVED && request === REQUEST_TYPE.LINK}>
+                <option value="Link" disabled={autoFill}>
                   Link Node
                 </option>
                 <option value="Unlink">Unlink Node</option>

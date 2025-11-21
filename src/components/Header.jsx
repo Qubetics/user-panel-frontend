@@ -151,6 +151,18 @@ const Header = () => {
                 className={`header__nav ${isMenuOpen ? "active" : ""}`}
                 style={{ display: "flex", alignItems: "center", gap: "10px" }}
               >
+                <div className="nav_left">
+                  {navTabs.map((tab) => (
+                    <Link
+                      key={tab.path}
+                      to={tab.path}
+                      className={`nav_tabs ${isActive(tab.path)}`}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {tab.label}
+                    </Link>
+                  ))}
+                </div>
                 <span className="gradientbrder">{Number(balance || 0).toFixed(2)} TICS</span>
                 {authData && status && (
                   <ButtonCustom
