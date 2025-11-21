@@ -5,20 +5,27 @@ import useGetApi from "../../Hooks/useGetApi";
 import Pagination from "../../utils/Helper/Pagination";
 import "./Activity.scss";
 import { formatTimestamp } from "../../utils/Helper/CommonHelper";
+import InnerLoader from "../../Common/Loader/InnerLoader";
 
 function Activity() {
   const [activityList, setActivityList] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [limit, setLimit] = useState(10);
+  const [isLoading, setIsLoading] = useState(true);
   const { authData } = useIsLoggedIn();
 
   const fetchData = async () => {
-    const { success, data } = await useGetApi(apiUrls.getActivityList(authData, page, limit));
-    if (!success) return;
+    setIsLoading(true);
 
-    setActivityList(data?.data?.activityList);
-    setTotalPages(data?.data?.count ? Math.ceil(data?.data?.count / limit) : 1);
+    const { success, data } = await useGetApi(apiUrls.getActivityList(authData, page, limit));
+
+    if (success) {
+      setActivityList(data?.data?.activityList || []);
+      setTotalPages(data?.data?.count ? Math.ceil(data.data.count / limit) : 1);
+    }
+
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -45,7 +52,13 @@ function Activity() {
               </tr>
             </thead>
             <tbody>
-              {!activityList?.length ? (
+              {isLoading ? (
+                <tr>
+                  <td colSpan={100}>
+                    <InnerLoader />
+                  </td>
+                </tr>
+              ) : !activityList?.length ? (
                 <tr>
                   <td colSpan={8} style={{ textAlign: "center" }}>
                     No data found
