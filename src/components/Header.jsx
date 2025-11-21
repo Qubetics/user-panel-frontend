@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useCallback, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Logo from "../assets/LogoDvpn.svg";
 import mobLogo from "../assets/MobileLogo.svg";
 import ButtonCustom from "../Common/ButtonCustom/ButtonCustom";
 import CopyText from "../Common/Copy/copyText";
 import { apiUrls } from "../Constant/apiUrls";
-import { apiMethods } from "../Constant/constants";
+import { apiMethods, navTabs } from "../Constant/constants";
 import { env } from "../Constant/envConstants";
 import { useIsLoggedIn } from "../Context/LoggedInContext";
 import useGetApi from "../Hooks/useGetApi";
@@ -123,6 +123,13 @@ const Header = () => {
     setIsMenuOpen((prev) => !prev);
   };
 
+  const isActive = useCallback(
+    (path) => {
+      return location.pathname === path ? "active" : "";
+    },
+    [location.pathname]
+  );
+
   return (
     <header className="header">
       <div className="header__container">
@@ -134,6 +141,7 @@ const Header = () => {
         >
           <img src={isMobile ? mobLogo : Logo} alt="Logo" className={isMobile ? "mobile-logo" : "web-logo"} />
         </div>
+
         <div className={`header__action ${isMenuOpen ? "active" : ""}`}>
           {location.pathname !== "/" ? (
             !authData ? (
@@ -143,6 +151,18 @@ const Header = () => {
                 className={`header__nav ${isMenuOpen ? "active" : ""}`}
                 style={{ display: "flex", alignItems: "center", gap: "10px" }}
               >
+                <div className="nav_left">
+                  {navTabs.map((tab) => (
+                    <Link
+                      key={tab.path}
+                      to={tab.path}
+                      className={`nav_tabs ${isActive(tab.path)}`}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {tab.label}
+                    </Link>
+                  ))}
+                </div>
                 <span className="gradientbrder">{Number(balance || 0).toFixed(2)} TICS</span>
                 {authData && status && (
                   <ButtonCustom
