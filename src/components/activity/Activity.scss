@@ -3,7 +3,7 @@
   color: #fff;
   text-align: center;
   margin: auto;
-  max-width: 1640px;
+  max-width: 1440px;
   margin-top: s(40);
 
   &__header {
@@ -13,7 +13,7 @@
     h3 {
       color: #fff;
       font-weight: 600;
-      margin-top: 50px;
+      margin-top: 20px;
       padding-left: 28px;
 
       @media (max-width: 1679px) {
@@ -149,7 +149,7 @@
       tr {
         th {
           &:last-child {
-            text-align: center;
+            text-align: left;
           }
         }
       }
@@ -175,7 +175,7 @@
           }
 
           &:last-child {
-            text-align: center;
+            text-align: left;
           }
 
           .address_nord {
