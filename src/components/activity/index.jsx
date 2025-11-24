@@ -45,6 +45,7 @@ function Activity() {
               <tr>
                 <th>Provider</th>
                 <th>Request Type</th>
+                <th>Status</th>
                 <th>Timestamp</th>
                 <th>Plan</th>
                 <th>Plan Duration</th>
@@ -69,6 +70,7 @@ function Activity() {
                   <tr key={i}>
                     <td>{toFirstCapital(row?.providerName)}</td>
                     <td>{row?.type ?? "-"}</td>
+                    <td>{row?.action ?? "-"}</td>
                     <td>{formatTimestamp(row?.createdAt) ?? "-"}</td>
                     <td>{row?.metaData?.plan ?? "-"}</td>
                     <td>{row?.metaData?.hours ?? "0"}</td>
