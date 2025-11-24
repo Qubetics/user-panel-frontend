@@ -160,6 +160,16 @@
         td {
           width: auto;
 
+          &.pending {
+            color: #f9a825;
+          }
+          &.approved {
+            color: #1e8e3e;
+          }
+          &.rejected {
+            color: #ea4335;
+          }
+
           &:last-child {
             text-align: center;
           }
