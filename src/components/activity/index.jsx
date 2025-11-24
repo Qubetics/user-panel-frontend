@@ -46,10 +46,10 @@ function Activity() {
                 <th>Provider</th>
                 <th>Request Type</th>
                 <th>Status</th>
-                <th>Timestamp</th>
                 <th>Plan</th>
                 <th>Plan Duration</th>
                 <th>Bandwidth</th>
+                <th>Timestamp</th>
               </tr>
             </thead>
             <tbody>
@@ -71,10 +71,10 @@ function Activity() {
                     <td>{toFirstCapital(row?.providerName)}</td>
                     <td>{row?.type ?? "-"}</td>
                     <td className={row?.action?.toLowerCase() || ""}>{row?.action ?? "-"}</td>
-                    <td>{formatTimestamp(row?.createdAt) ?? "-"}</td>
                     <td>{row?.metaData?.plan ?? "-"}</td>
                     <td>{row?.metaData?.hours ?? "0"}</td>
                     <td>{row?.metaData?.bandwidth ?? "0"} GB</td>
+                    <td>{formatTimestamp(row?.createdAt) ?? "-"}</td>
                   </tr>
                 ))
               )}
