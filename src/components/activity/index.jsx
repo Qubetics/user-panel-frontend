@@ -70,7 +70,7 @@ function Activity() {
                   <tr key={i}>
                     <td>{toFirstCapital(row?.providerName)}</td>
                     <td>{row?.type ?? "-"}</td>
-                    <td className={row?.action?.toLowerCase() || ""}>{row?.action ?? "-"}</td>
+                    <td className={row?.action?.toLowerCase() || ""}>{toFirstCapital(row?.action)}</td>
                     <td>{formatTimestamp(row?.createdAt) ?? "-"}</td>
                     <td>{row?.metaData?.plan ?? "-"}</td>
                     <td>{row?.metaData?.hours ?? "0"}</td>

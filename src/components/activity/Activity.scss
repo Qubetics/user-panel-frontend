@@ -159,15 +159,19 @@
       tr {
         td {
           width: auto;
-
           &.pending {
             color: #f9a825;
           }
+
           &.approved {
-            color: #1e8e3e;
+            color: #34c759;
           }
           &.rejected {
-            color: #ea4335;
+            color: #ff3b30;
+          }
+
+          &.default {
+            color: #5f6368;
           }
 
           &:last-child {
