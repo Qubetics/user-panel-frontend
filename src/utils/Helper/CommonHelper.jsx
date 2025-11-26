@@ -143,3 +143,34 @@ export const formatTimestamp = (timestamp) => {
 
   return `${year}-${month}-${day} ${String(hours).padStart(2, "0")}:${minutes}${ampm}`;
 };
+
+export const formatHours = (hours) => {
+  const value = Number(hours ?? 0);
+  return value > 1 ? `${value} Hrs` : `${value} Hr`;
+};
+
+export const formatPlanWithTooltip = (planRaw) => {
+  if (!planRaw || planRaw === "-") {
+    return {
+      formatted: "-",
+      tooltip: "-"
+    };
+  }
+
+  const numberValue = parseFloat(planRaw);
+
+  if (isNaN(numberValue)) {
+    return {
+      formatted: planRaw,
+      tooltip: planRaw
+    };
+  }
+
+  const formattedValue = numberValue.toFixed(2);
+
+  return {
+    formatted: `${formattedValue} TICS/month`,
+    tooltip: planRaw
+  };
+};
+

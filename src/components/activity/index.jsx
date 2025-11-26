@@ -4,7 +4,7 @@ import { useIsLoggedIn } from "../../Context/LoggedInContext";
 import useGetApi from "../../Hooks/useGetApi";
 import Pagination from "../../utils/Helper/Pagination";
 import "./Activity.scss";
-import { formatTimestamp, toFirstCapital } from "../../utils/Helper/CommonHelper";
+import { formatHours, formatPlanWithTooltip, formatTimestamp, toFirstCapital } from "../../utils/Helper/CommonHelper";
 import InnerLoader from "../../Common/Loader/InnerLoader";
 
 function Activity() {
@@ -66,18 +66,23 @@ function Activity() {
                   </td>
                 </tr>
               ) : (
-                activityList?.map((row, i) => (
-                  <tr key={i}>
-                    <td>{toFirstCapital(row?.providerName)}</td>
-                    <td>{row?.type ?? "-"}</td>
-                    <td className={row?.action?.toLowerCase() || ""}>{toFirstCapital(row?.action)}</td>
-                    <td>{formatTimestamp(row?.createdAt) ?? "-"}</td>
-                    <td>{row?.metaData?.plan ?? "-"}</td>
-                    <td>{row?.metaData?.hours ?? "0"}</td>
-                    <td>{row?.metaData?.bandwidth ?? "0"} GB</td>
-                    <td>{formatTimestamp(row?.createdAt) ?? "-"}</td>
-                  </tr>
-                ))
+                activityList?.map((row, i) => {
+                  const { formatted, tooltip } = formatPlanWithTooltip(row?.metaData?.plan);
+                
+                  return (
+                    <tr key={i}>
+                      <td>{toFirstCapital(row?.providerName)}</td>
+                      <td>{row?.type ?? "-"}</td>
+                      <td className={row?.action?.toLowerCase() || ""}>
+                        {toFirstCapital(row?.action)}
+                      </td>
+                      <td title={tooltip}>{formatted}</td>
+                      <td>{formatHours(row?.metaData?.hours)}</td>
+                      <td>{row?.metaData?.bandwidth ?? "0"} GB</td>
+                      <td>{formatTimestamp(row?.createdAt) ?? "-"}</td>
+                    </tr>
+                  );
+                })                
               )}
             </tbody>
           </table>
