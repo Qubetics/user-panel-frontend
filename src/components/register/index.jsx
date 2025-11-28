@@ -8,11 +8,14 @@ import {
   apiMethods,
   APPROVED,
   emailRegex,
+  emailfrontendRegex,
   NODE_FAILED,
   NODE_REQUEST,
   REJECTED,
   REQUEST_TYPE,
   STATUS,
+  nameRegex,
+  VALIDATION_MESSAGES,
 } from "../../Constant/constants";
 import { toast } from "react-toastify";
 import { useIsLoggedIn } from "../../Context/LoggedInContext";
@@ -45,6 +48,8 @@ const Register = () => {
   const [duration, setDuration] = useState("");
   const [bandwidth, setBandwidth] = useState("");
   const [planLoading, setPlanLoading] = useState(false);
+  const [emailError, setEmailError] = useState("");
+  const [isEmailValid, setIsEmailValid] = useState(true);
 
   const chainId = env.chainId;
   const [activeline, setActiveline] = useState();
@@ -73,6 +78,20 @@ const Register = () => {
       return null;
     }
   };
+
+  const getNameError = () => {
+    if (orgName.length > 0 && orgName.length < 3)
+      return VALIDATION_MESSAGES.NAME_MIN_LENGTH;
+
+    if (orgName.length > 50) return VALIDATION_MESSAGES.NAME_MAX_LENGTH;
+
+    if (orgName.length > 0 && !nameRegex.test(orgName))
+      return VALIDATION_MESSAGES.NAME_INVALID;
+
+    return "";
+  };
+
+  const errorMessage = getNameError();
 
   const handlePlanChange = (e) => {
     if (e.target.value !== "SELECT") {
@@ -159,11 +178,11 @@ const Register = () => {
     if (chooseAction === "Link" && !choosePlan)
       return toast.error("Please choose a plan");
     if (!chooseAction) return toast.error("Please choose an action");
-    if (email) {
-      if (!emailRegex.test(email)) {
-        return toast.error("Please enter the valid email address");
-      }
-    }
+    // if (email) {
+    //   if (!emailRegex.test(email)) {
+    //     return toast.error("Please enter the valid email address");
+    //   }
+    // }
     const signData = await handleSign();
     if (!signData) {
       toast.error("User Rejected the Action");
@@ -242,6 +261,13 @@ const Register = () => {
       getPrefillValues();
     }
   }, [status]);
+
+  const isFormValid =
+    orgName.trim() !== "" &&
+    nodeAddress.trim() !== "" &&
+    chooseAction !== "" &&
+    (chooseAction !== "Link" || choosePlan) &&
+    isEmailValid;
 
   return (
     <div className="register-container">
@@ -367,8 +393,17 @@ const Register = () => {
               type="text"
               placeholder="Enter operator name"
               value={orgName}
-              onChange={(e) => setOrgName(e.target.value)}
+              maxLength={50}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value === "" || nameRegex.test(value)) {
+                  setOrgName(value);
+                }
+              }}
             />
+            {errorMessage && (
+              <p style={{ color: "red", marginTop: "4px" }}>{errorMessage}</p>
+            )}
           </div>
           <div className="form-group">
             <label>Email Address</label>
@@ -376,8 +411,26 @@ const Register = () => {
               type="text"
               placeholder="Enter your email address"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value;
+                setEmail(value);
+
+                if (value && !emailfrontendRegex.test(value)) {
+                  setEmailError("Invalid email format");
+                  setIsEmailValid(false);
+                } else {
+                  setEmailError("");
+                  setIsEmailValid(true);
+                }
+              }}
             />
+            {emailError && (
+              <span
+                style={{ color: "red", fontSize: "12px", fontWeight: "bold" }}
+              >
+                {emailError}
+              </span>
+            )}
           </div>
           <div className="form-group">
             <label>
@@ -387,8 +440,14 @@ const Register = () => {
               type="text"
               placeholder="Enter node address"
               value={nodeAddress}
+              maxLength={51}
               onChange={(e) => setNodeAddress(e.target.value)}
             />
+            {nodeAddress.length > 0 && nodeAddress.length < 51 && (
+              <p style={{ color: "red", marginTop: "4px" }}>
+                Node address should be 51 characters
+              </p>
+            )}
           </div>
           <div className="form-group ">
             <label>
@@ -485,7 +544,13 @@ const Register = () => {
             </div>
           )}
           <div className="form-actions">
-            <ButtonCustom regularBtn label="Submit" onClick={postNodeRequest} />
+            <ButtonCustom
+              regularBtn
+              label="Submit"
+              onClick={postNodeRequest}
+              disabled={!isFormValid}
+              title="Required all fields"
+            />
           </div>
         </div>
       </div>
