@@ -219,7 +219,7 @@ const Register = () => {
         apiMethods.POST,
         body,
         {
-          "Content-Type": "application/json",
+            "Content-Type": "application/json",
         }
       );
       if (response) {
@@ -262,6 +262,9 @@ const Register = () => {
     }
   }, [status]);
 
+  const GITBOOK_LINK =
+    (env && env.gitbookLink) || process.env.VITE_GITBOOK_LINK || "";
+
   const isFormValid =
     orgName.trim() !== "" &&
     nodeAddress.trim() !== "" &&
@@ -298,7 +301,7 @@ const Register = () => {
               <h3>
                 Step 1: Run the script and follow the steps mentioned in{" "}
                 <a
-                  href={import.meta.env.VITE_GITBOOK_LINK}
+                  href={GITBOOK_LINK}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{ color: "white" }}
@@ -310,7 +313,7 @@ const Register = () => {
               <p>
                 Run the provided setup script to initialize your own DVPN node.{" "}
                 <a
-                  href={import.meta.env.VITE_GITBOOK_LINK}
+                  href={GITBOOK_LINK}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-block underline"
