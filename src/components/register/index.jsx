@@ -402,7 +402,16 @@ const Register = () => {
               }}
             />
             {errorMessage && (
-              <p style={{ color: "red", marginTop: "4px" }}>{errorMessage}</p>
+              <p
+                style={{
+                  color: "red",
+                  marginTop: "4px",
+                  fontSize: "12px",
+                  fontWeight: "bold",
+                }}
+              >
+                {errorMessage}
+              </p>
             )}
           </div>
           <div className="form-group">
@@ -412,9 +421,8 @@ const Register = () => {
               placeholder="Enter your email address"
               value={email}
               onChange={(e) => {
-                const value = e.target.value;
+                let value = e.target.value.replace(/\s/g, "");
                 setEmail(value);
-
                 if (value && !emailfrontendRegex.test(value)) {
                   setEmailError("Invalid email format");
                   setIsEmailValid(false);
@@ -426,7 +434,12 @@ const Register = () => {
             />
             {emailError && (
               <span
-                style={{ color: "red", fontSize: "12px", fontWeight: "bold" }}
+                style={{
+                  color: "red",
+                  fontSize: "12px",
+                  fontWeight: "bold",
+                  marginTop: "4px",
+                }}
               >
                 {emailError}
               </span>
@@ -441,10 +454,17 @@ const Register = () => {
               placeholder="Enter node address"
               value={nodeAddress}
               maxLength={51}
-              onChange={(e) => setNodeAddress(e.target.value)}
+              onChange={(e) => setNodeAddress(e.target.value.replace(/\s/g, ""))}
             />
             {nodeAddress.length > 0 && nodeAddress.length < 51 && (
-              <p style={{ color: "red", marginTop: "4px" }}>
+              <p
+                style={{
+                  color: "red",
+                  marginTop: "4px",
+                  fontSize: "12px",
+                  fontWeight: "bold",
+                }}
+              >
                 Node address should be 51 characters
               </p>
             )}
