@@ -40,7 +40,7 @@ export const emailfrontendRegex = /^(?!.*\s)(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\
 export const nameRegex = /^(?!\s)[A-Za-z0-9_\s\-']+$/;
 
 export const VALIDATION_MESSAGES = {
-  NAME_MIN_LENGTH: "Name must be at least 3 characters",
+  NAME_MIN_LENGTH: "Name must be at least 3 characters ",
   NAME_MAX_LENGTH: "Name cannot exceed 50 characters",
   NAME_INVALID:
     "Only letters, numbers, space, underscore, hyphen, and ' are allowed",
