@@ -14,8 +14,6 @@ import {
   REJECTED,
   REQUEST_TYPE,
   STATUS,
-  nameRegex,
-  VALIDATION_MESSAGES,
 } from "../../Constant/constants";
 import { toast } from "react-toastify";
 import { useIsLoggedIn } from "../../Context/LoggedInContext";
@@ -31,6 +29,11 @@ import {
 import { env } from "../../Constant/envConstants";
 import { Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
+import {
+  validateEmail,
+  validateName,
+  validateNodeAddress,
+} from "../../utils/validator";
 
 const Register = () => {
   const [visible, setVisible] = useState(false);
@@ -50,6 +53,9 @@ const Register = () => {
   const [planLoading, setPlanLoading] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(true);
+  const [nameError, setNameError] = useState("");
+  const [isNameValid, setIsNameValid] = useState(true);
+  const [error, setError] = useState("");
 
   const chainId = env.chainId;
   const [activeline, setActiveline] = useState();
@@ -78,20 +84,6 @@ const Register = () => {
       return null;
     }
   };
-
-  const getNameError = () => {
-    if (orgName.length > 0 && orgName.length < 3)
-      return VALIDATION_MESSAGES.NAME_MIN_LENGTH;
-
-    if (orgName.length > 50) return VALIDATION_MESSAGES.NAME_MAX_LENGTH;
-
-    if (orgName.length > 0 && !nameRegex.test(orgName))
-      return VALIDATION_MESSAGES.NAME_INVALID;
-
-    return "";
-  };
-
-  const errorMessage = getNameError();
 
   const handlePlanChange = (e) => {
     if (e.target.value !== "SELECT") {
@@ -219,7 +211,7 @@ const Register = () => {
         apiMethods.POST,
         body,
         {
-            "Content-Type": "application/json",
+          "Content-Type": "application/json",
         }
       );
       if (response) {
@@ -265,11 +257,31 @@ const Register = () => {
   const GITBOOK_LINK = env.gitbookLink;
 
   const isFormValid =
-    orgName.trim() !== "" &&
-    nodeAddress.trim() !== "" &&
+    orgName?.trim() !== "" &&
+    nodeAddress?.trim() !== "" &&
     chooseAction !== "" &&
     (chooseAction !== "Link" || choosePlan) &&
     isEmailValid;
+
+  const handleEmailChange = (e) => {
+    const { cleaned, error, isValid } = validateEmail(e.target.value);
+    setEmail(cleaned);
+    setEmailError(error);
+    setIsEmailValid(isValid);
+  };
+
+  const handleNameChange = (e) => {
+    const { cleaned, error, isValid } = validateName(e.target.value);
+    setOrgName(cleaned);
+    setNameError(error);
+    setIsNameValid(isValid);
+  };
+
+  const handleNodeAddressChange = (e) => {
+    const { cleaned, error, isValid } = validateNodeAddress(e.target.value);
+    setNodeAddress(cleaned);
+    setError(error);
+  };
 
   return (
     <div className="register-container">
@@ -396,14 +408,9 @@ const Register = () => {
               placeholder="Enter operator name"
               value={orgName}
               maxLength={50}
-              onChange={(e) => {
-                const value = e.target.value;
-                if (value === "" || nameRegex.test(value)) {
-                  setOrgName(value);
-                }
-              }}
+              onChange={handleNameChange}
             />
-            {errorMessage && (
+            {nameError && (
               <p
                 style={{
                   color: "red",
@@ -412,7 +419,7 @@ const Register = () => {
                   fontWeight: "bold",
                 }}
               >
-                {errorMessage}
+                {nameError}
               </p>
             )}
           </div>
@@ -422,17 +429,7 @@ const Register = () => {
               type="text"
               placeholder="Enter your email address"
               value={email}
-              onChange={(e) => {
-                let value = e.target.value.replace(/\s/g, "");
-                setEmail(value);
-                if (value && !emailfrontendRegex.test(value)) {
-                  setEmailError("Invalid email format");
-                  setIsEmailValid(false);
-                } else {
-                  setEmailError("");
-                  setIsEmailValid(true);
-                }
-              }}
+              onChange={handleEmailChange}
             />
             {emailError && (
               <span
@@ -456,9 +453,9 @@ const Register = () => {
               placeholder="Enter node address"
               value={nodeAddress}
               maxLength={51}
-              onChange={(e) => setNodeAddress(e.target.value.replace(/\s/g, ""))}
+              onChange={handleNodeAddressChange}
             />
-            {nodeAddress.length > 0 && nodeAddress.length < 51 && (
+            {error && (
               <p
                 style={{
                   color: "red",
@@ -467,7 +464,7 @@ const Register = () => {
                   fontWeight: "bold",
                 }}
               >
-                Node address should be 51 characters
+                {error}
               </p>
             )}
           </div>

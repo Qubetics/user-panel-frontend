@@ -4,7 +4,12 @@ import { useIsLoggedIn } from "../../Context/LoggedInContext";
 import useGetApi from "../../Hooks/useGetApi";
 import Pagination from "../../utils/Helper/Pagination";
 import "./Activity.scss";
-import { formatHours, formatPlanWithTooltip, formatTimestamp, toFirstCapital } from "../../utils/Helper/CommonHelper";
+import {
+  formatHours,
+  formatPlanWithTooltip,
+  formatTimestamp,
+  toFirstCapital,
+} from "../../utils/Helper/CommonHelper";
 import InnerLoader from "../../Common/Loader/InnerLoader";
 
 function Activity() {
@@ -18,7 +23,9 @@ function Activity() {
   const fetchData = async () => {
     setIsLoading(true);
 
-    const { success, data } = await useGetApi(apiUrls.getActivityList(authData, page, limit));
+    const { success, data } = await useGetApi(
+      apiUrls.getActivityList(authData, page, limit)
+    );
 
     if (success) {
       setActivityList(data?.data?.activityList || []);
@@ -35,7 +42,7 @@ function Activity() {
   return (
     <div className="node">
       <div className="node__header">
-        <h3>Transaction History</h3>
+        <h3>Request History</h3>
       </div>
 
       <div className="custom-table-wrapper commonTable node-table">
@@ -67,8 +74,10 @@ function Activity() {
                 </tr>
               ) : (
                 activityList?.map((row, i) => {
-                  const { formatted, tooltip } = formatPlanWithTooltip(row?.metaData?.plan);
-                
+                  const { formatted, tooltip } = formatPlanWithTooltip(
+                    row?.metaData?.plan
+                  );
+
                   return (
                     <tr key={i}>
                       <td>{toFirstCapital(row?.providerName)}</td>
@@ -82,7 +91,7 @@ function Activity() {
                       <td>{formatTimestamp(row?.createdAt) ?? "-"}</td>
                     </tr>
                   );
-                })                
+                })
               )}
             </tbody>
           </table>

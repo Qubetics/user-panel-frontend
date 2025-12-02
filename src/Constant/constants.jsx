@@ -37,11 +37,3 @@ export const navTabs = [
 
 export const emailfrontendRegex = /^(?!.*\s)(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}))$/;
 
-export const nameRegex = /^(?!\s)[A-Za-z0-9_\s\-']+$/;
-
-export const VALIDATION_MESSAGES = {
-  NAME_MIN_LENGTH: "Name must be at least 3 characters ",
-  NAME_MAX_LENGTH: "Name cannot exceed 50 characters",
-  NAME_INVALID:
-    "Only letters, numbers, space, underscore, hyphen, and ' are allowed",
-};
