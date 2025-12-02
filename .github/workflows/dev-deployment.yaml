@@ -15,7 +15,7 @@ jobs:
       ARGOCD_REPOSITORY: Qubetics/argocd-qubetics
       DEPLOYMENT_PATH: Dvpn-user-frontend/deployment.yaml
       HUAWEI_IMAGE: dev-dvpn-user-frontend
-      DOCKER_USERNAME: ap-southeast-3@QHAEGIBURQMR6N4X3NQW
+      DOCKER_USERNAME: ap-southeast-3@HPUAJWWFSLCMD312AZSR
       ENV: ${{ vars.DEV_FRONTEND }}
     secrets:
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD_DEV }}
