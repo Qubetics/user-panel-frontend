@@ -262,8 +262,7 @@ const Register = () => {
     }
   }, [status]);
 
-  const GITBOOK_LINK =
-    (env && env.gitbookLink) || process.env.VITE_GITBOOK_LINK || "";
+  const GITBOOK_LINK = env.gitbookLink;
 
   const isFormValid =
     orgName.trim() !== "" &&
