@@ -25,6 +25,7 @@ module.exports = {
   testPathIgnorePatterns: [
     "<rootDir>/__test__/PrivateRoute.test.jsx",
   ],
+  setupFiles: ["<rootDir>/setup.js"],
 
   coveragePathIgnorePatterns: [
     "<rootDir>/src/Common/ButtonCustom/ButtonCustom.jsx",

@@ -64,6 +64,16 @@ jest.mock("@/Common/Copy/copyText", () => ({ text, copy }) => (
 jest.mock("@/assets/LogoDvpn.svg", () => "logo.svg");
 jest.mock("@/assets/MobileLogo.svg", () => "mobile-logo.svg");
 
+jest.mock("@/components/register/LogoutModal", () => ({
+  LogoutConfirmModal: ({ show, onConfirm, onCancel }) =>
+    show ? (
+      <div data-testid="logout-modal">
+        <button onClick={onCancel}>No</button>
+        <button onClick={onConfirm}>Yes</button>
+      </div>
+    ) : null,
+}));
+
 /** ------------ MOCK KEPLR ------------------ **/
 const mockKeplr = {
   enable: jest.fn(),
@@ -274,9 +284,17 @@ describe("Header Component — High Coverage Suite", () => {
 
     renderWithProviders(<Setup />);
 
+    // Click the Logout button to open the modal
     fireEvent.click(await screen.findByText("Logout"));
 
-    expect(mockNavigate).toHaveBeenCalledWith("/");
+    // Wait for the modal to appear and click the "Yes" button
+    const yesButton = await screen.findByText("Yes");
+    fireEvent.click(yesButton);
+
+    // Verify navigation was called
+    await waitFor(() => {
+      expect(mockNavigate).toHaveBeenCalledWith("/");
+    });
   });
 
   test("copy address triggers clipboard", async () => {
