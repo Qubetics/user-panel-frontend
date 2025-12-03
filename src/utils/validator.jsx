@@ -54,8 +54,8 @@ export const validateNodeAddress = (value) => {
 
   if (/[^a-zA-Z0-9]/.test(value)) {
     error = "Only letters and numbers are allowed.";
-  } else if (cleaned.length > 0 && cleaned.length < 51) {
-    error = "Node address should be exactly 51 characters.";
+  } else if (cleaned.length > 0 && cleaned.length < 50) {
+    error = "Node address should not be less than 50.";
   }
 
   return { cleaned, error, isValid: !error };
