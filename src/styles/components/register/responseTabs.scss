@@ -12,12 +12,10 @@
   padding: 1rem;
   backdrop-filter: blur(5px);
 
-
-
   &__content {
     background: #121212;
     // padding: 2rem 1.5rem;
-    border: 1px solid #3B393C;
+    border: 1px solid #3b393c;
     border-radius: 14px;
     width: 100%;
     max-width: 500px; // ✅ responsive width
@@ -97,11 +95,10 @@
 
   &__content {
     background: #121212;
-    border: 1px solid #3B393C;
+    border: 1px solid #3b393c;
     border-radius: 14px;
     width: 100%;
     max-width: 500px; // ✅ responsive width
-    min-height: 200px;
     text-align: center;
     box-sizing: border-box;
     position: relative;
@@ -110,12 +107,14 @@
       margin-top: s(30);
       margin-bottom: 20px;
       font-size: s(28); // ✅ increased from 24
-      font-weight: 400; // ✅ lighter weight like in image
+      font-weight: 600; // ✅ lighter weight like in image
       color: #ffffff;
-
+      @media #{mobile()} {
+        font-size: s(16);
+        margin-top: s(15);
+      }
       @media (max-width: 480px) {
         margin: 1rem 0;
-        font-size: s(24);
       }
     }
 
@@ -124,10 +123,12 @@
       margin-bottom: s(40);
       color: #9ca3af; // ✅ gray color like in image
       font-weight: 400;
-
+      @media #{mobile()} {
+        font-size: s(12);
+        margin-bottom: s(10);
+      }
       @media (max-width: 480px) {
         margin-bottom: s(12);
-        font-size: s(16);
       }
     }
   }
@@ -135,7 +136,18 @@
   &__actions {
     margin-top: auto;
     display: flex;
-    justify-content: center; // ✅ centers button horizontally
+    justify-content: center;
+    padding-bottom: s(30);
+    .customButton-bordered {
+      background-color: #000 !important;
+      &::before {
+        background: unset !important;
+      }
+    }
+
+    @media #{mobile()} {
+      padding-bottom: s(15);
+    }
   }
 
   &__close-btn {
