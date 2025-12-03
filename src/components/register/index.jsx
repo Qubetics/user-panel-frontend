@@ -405,7 +405,7 @@ const Register = () => {
             </label>
             <input
               type="text"
-              placeholder="Enter operator name"
+              placeholder="Example"
               value={orgName}
               maxLength={50}
               onChange={handleNameChange}
@@ -427,7 +427,7 @@ const Register = () => {
             <label>Email Address</label>
             <input
               type="text"
-              placeholder="Enter your email address"
+              placeholder="example@gmail.com"
               value={email}
               onChange={handleEmailChange}
             />
@@ -450,7 +450,7 @@ const Register = () => {
             </label>
             <input
               type="text"
-              placeholder="Enter node address"
+              placeholder="qubetics1jcdse3f8yqcnlyw54yamm4n"
               value={nodeAddress}
               maxLength={51}
               onChange={handleNodeAddressChange}
