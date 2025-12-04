@@ -220,18 +220,18 @@ describe("Register Component", () => {
     });
 
     await act(async () => {
-      fireEvent.change(screen.getByPlaceholderText("Enter operator name"), {
+      fireEvent.change(screen.getByPlaceholderText("Example"), {
         target: { value: "John" },
       });
 
       fireEvent.change(
-        screen.getByPlaceholderText("Enter your email address"),
+        screen.getByPlaceholderText("example@gmail.com"),
         {
           target: { value: "invalid-email" },
         }
       );
 
-      fireEvent.change(screen.getByPlaceholderText("Enter node address"), {
+      fireEvent.change(screen.getByPlaceholderText("qubetics1jcdse3f8yqcnlyw54yamm4n"), {
         target: { value: "node123" },
       });
 
@@ -257,11 +257,11 @@ describe("Register Component", () => {
     });
 
     await act(async () => {
-      fireEvent.change(screen.getByPlaceholderText("Enter operator name"), {
+      fireEvent.change(screen.getByPlaceholderText("Example"), {
         target: { value: "John" },
       });
 
-      fireEvent.change(screen.getByPlaceholderText("Enter node address"), {
+      fireEvent.change(screen.getByPlaceholderText("qubetics1jcdse3f8yqcnlyw54yamm4n"), {
         target: { value: "node123" },
       });
 
@@ -288,11 +288,11 @@ describe("Register Component", () => {
     });
 
     await act(async () => {
-      fireEvent.change(screen.getByPlaceholderText("Enter operator name"), {
+      fireEvent.change(screen.getByPlaceholderText("Example"), {
         target: { value: "John" },
       });
 
-      fireEvent.change(screen.getByPlaceholderText("Enter node address"), {
+      fireEvent.change(screen.getByPlaceholderText("qubetics1jcdse3f8yqcnlyw54yamm4n"), {
         target: { value: "node123" },
       });
 
@@ -318,11 +318,11 @@ describe("Register Component", () => {
     });
 
     await act(async () => {
-      fireEvent.change(screen.getByPlaceholderText("Enter operator name"), {
+      fireEvent.change(screen.getByPlaceholderText("Example"), {
         target: { value: "John" },
       });
 
-      fireEvent.change(screen.getByPlaceholderText("Enter node address"), {
+      fireEvent.change(screen.getByPlaceholderText("qubetics1jcdse3f8yqcnlyw54yamm4n"), {
         target: { value: "node123" },
       });
 
@@ -460,11 +460,11 @@ describe("Register Component", () => {
     });
 
     await act(async () => {
-      fireEvent.change(screen.getByPlaceholderText("Enter operator name"), {
+      fireEvent.change(screen.getByPlaceholderText("Example"), {
         target: { value: "John" },
       });
 
-      fireEvent.change(screen.getByPlaceholderText("Enter node address"), {
+      fireEvent.change(screen.getByPlaceholderText("qubetics1jcdse3f8yqcnlyw54yamm4n"), {
         target: { value: "node123" },
       });
 
@@ -490,11 +490,11 @@ describe("Register Component", () => {
     });
 
     await act(async () => {
-      fireEvent.change(screen.getByPlaceholderText("Enter operator name"), {
+      fireEvent.change(screen.getByPlaceholderText("Example"), {
         target: { value: "John" },
       });
 
-      fireEvent.change(screen.getByPlaceholderText("Enter node address"), {
+      fireEvent.change(screen.getByPlaceholderText("qubetics1jcdse3f8yqcnlyw54yamm4n"), {
         target: { value: "node123" },
       });
 
@@ -669,11 +669,11 @@ describe("Register Component", () => {
     });
 
     await act(async () => {
-      fireEvent.change(screen.getByPlaceholderText("Enter operator name"), {
+      fireEvent.change(screen.getByPlaceholderText("Example"), {
         target: { value: "John" },
       });
 
-      fireEvent.change(screen.getByPlaceholderText("Enter node address"), {
+      fireEvent.change(screen.getByPlaceholderText("qubetics1jcdse3f8yqcnlyw54yamm4n"), {
         target: { value: "node123" },
       });
 
@@ -714,11 +714,11 @@ describe("Register Component", () => {
     });
 
     await act(async () => {
-      fireEvent.change(screen.getByPlaceholderText("Enter operator name"), {
+      fireEvent.change(screen.getByPlaceholderText("Example"), {
         target: { value: "John" },
       });
 
-      fireEvent.change(screen.getByPlaceholderText("Enter node address"), {
+      fireEvent.change(screen.getByPlaceholderText("qubetics1jcdse3f8yqcnlyw54yamm4n"), {
         target: { value: "node123" },
       });
 
@@ -928,11 +928,11 @@ describe("Register Component", () => {
       render(<Register />);
     });
 
-    fireEvent.change(screen.getByPlaceholderText("Enter operator name"), {
+    fireEvent.change(screen.getByPlaceholderText("Example"), {
       target: { value: "John" },
     });
 
-    fireEvent.change(screen.getByPlaceholderText("Enter node address"), {
+    fireEvent.change(screen.getByPlaceholderText("qubetics1jcdse3f8yqcnlyw54yamm4n"), {
       target: { value: "node123" },
     });
 
@@ -957,11 +957,11 @@ describe("Register Component", () => {
       render(<Register />);
     });
 
-    fireEvent.change(screen.getByPlaceholderText("Enter operator name"), {
+    fireEvent.change(screen.getByPlaceholderText("Example"), {
       target: { value: "John" },
     });
 
-    fireEvent.change(screen.getByPlaceholderText("Enter node address"), {
+    fireEvent.change(screen.getByPlaceholderText("qubetics1jcdse3f8yqcnlyw54yamm4n"), {
       target: { value: "node123" },
     });
 
