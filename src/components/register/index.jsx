@@ -56,6 +56,7 @@ const Register = () => {
   const [nameError, setNameError] = useState("");
   const [isNameValid, setIsNameValid] = useState(true);
   const [error, setError] = useState("");
+  const [isNodeadd, setIsNodeadd] = useState(true);
 
   const chainId = env.chainId;
   const [activeline, setActiveline] = useState();
@@ -170,11 +171,11 @@ const Register = () => {
     if (chooseAction === "Link" && !choosePlan)
       return toast.error("Please choose a plan");
     if (!chooseAction) return toast.error("Please choose an action");
-    // if (email) {
-    //   if (!emailRegex.test(email)) {
-    //     return toast.error("Please enter the valid email address");
-    //   }
-    // }
+  
+    setEmailError("");
+    setNameError("");
+    setError("");
+
     const signData = await handleSign();
     if (!signData) {
       toast.error("User Rejected the Action");
@@ -261,7 +262,7 @@ const Register = () => {
     nodeAddress?.trim() !== "" &&
     chooseAction !== "" &&
     (chooseAction !== "Link" || choosePlan) &&
-    isEmailValid;
+    isEmailValid && isNameValid && isNodeadd;
 
   const handleEmailChange = (e) => {
     const { cleaned, error, isValid } = validateEmail(e.target.value);
@@ -281,6 +282,7 @@ const Register = () => {
     const { cleaned, error, isValid } = validateNodeAddress(e.target.value);
     setNodeAddress(cleaned);
     setError(error);
+    setIsNodeadd(isValid)
   };
 
   return (
@@ -405,6 +407,7 @@ const Register = () => {
             </label>
             <input
               type="text"
+              name="name"
               placeholder="Example"
               value={orgName}
               maxLength={50}
@@ -427,6 +430,7 @@ const Register = () => {
             <label>Email Address</label>
             <input
               type="text"
+              name="email"
               placeholder="example@gmail.com"
               value={email}
               onChange={handleEmailChange}
