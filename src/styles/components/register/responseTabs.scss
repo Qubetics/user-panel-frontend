@@ -19,17 +19,21 @@
     border-radius: 14px;
     width: 100%;
     max-width: 500px; // ✅ responsive width
-    min-height: 200px;
+    min-height: 170px;
     // box-shadow: 0 4.5px 20px rgba(255, 255, 255, 0.3);
     text-align: center;
     box-sizing: border-box;
     position: relative;
-
+    @media #{mobile()} {
+      min-height: 100px;
+    }
     &__heading {
       margin-top: s(30);
       margin-bottom: 20px;
-      font-size: s(24);
-
+      font-size: 24px;
+      @media #{mobile()} {
+        margin-top: s(20);
+      }
       @media (max-width: 480px) {
         margin: 1rem 0;
       }
@@ -42,6 +46,12 @@
       @media (max-width: 480px) {
         margin-bottom: s(12);
       }
+      @media (max-width: 1348px) {
+        margin-bottom: s(80);
+      }
+      @media #{mobile()} {
+        margin-bottom: s(14);
+      }
     }
   }
 
@@ -49,6 +59,9 @@
     margin-top: auto;
     display: flex;
     justify-content: center; // ✅ centers button horizontally
+    @media #{mobile()} {
+      margin-bottom: 20px;
+    }
   }
 
   &__close-btn {
