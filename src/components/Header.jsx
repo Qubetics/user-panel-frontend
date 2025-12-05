@@ -17,8 +17,7 @@ import { LogoutConfirmModal } from "./register/LogoutModal";
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { authData, setAuthData, status, setStatus, setRequest } =
-    useIsLoggedIn();
+  const { authData, setAuthData, status, setStatus, setRequest } = useIsLoggedIn();
   const [balance, setBalance] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false); // menu state
   const hasHeaderActions = true; // define this, or make it conditional based on route
@@ -36,10 +35,7 @@ const Header = () => {
 
   const getStatus = async (address) => {
     try {
-      const { success, data } = await useGetApi(
-        apiUrls.getStatus(address),
-        apiMethods.GET
-      );
+      const { success, data } = await useGetApi(apiUrls.getStatus(address), apiMethods.GET);
       if (!success) {
         console.error("No node address in the request");
         return;
@@ -79,8 +75,7 @@ const Header = () => {
     if (!window.keplr) {
       if (/Android/i.test(navigator.userAgent)) {
         // Android
-        window.location.href =
-          "intent://wc#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;";
+        window.location.href = "intent://wc#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;";
       } else if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
         // iOS
         window.location.href = "keplrwallet://";
@@ -180,38 +175,36 @@ const Header = () => {
                       </Link>
                     ))}
                   </div>
-                  <div className="requestDrawerBottom">
-                    <span className="gradientbrder">
-                      {Number(balance || 0).toFixed(2)} TICS
-                    </span>
-                    {authData && status && (
-                      <ButtonCustom
-                        className={getStatusClass(status) + " cursorIntial"}
-                        regularBtn
-                        label={toFirstCapital(status)}
-                      />
-                    )}
-                    <div
-                      className="gradientbrder"
-                      onClick={() => {
-                        navigator.clipboard.writeText(authData);
-                        setCopied(true);
-                        setTimeout(() => {
-                          setCopied(false);
-                        }, 1000);
-                      }}
-                    >
-                      <div className="text-add">
-                        {authData.slice(0, 4)}...{authData.slice(-4)}
-                      </div>
-                      <CopyText text={authData} copy={copied} />
-                    </div>
+                  <span className="gradientbrder">
+                    {Number(balance || 0).toFixed(2)} TICS
+                  </span>
+                  {authData && status && (
                     <ButtonCustom
+                      className={getStatusClass(status) + " cursorIntial"}
                       regularBtn
-                      label="Logout"
-                      onClick={() => setShowLogoutModal(true)}
+                      label={toFirstCapital(status)}
                     />
+                  )}
+                  <div
+                    className="gradientbrder"
+                    onClick={() => {
+                      navigator.clipboard.writeText(authData);
+                      setCopied(true);
+                      setTimeout(() => {
+                        setCopied(false);
+                      }, 1000);
+                    }}
+                  >
+                    <div className="text-add">
+                      {authData.slice(0, 4)}...{authData.slice(-4)}
+                    </div>
+                    <CopyText text={authData} copy={copied} />
                   </div>
+                  <ButtonCustom
+                    regularBtn
+                    label="Logout"
+                    onClick={() => setShowLogoutModal(true)}
+                  />
                 </div>
               )
             ) : null}
