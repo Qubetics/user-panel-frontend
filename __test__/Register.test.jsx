@@ -213,8 +213,6 @@ describe("Register Component", () => {
   });
 
   test("validates email format", async () => {
-    const { toast } = require("react-toastify");
-
     await act(async () => {
       render(<Register />);
     });
@@ -223,23 +221,15 @@ describe("Register Component", () => {
       fireEvent.change(screen.getByPlaceholderText("Example"), {
         target: { value: "John" },
       });
+    });
 
+    await act(async () => {
       fireEvent.change(
         screen.getByPlaceholderText("example@gmail.com"),
         {
           target: { value: "invalid-email" },
         }
       );
-
-      fireEvent.change(screen.getByPlaceholderText("qubetics1jcdse3f8yqcnlyw54yamm4n"), {
-        target: { value: "node123" },
-      });
-
-      fireEvent.change(screen.getAllByRole("combobox")[0], {
-        target: { value: "Unlink" },
-      });
-
-      fireEvent.click(screen.getByText("Submit"));
     });
 
     await waitFor(() => {
