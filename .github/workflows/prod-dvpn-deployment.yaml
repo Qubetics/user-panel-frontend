@@ -11,7 +11,7 @@ jobs:
     with:
       SWR_ORGANIZATION: prod-qubetics
       ARGOCD_BRANCH: prod
-      HUAWEI_REGION: 'ap-southeast-3'
+      HUAWEI_REGION: 'ap-southeast-1'
       ARGOCD_REPOSITORY: Qubetics/argocd-qubetics
       DEPLOYMENT_PATH: Dvpn-user-panel-frontend/deployment.yaml
       HUAWEI_IMAGE: prod-dvpn-user-panel-frontend
