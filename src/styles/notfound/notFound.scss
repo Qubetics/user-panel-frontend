@@ -49,9 +49,9 @@
     //   margin-bottom: s(12);
     // }
 
-    // @media (max-width: 767px) {
-    //   font-size: s(48);
-    // }
+    @media (max-width: 767px) {
+      font-size: s(40);
+    }
   }
 
   &__title {
