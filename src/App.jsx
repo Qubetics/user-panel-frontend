@@ -8,6 +8,7 @@ import { LoggedInProvider } from "./Context/LoggedInContext";
 import { ToastContainer } from "react-toastify";
 import Activity from "./components/activity";
 import PrivateRoute from "./PrivateRoute";
+import NotFound from "./components/NotFound";
 
 function App() {
   const location = useLocation();
@@ -38,6 +39,7 @@ function App() {
             }
           />
           <Route path="/register" element={<Register />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
 
         <Footer />
