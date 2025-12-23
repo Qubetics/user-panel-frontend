@@ -6,37 +6,64 @@ import useGetApi from "../../Hooks/useGetApi";
 import { apiUrls } from "../../Constant/apiUrls";
 import {
   apiMethods,
+  APPROVED,
   emailRegex,
+  emailfrontendRegex,
   NODE_FAILED,
   NODE_REQUEST,
+  REJECTED,
+  REQUEST_TYPE,
+  STATUS,
 } from "../../Constant/constants";
 import { toast } from "react-toastify";
 import { useIsLoggedIn } from "../../Context/LoggedInContext";
 import {
+  calculateBandwidth,
   computePubKey,
   formatDuration,
   getValueWithUnit,
   progressbar,
+  toFirstCapital,
+  truncateValue,
 } from "../../utils/Helper/CommonHelper";
 import { env } from "../../Constant/envConstants";
+import { Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
+import {
+  validateEmail,
+  validateName,
+  validateNodeAddress,
+} from "../../utils/validator";
 
 const Register = () => {
   const [visible, setVisible] = useState(false);
   const [planList, setPlanList] = useState([]);
+  const [providerList, setProviderList] = useState([]);
   const { authData, status, request } = useIsLoggedIn();
 
   const [orgName, setOrgName] = useState("");
   const [email, setEmail] = useState("");
   const [nodeAddress, setNodeAddress] = useState("");
+  const [chooseProvider, setChooseProvider] = useState("");
   const [choosePlan, setChoosePlan] = useState("");
   const [chooseAction, setChooseAction] = useState("");
   const [messageModal, setMessageModal] = useState("");
   const [duration, setDuration] = useState("");
   const [bandwidth, setBandwidth] = useState("");
+  const [planLoading, setPlanLoading] = useState(false);
+  const [emailError, setEmailError] = useState("");
+  const [isEmailValid, setIsEmailValid] = useState(true);
+  const [nameError, setNameError] = useState("");
+  const [isNameValid, setIsNameValid] = useState(true);
+  const [error, setError] = useState("");
+  const [isNodeadd, setIsNodeadd] = useState(true);
 
   const chainId = env.chainId;
   const [activeline, setActiveline] = useState();
   const message = (success) => (success ? NODE_REQUEST : NODE_FAILED);
+  const autoFill =
+    (status === APPROVED && request === REQUEST_TYPE.LINK) ||
+    (status === REJECTED && request === REQUEST_TYPE.UNLINK);
 
   const handleSign = async () => {
     try {
@@ -63,15 +90,19 @@ const Register = () => {
     if (e.target.value !== "SELECT") {
       const plan = JSON.parse(e.target.value);
       setChoosePlan(plan);
-      setBandwidth(
-        Math.round(plan?.gigabytes / (1024 * 1024 * 1024)) + " GB" || ""
-      );
+      setBandwidth(calculateBandwidth(plan));
       setDuration(formatDuration(plan?.hours));
     } else {
       setChoosePlan("");
       setBandwidth("");
       setDuration("");
     }
+  };
+
+  const handleProviderChange = (e) => {
+    setChooseProvider(e.target.value);
+    setChoosePlan("");
+    setPlanList([]);
   };
 
   const handleLinkChange = (e) => {
@@ -84,14 +115,41 @@ const Register = () => {
   };
 
   const getAllPlan = async () => {
-    try {
-      const result = await useGetApi(apiUrls.getAllPlan, apiMethods.GET);
-      const list =
-        result?.data?.data?.filter((item) => item.status === "active") || [];
-      setPlanList(list);
-    } catch (error) {
-      cpnsole.error(error?.message);
-    }
+    setPlanLoading(true);
+    const result = await useGetApi(
+      apiUrls.getAllPlan(chooseProvider),
+      apiMethods.GET
+    );
+
+    const list =
+      result?.data?.data?.filter((item) => item.status === STATUS.ACTIVE) || [];
+
+    const sortedList = [...list].sort((a, b) => {
+      const aValue = a?.prices?.[0]?.quote_value || 0;
+      const bValue = b?.prices?.[0]?.quote_value || 0;
+      return bValue - aValue;
+    });
+
+    setPlanList(sortedList);
+    setPlanLoading(false);
+  };
+
+  const getProviderList = async () => {
+    const result = await useGetApi(
+      apiUrls.getProvidersWithPlans,
+      apiMethods.GET
+    );
+    setProviderList(result?.data?.data?.providers);
+  };
+
+  const getPrefillValues = async () => {
+    const result = await useGetApi(
+      apiUrls.getLinkedNodeDetails(authData),
+      apiMethods.GET
+    );
+    setOrgName(result?.data?.data?.data?.orgName);
+    setEmail(result?.data?.data?.data?.email);
+    setNodeAddress(result?.data?.data?.data?.nodeAddress);
   };
 
   const handleClose = () => {
@@ -108,15 +166,16 @@ const Register = () => {
 
   const postNodeRequest = async () => {
     if (!authData) return toast.error("Connect your wallet first");
+    if (!orgName.trim()) return toast.error("Operator name is required");
     if (!nodeAddress.trim()) return toast.error("Node Address is required");
     if (chooseAction === "Link" && !choosePlan)
       return toast.error("Please choose a plan");
     if (!chooseAction) return toast.error("Please choose an action");
-    if (email) {
-      if (!emailRegex.test(email)) {
-        return toast.error("Please enter the valid email address");
-      }
-    }
+  
+    setEmailError("");
+    setNameError("");
+    setError("");
+
     const signData = await handleSign();
     if (!signData) {
       toast.error("User Rejected the Action");
@@ -137,8 +196,9 @@ const Register = () => {
 
     const body = {
       orgName: orgName || undefined,
-      emailAddress: email || undefined,
+      emailAddress: email?.toLowerCase() || undefined,
       nodeAddress,
+      providerAddress: chooseProvider,
       ...(chooseAction === "Link" && { choosePlan: extendedPlan }),
       address: authData,
       pubKey: compubKey,
@@ -173,19 +233,58 @@ const Register = () => {
   };
 
   useEffect(() => {
-    getAllPlan();
+    getProviderList();
   }, []);
+
+  useEffect(() => {
+    if (chooseProvider) {
+      getAllPlan();
+    }
+  }, [chooseProvider]);
 
   useEffect(() => {
     if (authData) {
       progressbarAction();
     }
   }, [authData, status, request]);
-  console.log(
-    env,
-    import.meta.env.VITE_GITBOOK_LINK,
-    "import.meta.env.VITE_GITBOOK_LINK"
-  );
+
+  useEffect(() => {
+    if (autoFill) {
+      setChooseAction(REQUEST_TYPE.UNLINK);
+      getPrefillValues();
+    }
+  }, [status]);
+
+  const GITBOOK_LINK = env.gitbookLink;
+
+  const isFormValid =
+    orgName?.trim() !== "" &&
+    nodeAddress?.trim() !== "" &&
+    chooseAction !== "" &&
+    (chooseAction !== "Link" || choosePlan) &&
+    isEmailValid && isNameValid && isNodeadd;
+
+  const handleEmailChange = (e) => {
+    const { cleaned, error, isValid } = validateEmail(e.target.value);
+    setEmail(cleaned);
+    setEmailError(error);
+    setIsEmailValid(isValid);
+  };
+
+  const handleNameChange = (e) => {
+    const { cleaned, error, isValid } = validateName(e.target.value);
+    setOrgName(cleaned);
+    setNameError(error);
+    setIsNameValid(isValid);
+  };
+
+  const handleNodeAddressChange = (e) => {
+    const { cleaned, error, isValid } = validateNodeAddress(e.target.value);
+    setNodeAddress(cleaned);
+    setError(error);
+    setIsNodeadd(isValid)
+  };
+
   return (
     <div className="register-container">
       <div>
@@ -211,32 +310,31 @@ const Register = () => {
         <div className="register-left">
           <h2>Registration Process </h2>
           <div className="process-card">
-            <h3>
-              Step 1: Run the script and follow the steps mentioned in{" "}
-              <a
-                href={import.meta.env.VITE_GITBOOK_LINK}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ color: "white" }}
-              >
-                gitbook
-              </a>{" "}
-              <span style={{ color: "red" }}>*</span>
-            </h3>
             <div className="process-card_inner">
+              <h3>
+                Step 1: Run the script and follow the steps mentioned in{" "}
+                <a
+                  href={GITBOOK_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: "white" }}
+                >
+                  gitbook
+                </a>{" "}
+                {/* <span style={{ color: "red" }}>*</span> */}
+              </h3>
               <p>
                 Run the provided setup script to initialize your own DVPN node.{" "}
                 <a
-                  href={import.meta.env.VITE_GITBOOK_LINK}
+                  href={GITBOOK_LINK}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-block underline"
-                  style={{ color: "white" }}
+                  style={{ color: "white", textDecoration: "underline" }}
                 >
-                  (Guide Link)
+                  Gitbook Link
                 </a>
               </p>
-              <br></br>
               <p>
                 After running the script, continue with <strong>Step 2</strong>{" "}
                 and <strong>Step 3</strong> in the guide.
@@ -255,49 +353,47 @@ const Register = () => {
             </div>
           </div>
           <div className="process-card">
-            <h3>Step 2: Connect Keplr Wallet</h3>
             <div className="process-card_inner">
+              <h3>Step 2: Connect Keplr Wallet</h3>
               Import your node wallet into Keplr and connect with the same
               wallet used during node setup. This ensures proper ownership
               validation and links your wallet address to the deployed node.
             </div>
           </div>
           <div className="process-card">
-            <h3>Step 3: Details Required to become a Node Operator</h3>
             <div className="process-card_inner">
-              <strong>Set Operator Name</strong>:
+              <h3>Step 3: Details Required to become a Node Operator</h3>
+              <strong>Set Operator Name</strong>
               <p>
-                Assign a unique operator name is optional.If you choose to add
-                one,this acts as your node’s identifier within the ecosystem.
+                Assign a unique operator name. This acts as your node’s
+                identifier within the ecosystem.
               </p>
               <br />
-              <strong>Email Address</strong>:
+              <strong>Email Address</strong>
               <p>
-                Provide an email address is optional.If you choose to add
-                one,you'll receive updates on approval, rejection, or any
-                follow-up requests regarding your node registration.
+                Providing an email address is optional however, if you choose to
+                include it, you will receive updates regarding the status of
+                your node registration.
               </p>{" "}
               <br />
-              <strong>Node Address</strong>:
+              <strong>Node Address</strong>
               <p>
                 Input the node address provided after you launch the node. The
                 system will validate this address with your deployed node.
               </p>{" "}
               <br />
-              <strong>Request Type</strong>:
+              <strong>Request Type</strong>
               <p>
                 Choose whether you want to send a request to link your node to
                 the provider’s ecosystem or to unlink an existing node from it.
               </p>{" "}
               <br />
-              <strong>Choose Plan</strong>:
+              <strong>Choose Plan</strong>
               <p>
-                when choose a hosting plan from Qubetics, each plan comes with
-                predefined bandwidth, duration, and platform fees. Once you
-                select a plan, these details are automatically applied to your
-                node, so you don’t need to set them manually.
+                When you choose a hosting plan, its predefined bandwidth,
+                duration, and platform fees are automatically applied to your
+                node, so no manual setup is needed.
               </p>{" "}
-              <br />
             </div>
           </div>
         </div>
@@ -306,22 +402,51 @@ const Register = () => {
         <div className="register-right">
           <h2>Join Qubetics dVPN</h2>
           <div className="form-group">
-            <label>Operator Name</label>
+            <label>
+              Operator Name <span className="astrick">*</span>
+            </label>
             <input
               type="text"
-              placeholder="Enter operator name"
+              name="name"
+              placeholder="Example"
               value={orgName}
-              onChange={(e) => setOrgName(e.target.value)}
+              maxLength={50}
+              onChange={handleNameChange}
             />
+            {nameError && (
+              <p
+                style={{
+                  color: "red",
+                  marginTop: "4px",
+                  fontSize: "12px",
+                  fontWeight: "bold",
+                }}
+              >
+                {nameError}
+              </p>
+            )}
           </div>
           <div className="form-group">
             <label>Email Address</label>
             <input
               type="text"
-              placeholder="Enter your email address"
+              name="email"
+              placeholder="example@gmail.com"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleEmailChange}
             />
+            {emailError && (
+              <span
+                style={{
+                  color: "red",
+                  fontSize: "12px",
+                  fontWeight: "bold",
+                  marginTop: "4px",
+                }}
+              >
+                {emailError}
+              </span>
+            )}
           </div>
           <div className="form-group">
             <label>
@@ -329,10 +454,23 @@ const Register = () => {
             </label>
             <input
               type="text"
-              placeholder="Enter node address"
+              placeholder="qubetics1jcdse3f8yqcnlyw54yamm4n"
               value={nodeAddress}
-              onChange={(e) => setNodeAddress(e.target.value)}
+              maxLength={51}
+              onChange={handleNodeAddressChange}
             />
+            {error && (
+              <p
+                style={{
+                  color: "red",
+                  marginTop: "4px",
+                  fontSize: "12px",
+                  fontWeight: "bold",
+                }}
+              >
+                {error}
+              </p>
+            )}
           </div>
           <div className="form-group ">
             <label>
@@ -341,12 +479,46 @@ const Register = () => {
             <div className="custom-select">
               <select value={chooseAction} onChange={handleLinkChange}>
                 <option value="">-- Select Action --</option>
-                <option value="Link">Link Node</option>
+                <option
+                  value="Link"
+                  disabled={
+                    status === APPROVED && request === REQUEST_TYPE.LINK
+                  }
+                >
+                  Link Node
+                </option>
                 <option value="Unlink">Unlink Node</option>
               </select>
             </div>
           </div>
           {chooseAction === "Link" && (
+            <div className="form-group">
+              <label>
+                Choose Provider <span className="astrick">*</span>
+              </label>
+              <div className="custom-select">
+                <select
+                  value={chooseProvider}
+                  onChange={handleProviderChange}
+                  disabled={planLoading}
+                >
+                  <option value="SELECT">-- Select a Provider --</option>
+                  {providerList?.map((provider, index) => (
+                    <option key={index} value={provider?.providerAddress}>
+                      {truncateValue(provider?.providerAddress) +
+                        ` (${toFirstCapital(provider?.name)})`}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              {planLoading && (
+                <span className="astrick">
+                  <Spin indicator={<LoadingOutlined spin />} size="small" />
+                </span>
+              )}
+            </div>
+          )}
+          {chooseAction === "Link" && chooseProvider && !planLoading && (
             <div className="form-group">
               <label>
                 Choose Plan <span className="astrick">*</span>
@@ -395,7 +567,13 @@ const Register = () => {
             </div>
           )}
           <div className="form-actions">
-            <ButtonCustom regularBtn label="Submit" onClick={postNodeRequest} />
+            <ButtonCustom
+              regularBtn
+              label="Submit"
+              onClick={postNodeRequest}
+              disabled={!isFormValid}
+              title="Required all fields"
+            />
           </div>
         </div>
       </div>

@@ -6,6 +6,9 @@ import LandingPage from "./components/landingPage";
 import Register from "./components/register";
 import { LoggedInProvider } from "./Context/LoggedInContext";
 import { ToastContainer } from "react-toastify";
+import Activity from "./components/activity";
+import PrivateRoute from "./PrivateRoute";
+import NotFound from "./components/NotFound";
 
 function App() {
   const location = useLocation();
@@ -20,23 +23,25 @@ function App() {
 
   return (
     <div className="min-h-screen">
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
+      <ToastContainer position="top-right" autoClose={3000} />
+
       <LoggedInProvider>
         <Header />
+
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route
+            path="request-history"
+            element={
+              <PrivateRoute>
+                <Activity />
+              </PrivateRoute>
+            }
+          />
           <Route path="/register" element={<Register />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
+
         <Footer />
       </LoggedInProvider>
     </div>

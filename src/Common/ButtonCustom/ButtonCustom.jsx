@@ -14,6 +14,7 @@ function ButtonCustom(props) {
     children,
     id,
     icon,
+    title,
   } = props;
   return (
     <button
@@ -27,6 +28,7 @@ function ButtonCustom(props) {
       disabled={disabled}
       tabIndex={tabIndex}
       id={id}
+      title={disabled ? title : ""}
     >
       {children} {label}
       {icon && <span>{icon}</span>}

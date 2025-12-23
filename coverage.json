@@ -1,0 +1,4 @@
+
+> user-panel-frontend@0.0.0 test
+> jest --coverage --coverageReporters=json --collectCoverageFrom=src/components/register/index.jsx
+

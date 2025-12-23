@@ -1,11 +1,11 @@
-import { Buffer } from 'buffer';
+import { Buffer } from "buffer";
 import sha3 from "js-sha3";
 import { arrayify } from "@ethersproject/bytes";
 import { serializeSignDoc } from "@cosmjs/launchpad";
 import { signatureToPubkey } from "@hanchon/signature-to-pubkey";
-import { PENDING, REJECTED, WEI } from '../../Constant/constants';
-import { env } from '../../Constant/envConstants';
-import BigNumber from 'bignumber.js';
+import { PENDING, REJECTED, WEI } from "../../Constant/constants";
+import { env } from "../../Constant/envConstants";
+import BigNumber from "bignumber.js";
 
 window.Buffer = Buffer;
 
@@ -29,29 +29,21 @@ function messageToAminoTransaction(signer, data) {
     ],
     memo: "",
   };
-};
+}
 
 export const computePubKey = (address, signature, signMessage) => {
   try {
     // Encode the message into amino format
-    const aminoEncoded = messageToAminoTransaction(
-      address,
-      Buffer.from(signMessage).toString("base64")
-    );
+    const aminoEncoded = messageToAminoTransaction(address, Buffer.from(signMessage).toString("base64"));
     const serialized = serializeSignDoc(aminoEncoded);
 
     // Hash the amino message that was signed
     const hashed = sha3.keccak_256(arrayify(serialized));
 
     // Compare signature
-    const signatureToCompare = `0x${Buffer.from(signature, "base64").toString(
-      "hex"
-    )}`;
+    const signatureToCompare = `0x${Buffer.from(signature, "base64").toString("hex")}`;
 
-    const pubkeyComputed = signatureToPubkey(
-      signatureToCompare,
-      Buffer.from(hashed, "hex")
-    );
+    const pubkeyComputed = signatureToPubkey(signatureToCompare, Buffer.from(hashed, "hex"));
     return pubkeyComputed;
   } catch (err) {
     console.error("err", err);
@@ -97,7 +89,7 @@ export const formatDuration = (hours) => {
 };
 
 export const progressbar = (status) => {
-  if(!status) return false;
+  if (!status) return false;
   if (status === PENDING || status === REJECTED) return false;
   return true;
 };
@@ -123,4 +115,62 @@ export const getValueWithUnit = (value, unit = env.currency) => {
   return valueStr;
 };
 
+export const calculateBandwidth = (plan) => {
+  if (!plan?.gigabytes) return "";
+  const gb = Math.round(plan.gigabytes / (1024 * 1024 * 1024));
+  return `${gb} GB`;
+};
+
+export const truncateValue = (value, start = 7, end = 7) => {
+  if (!value) return "";
+  if (value.length <= start + end) return value;
+  return `${value.slice(0, start)}...${value.slice(-end)}`;
+};
+
+export const formatTimestamp = (timestamp) => {
+  if (!timestamp) return "";
+  const date = new Date(timestamp);
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  let hours = date.getHours();
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  const ampm = hours >= 12 ? "pm" : "am";
+
+  hours = hours % 12 || 12;
+
+  return `${year}-${month}-${day} ${String(hours).padStart(2, "0")}:${minutes}${ampm}`;
+};
+
+export const formatHours = (hours) => {
+  const value = Number(hours ?? 0);
+  return value > 1 ? `${value} Hrs` : `${value} Hr`;
+};
+
+export const formatPlanWithTooltip = (planRaw) => {
+  if (!planRaw || planRaw === "-") {
+    return {
+      formatted: "-",
+      tooltip: "-"
+    };
+  }
+
+  const numberValue = parseFloat(planRaw);
+
+  if (isNaN(numberValue)) {
+    return {
+      formatted: planRaw,
+      tooltip: planRaw
+    };
+  }
+
+  const formattedValue = numberValue.toFixed(2);
+
+  return {
+    formatted: `${formattedValue} TICS/month`,
+    tooltip: planRaw
+  };
+};
 
