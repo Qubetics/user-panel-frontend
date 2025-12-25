@@ -11,6 +11,7 @@ function Activity() {
   const [activityList, setActivityList] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [total, setTotal] = useState(0);
   const [limit, setLimit] = useState(10);
   const [isLoading, setIsLoading] = useState(true);
   const { authData } = useIsLoggedIn();
@@ -22,6 +23,7 @@ function Activity() {
 
     if (success) {
       setActivityList(data?.data?.activityList || []);
+      setTotal(data?.data?.count || 0);
       setTotalPages(data?.data?.count ? Math.ceil(data.data.count / limit) : 1);
     }
 
@@ -87,7 +89,7 @@ function Activity() {
         </div>
 
         {/* Pagination */}
-        {activityList?.length > 5 && !isLoading && (
+        {total > 5 && !isLoading && (
           <Pagination
             currentPage={page}
             totalPages={totalPages}
