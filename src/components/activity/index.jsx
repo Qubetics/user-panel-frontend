@@ -4,12 +4,7 @@ import { useIsLoggedIn } from "../../Context/LoggedInContext";
 import useGetApi from "../../Hooks/useGetApi";
 import Pagination from "../../utils/Helper/Pagination";
 import "./Activity.scss";
-import {
-  formatHours,
-  formatPlanWithTooltip,
-  formatTimestamp,
-  toFirstCapital,
-} from "../../utils/Helper/CommonHelper";
+import { formatHours, formatPlanWithTooltip, formatTimestamp, toFirstCapital } from "../../utils/Helper/CommonHelper";
 import InnerLoader from "../../Common/Loader/InnerLoader";
 
 function Activity() {
@@ -23,9 +18,7 @@ function Activity() {
   const fetchData = async () => {
     setIsLoading(true);
 
-    const { success, data } = await useGetApi(
-      apiUrls.getActivityList(authData, page, limit)
-    );
+    const { success, data } = await useGetApi(apiUrls.getActivityList(authData, page, limit));
 
     if (success) {
       setActivityList(data?.data?.activityList || []);
@@ -74,17 +67,13 @@ function Activity() {
                 </tr>
               ) : (
                 activityList?.map((row, i) => {
-                  const { formatted, tooltip } = formatPlanWithTooltip(
-                    row?.metaData?.plan
-                  );
+                  const { formatted, tooltip } = formatPlanWithTooltip(row?.metaData?.plan);
 
                   return (
                     <tr key={i}>
                       <td>{toFirstCapital(row?.providerName)}</td>
                       <td>{row?.type ?? "-"}</td>
-                      <td className={row?.action?.toLowerCase() || ""}>
-                        {toFirstCapital(row?.action)}
-                      </td>
+                      <td className={row?.action?.toLowerCase() || ""}>{toFirstCapital(row?.action)}</td>
                       <td title={tooltip}>{formatted}</td>
                       <td>{formatHours(row?.metaData?.hours)}</td>
                       <td>{row?.metaData?.bandwidth ?? "0"} GB</td>
@@ -98,7 +87,7 @@ function Activity() {
         </div>
 
         {/* Pagination */}
-        {totalPages > 1 && (
+        {activityList?.length > 5 && !isLoading && (
           <Pagination
             currentPage={page}
             totalPages={totalPages}
