@@ -73,7 +73,7 @@ function Activity() {
 
                   return (
                     <tr key={i}>
-                      <td>{toFirstCapital(row?.providerName)}</td>
+                      <td>{toFirstCapital(row?.providerName) || "-"}</td>
                       <td>{row?.type ?? "-"}</td>
                       <td className={row?.action?.toLowerCase() || ""}>{toFirstCapital(row?.action)}</td>
                       <td title={tooltip}>{formatted}</td>
