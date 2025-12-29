@@ -1,7 +1,4 @@
-import React from "react";
-
 const Pagination = ({ currentPage, totalPages, onPageChange, limit = 5, onLimitChange = () => {} }) => {
-  // Helper: generate page numbers
   const getPages = () => {
     const pages = [];
     for (let i = 1; i <= totalPages; i++) {
@@ -27,13 +24,12 @@ const Pagination = ({ currentPage, totalPages, onPageChange, limit = 5, onLimitC
           ))}
         </select>
       </div>
-      {/* Prev button */}
+
       <div className="page-numbers">
         <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1}>
           {"<"}
         </button>
 
-        {/* Page numbers */}
         {getPages().map((page) => (
           <button
             key={page}
@@ -44,7 +40,6 @@ const Pagination = ({ currentPage, totalPages, onPageChange, limit = 5, onLimitC
           </button>
         ))}
 
-        {/* Next button */}
         <button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages}>
           {">"}
         </button>

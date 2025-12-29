@@ -23,7 +23,7 @@ const QuickStart = () => {
       id: 3,
       title: "Stake & Go Live",
       description:
-        "Once your node goes live on the dVPN app, users can connect and you can start earning as a node operator",
+        "Once your node goes live on the dVPN app, users can connect and you can start earning as a node operator.",
       icon: <img src={NodeImage3} alt="" />,
     },
   ];
