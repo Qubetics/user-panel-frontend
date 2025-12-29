@@ -14,16 +14,15 @@
 
   &__content {
     background: #121212;
-    // padding: 2rem 1.5rem;
     border: 1px solid #3b393c;
     border-radius: 14px;
     width: 100%;
     max-width: 500px; // ✅ responsive width
     min-height: 200px;
-    // box-shadow: 0 4.5px 20px rgba(255, 255, 255, 0.3);
     text-align: center;
     box-sizing: border-box;
     position: relative;
+
 
     &__heading {
       margin-top: s(30);
