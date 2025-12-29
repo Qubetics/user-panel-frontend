@@ -97,7 +97,6 @@ function Activity() {
           </table>
         </div>
 
-        {/* Pagination */}
         {totalPages > 1 && (
           <Pagination
             currentPage={page}

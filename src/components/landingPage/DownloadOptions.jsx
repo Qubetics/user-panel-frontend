@@ -1,21 +1,12 @@
 import "../../styles/components/landingPage/downloadOptions.scss";
 import { AndroidIcon, IOSIcon } from "../../assets/StoreAsset/StoreAsset";
-import { toast } from "react-toastify";
 import { env } from "../../Constant/envConstants";
-import { message } from "../../Constant/constants";
 
 const DownloadOptions = () => {
-  const handleToast = () => {
-    toast.success(message.app_store_coming);
-    return;
-  };
-
   return (
     <section className="download" id="download-section">
       <div className="download-options">
-        <h2 className="smallText download-options__heading">
-          Download it now
-        </h2>
+        <h2 className="smallText download-options__heading">Download it now</h2>
         <h6 className="download-options__message">
           Secure, fast and decentralized VPN powered by Qubetics
         </h6>

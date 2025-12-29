@@ -1,4 +1,3 @@
-import React from "react";
 import ButtonCustom from "../../Common/ButtonCustom/ButtonCustom";
 import "../../styles/components/register/responseTabs.scss";
 

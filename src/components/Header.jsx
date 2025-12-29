@@ -20,19 +20,11 @@ const Header = () => {
   const { authData, setAuthData, status, setStatus, setRequest } =
     useIsLoggedIn();
   const [balance, setBalance] = useState("");
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // menu state
-  const hasHeaderActions = true; // define this, or make it conditional based on route
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const hasHeaderActions = true;
   const [isMobile, setIsMobile] = useState(false);
   const [copied, setCopied] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
-
-  // const handleResize = () => {
-  //   setIsMobile(window.innerWidth <= 768);
-  // };
-  // useEffect(() => {
-  //   window.addEventListener("resize", handleResize);
-  //   return () => window.removeEventListener("resize", handleResize);
-  // }, []);
 
   const getStatus = async (address) => {
     try {
@@ -78,11 +70,9 @@ const Header = () => {
   const handleClick = async () => {
     if (!window.keplr) {
       if (/Android/i.test(navigator.userAgent)) {
-        // Android
         window.location.href =
           "intent://wc#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;";
       } else if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-        // iOS
         window.location.href = "keplrwallet://";
       } else {
         toast.error("Install Keplr extension first");
@@ -92,7 +82,6 @@ const Header = () => {
     const chainId = env.chainId;
 
     try {
-      // await window.keplr.disable(chainId);
       await window.keplr.enable(chainId);
 
       const offlineSigner = window.keplr.getOfflineSigner(chainId);
@@ -102,12 +91,6 @@ const Header = () => {
         toast.error("No accounts found in Keplr");
         return;
       }
-
-      // const evmAddress = await showEVMAddress(accounts[0].address);
-      // console.log("🚀 ~ connectWallet ~ evmAddress:", evmAddress)
-      // const valoperAddress = await convertToValoperAddress(
-      //   accounts[0].address
-      // );
 
       setAuthData(accounts[0]?.address);
       toast.success("Wallet connected successfully!");

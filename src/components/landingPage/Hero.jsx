@@ -1,4 +1,3 @@
-import React from "react";
 import "../../styles/components/landingPage/hero.scss";
 import ButtonCustom from "../../Common/ButtonCustom/ButtonCustom";
 import { useNavigate } from "react-router-dom";

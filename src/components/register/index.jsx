@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ButtonCustom from "../../Common/ButtonCustom/ButtonCustom";
 import "../../styles/components/register/style.scss";
 import { NotificationModal } from "./ResponseTabs";
@@ -7,8 +7,6 @@ import { apiUrls } from "../../Constant/apiUrls";
 import {
   apiMethods,
   APPROVED,
-  emailRegex,
-  emailfrontendRegex,
   NODE_FAILED,
   NODE_REQUEST,
   REJECTED,
@@ -171,7 +169,7 @@ const Register = () => {
     if (chooseAction === "Link" && !choosePlan)
       return toast.error("Please choose a plan");
     if (!chooseAction) return toast.error("Please choose an action");
-  
+
     setEmailError("");
     setNameError("");
     setError("");
@@ -262,7 +260,9 @@ const Register = () => {
     nodeAddress?.trim() !== "" &&
     chooseAction !== "" &&
     (chooseAction !== "Link" || choosePlan) &&
-    isEmailValid && isNameValid && isNodeadd;
+    isEmailValid &&
+    isNameValid &&
+    isNodeadd;
 
   const handleEmailChange = (e) => {
     const { cleaned, error, isValid } = validateEmail(e.target.value);
@@ -282,7 +282,7 @@ const Register = () => {
     const { cleaned, error, isValid } = validateNodeAddress(e.target.value);
     setNodeAddress(cleaned);
     setError(error);
-    setIsNodeadd(isValid)
+    setIsNodeadd(isValid);
   };
 
   return (
@@ -290,7 +290,6 @@ const Register = () => {
       <div>
         <h3>Register as Node Operator</h3>
       </div>
-      {/* Header */}
       <div className="stepper">
         <div className="step-item active">
           <div className="step-circle">1</div>
@@ -306,7 +305,6 @@ const Register = () => {
       </div>
 
       <div className="register-content">
-        {/* Left Panel */}
         <div className="register-left">
           <h2>Registration Process </h2>
           <div className="process-card">
@@ -321,7 +319,6 @@ const Register = () => {
                 >
                   gitbook
                 </a>{" "}
-                {/* <span style={{ color: "red" }}>*</span> */}
               </h3>
               <p>
                 Run the provided setup script to initialize your own DVPN node.{" "}
@@ -339,17 +336,6 @@ const Register = () => {
                 After running the script, continue with <strong>Step 2</strong>{" "}
                 and <strong>Step 3</strong> in the guide.
               </p>
-
-              {/* <p>
-                <a
-                  href={import.meta.env.VITE_GITBOOK_LINK}
-                  target="_blank"
-                  rel="noopener"
-                >
-                  Gitbook link
-                </a>
-              </p>
-              <p>After running the script follow the step 2 and step 3</p> */}
             </div>
           </div>
           <div className="process-card">
@@ -398,7 +384,6 @@ const Register = () => {
           </div>
         </div>
 
-        {/* Right Panel */}
         <div className="register-right">
           <h2>Join Qubetics dVPN</h2>
           <div className="form-group">
@@ -550,7 +535,6 @@ const Register = () => {
                 placeholder="Duration"
                 value={duration}
                 disabled={true}
-                // onChange={(e) => setEmail(e.target.value)}
               />
             </div>
           )}{" "}
@@ -562,7 +546,6 @@ const Register = () => {
                 placeholder="Bandwidth in bytes"
                 value={bandwidth}
                 disabled={true}
-                // onChange={(e) => setEmail(e.target.value)}
               />
             </div>
           )}

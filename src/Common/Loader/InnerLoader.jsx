@@ -14,7 +14,11 @@ function InnerLoader() {
       }}
     >
       <div className="lottieIcon">
-        <Lottie animationData={datajson} loop={true} style={{ width: "100px", height: "100px" }} />
+        <Lottie
+          animationData={datajson}
+          loop={true}
+          style={{ width: "100px", height: "100px" }}
+        />
       </div>
     </div>
   );

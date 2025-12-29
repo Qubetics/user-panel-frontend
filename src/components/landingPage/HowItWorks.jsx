@@ -1,12 +1,12 @@
-import {
-  DownloadIcon,
-  GlobeIcon,
-  Share2Icon,
-} from "../../assets/StoreAsset/StoreAsset";
+// import {
+//   DownloadIcon,
+//   GlobeIcon,
+//   Share2Icon,
+// } from "../../assets/StoreAsset/StoreAsset";
 import "../../styles/components/landingPage/how-it-works.scss";
-import downloanIcon from '../../assets/downloanIcon.svg';
-import connectIcon from '../../assets/connectIcon.svg';
-import browseIcon from '../../assets/browseIcon.svg';
+import downloanIcon from "../../assets/downloanIcon.svg";
+import connectIcon from "../../assets/connectIcon.svg";
+import browseIcon from "../../assets/browseIcon.svg";
 
 const HowItWorks = () => {
   const steps = [
@@ -37,10 +37,19 @@ const HowItWorks = () => {
         </div>
 
         <div className="process-flow">
-          {/* SVG dashed path */}
           <div className="process-flow-borderback">
-            <svg width="963" height="98" viewBox="0 0 963 98" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M1.12793 43.9221C54.6564 88.3922 148.249 136.902 468.327 44.7084C576.476 -0.84573 773.111 -26.8769 962.1 51.216" stroke="#A0A0A0" stroke-dasharray="6 6" />
+            <svg
+              width="963"
+              height="98"
+              viewBox="0 0 963 98"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M1.12793 43.9221C54.6564 88.3922 148.249 136.902 468.327 44.7084C576.476 -0.84573 773.111 -26.8769 962.1 51.216"
+                stroke="#A0A0A0"
+                stroke-dasharray="6 6"
+              />
             </svg>
           </div>
 
@@ -48,8 +57,7 @@ const HowItWorks = () => {
             {steps.map((step, idx) => (
               <div className="step" key={idx}>
                 <div className="step__icon">
-                  {/* <div>{step.icon}</div> */}
-                  <img src={step.icon} alt='work-icon' />
+                  <img src={step.icon} alt="work-icon" />
                 </div>
                 <h4 className="step__title">{step.title}</h4>
                 <h6 className="step__desc">{step.description}</h6>

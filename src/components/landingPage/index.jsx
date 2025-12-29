@@ -1,4 +1,3 @@
-import React from "react";
 import Hero from "./Hero";
 import HowItWorks from "./HowItWorks";
 import NetworkAnalytics from "./NetworkAnalytics";

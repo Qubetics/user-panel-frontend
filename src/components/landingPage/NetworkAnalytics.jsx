@@ -1,11 +1,11 @@
 import axios from "axios";
 import {
-  ActiveIcon,
+  // ActiveIcon,
   CountriesIcon,
-  DataConsumedICon,
+  // DataConsumedICon,
   GroupUserIcon,
   NodesIcon,
-  UserIcon,
+  // UserIcon,
 } from "../../assets/StoreAsset/StoreAsset";
 import StatCard from "../../Common/StatCard/StatCard";
 import "../../styles/components/landingPage/network-analytics.scss";
@@ -17,16 +17,9 @@ import { Col, Row } from "antd";
 const NetworkAnalytics = () => {
   const [analytics, setAnalytics] = useState();
   const stats = [
-    // { label: "User Online", value: analytics?.active_session|| "0", icon: <UserIcon /> },
     { label: "Total Countries", value: analytics?.total_country || "0", icon: <CountriesIcon /> },
     { label: "dVPN Nodes Online", value: analytics?.active_nodes || "0", icon: <NodesIcon /> },
     { label: "Total Users", value: analytics?.total_user || "0", icon: <GroupUserIcon /> },
-    // { label: "Active Countries", value: "56", icon: <ActiveIcon /> },
-    // {
-    //   label: "Total Data Consumed",
-    //   value: "3.81 PB",
-    //   icon: <DataConsumedICon />,
-    // },
   ];
 
   const fetchAnalytics = async () => {
