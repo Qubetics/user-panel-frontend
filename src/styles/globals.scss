@@ -82,11 +82,9 @@ body {
   scrollbar-width: 4px;
 
   ::-webkit-scrollbar {
-    // }
     ::-webkit-scrollbar-thumb {
       background-color: rgb(6, 6, 6);
       border-radius: 20px;
-      //   border: 3px solid green;
     }
   }
 }
@@ -837,7 +835,7 @@ h6 {
     align-items: center;
     justify-content: space-between;
     margin-top: 30px;
-    // flex-direction: row-reverse;
+
 
     @media (max-width: 1679px) {
       margin-top: 24px;
@@ -890,7 +888,7 @@ h6 {
         border: 1px solid #3b393c !important;
         background: #121212;
         color: #ffffff;
-        // padding: 4px s(20) !important;
+    
       }
     }
 

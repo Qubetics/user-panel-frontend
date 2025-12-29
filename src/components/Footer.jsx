@@ -1,4 +1,3 @@
-import React from "react";
 import "../styles/components/footer/footer.scss";
 import LogoFooter from "../assets/HeaderLogo.svg";
 import x from "../assets/x.svg";
@@ -9,6 +8,7 @@ import Instagram from "../assets/Instagram.svg";
 import TickTok from "../assets/TickTok.svg";
 import coinmarketcap from "../assets/coinmarketcap.svg";
 import { env } from "../Constant/envConstants";
+
 
 const Footer = () => {
   return (

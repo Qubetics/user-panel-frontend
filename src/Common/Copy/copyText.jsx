@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { CheckOutlined } from "@ant-design/icons";
 import { Tooltip } from "antd";
-import { useState } from "react";
 import { NewCopyIcon } from "../../assets/SvgIcon/SvgIcon";
+
 
 export default function CopyText({ text, copy }) {
   const [copied, setCopied] = useState(copy || false);

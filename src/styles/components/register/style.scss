@@ -38,99 +38,7 @@
   }
 }
 
-// .stepper {
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   margin: s(40) auto;
-//   max-width: s(400);
 
-//   @media (max-width: 991px) {
-//     margin: s(12) auto;
-//     max-width: s(200);
-//   }
-
-//   .step-item {
-//     display: flex;
-//     flex-direction: column;
-//     align-items: center;
-//     text-align: center;
-
-//     .step-circle {
-//       width: s(32);
-//       height: s(32);
-//       border-radius: 50%;
-//       display: flex;
-//       align-items: center;
-//       justify-content: center;
-//       font-size: s(14);
-//       font-weight: 600;
-//       color: #fff;
-//       background: #121212;
-//       position: relative;
-
-//       @media (max-width: 991px) {
-//         width: s(20);
-//         height: s(20);
-//         font-size: s(10);
-//       }
-
-//       &::before {
-//         content: "";
-//         position: absolute;
-//         inset: 0;
-//         padding: s(2);
-//         border-radius: inherit;
-//         background: #88878a;
-//         -webkit-mask: linear-gradient(#fff 0 0) content-box,
-//           linear-gradient(#fff 0 0);
-//         -webkit-mask-composite: xor;
-//         mask-composite: exclude;
-//         z-index: 0;
-
-//         @media (max-width: 991px) {
-//           padding: s(1.5);
-//         }
-//       }
-//     }
-
-//     &.active .step-circle {
-//       background: #0000;
-//       color: #fff;
-
-//       &::before {
-//         background: conic-gradient(from 180deg at 50% 50%,
-//             #ff98e2 0deg,
-//             #ffc876 35.77deg,
-//             #79fff7 153.75deg,
-//             #9f53ff 258.75deg,
-//             #ff98e2 360deg);
-//       }
-//     }
-
-//     .step-label {
-//       margin-top: 10px;
-//       color: #fff;
-//       font-size: 16px;
-//       line-height: 1.2;
-
-//       @media (max-width: 1399px) {
-//         font-size: 14px;
-//       }
-//     }
-//   }
-
-//   .step-line {
-//     flex: 1;
-//     margin-top: s(-21);
-//     border: s(2) dashed #999;
-
-//     @media (max-width: 991px) {
-//       margin-top: s(-16);
-//       border: s(1.6) dashed #999;
-//     }
-//   }
-// }
 .stepper {
   position: relative;
   display: flex;
@@ -313,11 +221,8 @@
       mask-composite: exclude;
       pointer-events: none; // ensures clicks go through
       padding-left: 1px;
-
-      // @media (max-width: 991px) {
-      //   padding: s(0.7); // border thickness
-      // }
     }
+
 
     strong {
       color: #fff;
