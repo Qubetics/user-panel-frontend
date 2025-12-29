@@ -36,20 +36,8 @@
     text-shadow: 0 0 s(30) rgba(255, 255, 255, 0.1);
     animation: glow 2s ease-in-out infinite alternate;
 
-    // @media (max-width: 1679px) {
-    //   font-size: s(100);
-    // }
-
-    // @media (max-width: 1399px) {
-    //   font-size: s(80);
-    // }
-
-    // @media (max-width: 991px) {
-    //   font-size: s(64);
-    //   margin-bottom: s(12);
-    // }
-
     @media (max-width: 767px) {
+
       font-size: s(40);
     }
   }

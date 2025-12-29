@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ButtonCustom from "../../Common/ButtonCustom/ButtonCustom";
 import "../../styles/components/register/style.scss";
 import { NotificationModal } from "./ResponseTabs";
