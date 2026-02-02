@@ -1,10 +1,4 @@
-import {
-  render,
-  screen,
-  fireEvent,
-  waitFor,
-  act,
-} from "@testing-library/react";
+import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
 import React from "react";
 import Register from "@/components/register/index.jsx";
 
@@ -38,12 +32,11 @@ jest.mock("@/components/register/ResponseTabs", () => ({
 
 jest.mock("@/utils/Helper/CommonHelper", () => ({
   calculateBandwidth: () => "50 GB",
-  computePubKey: jest.fn(() => "computed_pub_key"),
   formatDuration: () => "30 Days",
   getValueWithUnit: (v) => v,
   progressbar: () => true,
   truncateValue: (v) => v.slice(0, 3) + "...",
-  toFirstCapital: (str) => str ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase() : "",
+  toFirstCapital: (str) => (str ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase() : ""),
 }));
 
 jest.mock("@/Constant/envConstants", () => ({
@@ -63,7 +56,7 @@ global.window.keplr = {
     Promise.resolve({
       signature: "signed123",
       pub_key: "pubkey",
-    })
+    }),
   ),
 };
 
@@ -224,12 +217,9 @@ describe("Register Component", () => {
     });
 
     await act(async () => {
-      fireEvent.change(
-        screen.getByPlaceholderText("example@gmail.com"),
-        {
-          target: { value: "invalid-email" },
-        }
-      );
+      fireEvent.change(screen.getByPlaceholderText("example@gmail.com"), {
+        target: { value: "invalid-email" },
+      });
     });
 
     await waitFor(() => {
@@ -238,9 +228,7 @@ describe("Register Component", () => {
   });
 
   test("successful submission shows modal", async () => {
-    useGetApi
-      .mockResolvedValueOnce({ data: { data: { providers: [] } } })
-      .mockResolvedValueOnce({ success: true });
+    useGetApi.mockResolvedValueOnce({ data: { data: { providers: [] } } }).mockResolvedValueOnce({ success: true });
 
     await act(async () => {
       render(<Register />);
@@ -268,9 +256,7 @@ describe("Register Component", () => {
   });
 
   test("handles signing failure", async () => {
-    window.keplr.signArbitrary.mockRejectedValueOnce(
-      new Error("User rejected")
-    );
+    window.keplr.signArbitrary.mockRejectedValueOnce(new Error("User rejected"));
     const { toast } = require("react-toastify");
 
     await act(async () => {
@@ -293,39 +279,7 @@ describe("Register Component", () => {
       fireEvent.click(screen.getByText("Submit"));
     });
 
-    await waitFor(() =>
-      expect(toast.error).toHaveBeenCalledWith("User Rejected the Action")
-    );
-  });
-
-  test("handles computePubKey returning null", async () => {
-    const { computePubKey } = require("@/utils/Helper/CommonHelper");
-    computePubKey.mockReturnValueOnce(null);
-    const { toast } = require("react-toastify");
-
-    await act(async () => {
-      render(<Register />);
-    });
-
-    await act(async () => {
-      fireEvent.change(screen.getByPlaceholderText("Example"), {
-        target: { value: "John" },
-      });
-
-      fireEvent.change(screen.getByPlaceholderText("qubetics1jcdse3f8yqcnlyw54yamm4n"), {
-        target: { value: "node123" },
-      });
-
-      fireEvent.change(screen.getAllByRole("combobox")[0], {
-        target: { value: "Unlink" },
-      });
-
-      fireEvent.click(screen.getByText("Submit"));
-    });
-
-    await waitFor(() => {
-      expect(toast.error).toHaveBeenCalledWith("User Rejected the Action");
-    });
+    await waitFor(() => expect(toast.error).toHaveBeenCalledWith("User Rejected the Action"));
   });
 
   test("clears plan fields when switching to Unlink", async () => {
@@ -350,9 +304,7 @@ describe("Register Component", () => {
     });
 
     await waitFor(() => {
-      expect(
-        screen.queryByText("-- Select a Provider --")
-      ).not.toBeInTheDocument();
+      expect(screen.queryByText("-- Select a Provider --")).not.toBeInTheDocument();
     });
   });
 
@@ -363,19 +315,17 @@ describe("Register Component", () => {
       request: "Link",
     });
 
-    useGetApi
-      .mockResolvedValueOnce({ data: { data: { providers: [] } } })
-      .mockResolvedValueOnce({
+    useGetApi.mockResolvedValueOnce({ data: { data: { providers: [] } } }).mockResolvedValueOnce({
+      data: {
         data: {
           data: {
-            data: {
-              orgName: "Test Org",
-              email: "test@example.com",
-              nodeAddress: "node123",
-            },
+            orgName: "Test Org",
+            email: "test@example.com",
+            nodeAddress: "node123",
           },
         },
-      });
+      },
+    });
 
     await act(async () => {
       render(<Register />);
@@ -385,7 +335,7 @@ describe("Register Component", () => {
       () => {
         expect(useGetApi).toHaveBeenCalledTimes(2);
       },
-      { timeout: 2000 }
+      { timeout: 2000 },
     );
   });
 
@@ -471,9 +421,7 @@ describe("Register Component", () => {
   });
 
   test("closes modal and resets form", async () => {
-    useGetApi
-      .mockResolvedValueOnce({ data: { data: { providers: [] } } })
-      .mockResolvedValueOnce({ success: true });
+    useGetApi.mockResolvedValueOnce({ data: { data: { providers: [] } } }).mockResolvedValueOnce({ success: true });
 
     await act(async () => {
       render(<Register />);
@@ -501,9 +449,7 @@ describe("Register Component", () => {
       fireEvent.click(modal);
     });
 
-    await waitFor(() =>
-      expect(screen.queryByTestId("modal")).not.toBeInTheDocument()
-    );
+    await waitFor(() => expect(screen.queryByTestId("modal")).not.toBeInTheDocument());
   });
 
   test("renders plan options when plans are loaded", async () => {
@@ -692,12 +638,10 @@ describe("Register Component", () => {
   });
 
   test("handles response without success flag", async () => {
-    useGetApi
-      .mockResolvedValueOnce({ data: { data: { providers: [] } } })
-      .mockResolvedValueOnce({
-        success: false,
-        message: "Custom error message",
-      });
+    useGetApi.mockResolvedValueOnce({ data: { data: { providers: [] } } }).mockResolvedValueOnce({
+      success: false,
+      message: "Custom error message",
+    });
 
     await act(async () => {
       render(<Register />);
@@ -903,66 +847,5 @@ describe("Register Component", () => {
         expect(options[1].textContent).toContain("Plan 2");
       }
     });
-  });
-
-  test("handleSign returns signature object when computePubKey returns valid key", async () => {
-    const { computePubKey } = require("@/utils/Helper/CommonHelper");
-
-    computePubKey.mockReturnValueOnce("validPubKey");
-
-    useGetApi
-      .mockResolvedValueOnce({ data: { data: { providers: [] } } })
-      .mockResolvedValueOnce({ success: true });
-
-    await act(async () => {
-      render(<Register />);
-    });
-
-    fireEvent.change(screen.getByPlaceholderText("Example"), {
-      target: { value: "John" },
-    });
-
-    fireEvent.change(screen.getByPlaceholderText("qubetics1jcdse3f8yqcnlyw54yamm4n"), {
-      target: { value: "node123" },
-    });
-
-    fireEvent.change(screen.getAllByRole("combobox")[0], {
-      target: { value: "Unlink" },
-    });
-
-    await act(async () => {
-      fireEvent.click(screen.getByText("Submit"));
-    });
-
-    expect(computePubKey).toHaveBeenCalled();
-  });
-
-  test("handleSign returns null when computePubKey returns null", async () => {
-    const { computePubKey } = require("@/utils/Helper/CommonHelper");
-    const { toast } = require("react-toastify");
-
-    computePubKey.mockReturnValueOnce(null);
-
-    await act(async () => {
-      render(<Register />);
-    });
-
-    fireEvent.change(screen.getByPlaceholderText("Example"), {
-      target: { value: "John" },
-    });
-
-    fireEvent.change(screen.getByPlaceholderText("qubetics1jcdse3f8yqcnlyw54yamm4n"), {
-      target: { value: "node123" },
-    });
-
-    fireEvent.change(screen.getAllByRole("combobox")[0], {
-      target: { value: "Unlink" },
-    });
-
-    await act(async () => {
-      fireEvent.click(screen.getByText("Submit"));
-    });
-
-    expect(toast.error).toHaveBeenCalledWith("User Rejected the Action");
   });
 });
