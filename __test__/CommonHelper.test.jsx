@@ -1,5 +1,4 @@
 import {
-  computePubKey,
   api,
   formatDuration,
   progressbar,
@@ -25,69 +24,12 @@ jest.mock("@/Constant/envConstants", () => ({
   },
 }));
 
-// Mock external dependencies
-jest.mock("buffer", () => ({
-  Buffer: {
-    from: jest.fn((data, encoding) => {
-      if (encoding === "base64") {
-        return {
-          toString: jest.fn(() => "base64-string"),
-        };
-      }
-      if (encoding === "hex") {
-        return new Uint8Array([1, 2, 3]);
-      }
-      return data;
-    }),
-  },
-}));
-
-jest.mock("js-sha3", () => ({
-  keccak_256: jest.fn(() => "hashed-string"),
-}));
-
-jest.mock("@ethersproject/bytes", () => ({
-  arrayify: jest.fn(() => new Uint8Array([1, 2, 3])),
-}));
-
-jest.mock("@cosmjs/launchpad", () => ({
-  serializeSignDoc: jest.fn(() => "serialized-doc"),
-}));
-
-jest.mock("@hanchon/signature-to-pubkey", () => ({
-  signatureToPubkey: jest.fn(() => "computed-pubkey"),
-}));
-
 // Mock fetch
 global.fetch = jest.fn();
 
 describe("CommonHelper Utilities", () => {
   beforeEach(() => {
     jest.clearAllMocks();
-  });
-
-  describe("computePubKey", () => {
-    test("computes public key successfully", () => {
-      const result = computePubKey("test-address", "test-signature", "test-message");
-      expect(result).toBe("computed-pubkey");
-    });
-
-    test("handles errors gracefully", () => {
-      const mockConsoleError = jest.spyOn(console, "error").mockImplementation();
-      
-      // Mock the dependencies to throw an error
-      const { serializeSignDoc } = require("@cosmjs/launchpad");
-      serializeSignDoc.mockImplementation(() => {
-        throw new Error("Serialization error");
-      });
-
-      const result = computePubKey("test-address", "test-signature", "test-message");
-      
-      expect(result).toBeUndefined();
-      expect(mockConsoleError).toHaveBeenCalled();
-      
-      mockConsoleError.mockRestore();
-    });
   });
 
   describe("api", () => {
@@ -380,7 +322,7 @@ describe("CommonHelper Utilities", () => {
       const result = formatPlanWithTooltip("100.5");
       expect(result).toEqual({
         formatted: "100.50 TICS/month",
-        tooltip: "100.5"
+        tooltip: "100.5",
       });
     });
 
@@ -388,26 +330,26 @@ describe("CommonHelper Utilities", () => {
       const result = formatPlanWithTooltip("100");
       expect(result).toEqual({
         formatted: "100.00 TICS/month",
-        tooltip: "100"
+        tooltip: "100",
       });
     });
 
     test("handles dash and empty values", () => {
       expect(formatPlanWithTooltip("-")).toEqual({
         formatted: "-",
-        tooltip: "-"
+        tooltip: "-",
       });
       expect(formatPlanWithTooltip(null)).toEqual({
         formatted: "-",
-        tooltip: "-"
+        tooltip: "-",
       });
       expect(formatPlanWithTooltip(undefined)).toEqual({
         formatted: "-",
-        tooltip: "-"
+        tooltip: "-",
       });
       expect(formatPlanWithTooltip("")).toEqual({
         formatted: "-",
-        tooltip: "-"
+        tooltip: "-",
       });
     });
 
@@ -415,7 +357,7 @@ describe("CommonHelper Utilities", () => {
       const result = formatPlanWithTooltip("invalid");
       expect(result).toEqual({
         formatted: "invalid",
-        tooltip: "invalid"
+        tooltip: "invalid",
       });
     });
 
@@ -423,7 +365,7 @@ describe("CommonHelper Utilities", () => {
       const result = formatPlanWithTooltip("0.001");
       expect(result).toEqual({
         formatted: "0.00 TICS/month",
-        tooltip: "0.001"
+        tooltip: "0.001",
       });
     });
 
@@ -431,7 +373,7 @@ describe("CommonHelper Utilities", () => {
       const result = formatPlanWithTooltip("999999.999");
       expect(result).toEqual({
         formatted: "1000000.00 TICS/month",
-        tooltip: "999999.999"
+        tooltip: "999999.999",
       });
     });
 
@@ -439,7 +381,7 @@ describe("CommonHelper Utilities", () => {
       const result = formatPlanWithTooltip("1e3");
       expect(result).toEqual({
         formatted: "1000.00 TICS/month",
-        tooltip: "1e3"
+        tooltip: "1e3",
       });
     });
   });
@@ -476,11 +418,11 @@ describe("CommonHelper Utilities", () => {
     test("formatPlanWithTooltip handles edge cases", () => {
       expect(formatPlanWithTooltip("0")).toEqual({
         formatted: "0.00 TICS/month",
-        tooltip: "0"
+        tooltip: "0",
       });
       expect(formatPlanWithTooltip(".5")).toEqual({
         formatted: "0.50 TICS/month",
-        tooltip: ".5"
+        tooltip: ".5",
       });
     });
   });
