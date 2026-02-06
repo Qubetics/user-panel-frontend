@@ -1,54 +1,9 @@
 import { Buffer } from "buffer";
-import sha3 from "js-sha3";
-import { arrayify } from "@ethersproject/bytes";
-import { serializeSignDoc } from "@cosmjs/launchpad";
-import { signatureToPubkey } from "@hanchon/signature-to-pubkey";
 import { PENDING, REJECTED, WEI } from "../../Constant/constants";
 import { env } from "../../Constant/envConstants";
 import BigNumber from "bignumber.js";
 
 window.Buffer = Buffer;
-
-function messageToAminoTransaction(signer, data) {
-  return {
-    chain_id: "",
-    account_number: "0",
-    sequence: "0",
-    fee: {
-      gas: "0",
-      amount: [],
-    },
-    msgs: [
-      {
-        type: "sign/MsgSignData",
-        value: {
-          signer,
-          data,
-        },
-      },
-    ],
-    memo: "",
-  };
-}
-
-export const computePubKey = (address, signature, signMessage) => {
-  try {
-    // Encode the message into amino format
-    const aminoEncoded = messageToAminoTransaction(address, Buffer.from(signMessage).toString("base64"));
-    const serialized = serializeSignDoc(aminoEncoded);
-
-    // Hash the amino message that was signed
-    const hashed = sha3.keccak_256(arrayify(serialized));
-
-    // Compare signature
-    const signatureToCompare = `0x${Buffer.from(signature, "base64").toString("hex")}`;
-
-    const pubkeyComputed = signatureToPubkey(signatureToCompare, Buffer.from(hashed, "hex"));
-    return pubkeyComputed;
-  } catch (err) {
-    console.error("err", err);
-  }
-};
 
 export const api = async (url, init) => {
   return fetch(url, init)
@@ -153,7 +108,7 @@ export const formatPlanWithTooltip = (planRaw) => {
   if (!planRaw || planRaw === "-") {
     return {
       formatted: "-",
-      tooltip: "-"
+      tooltip: "-",
     };
   }
 
@@ -162,7 +117,7 @@ export const formatPlanWithTooltip = (planRaw) => {
   if (isNaN(numberValue)) {
     return {
       formatted: planRaw,
-      tooltip: planRaw
+      tooltip: planRaw,
     };
   }
 
@@ -170,7 +125,6 @@ export const formatPlanWithTooltip = (planRaw) => {
 
   return {
     formatted: `${formattedValue} TICS/month`,
-    tooltip: planRaw
+    tooltip: planRaw,
   };
 };
-
