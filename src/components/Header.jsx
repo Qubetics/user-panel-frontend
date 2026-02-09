@@ -70,7 +70,11 @@ const Header = () => {
     try {
       const uri = `${env.swagger_api}/cosmos/bank/v1beta1/balances/${address}`;
       const response = await api(uri);
-      setBalance(response.balances[0].amount / 1e18);
+      if (response?.balances?.[0]?.amount) {
+        setBalance(response.balances[0].amount / 1e18);
+      } else {
+        setBalance(0);
+      }
     } catch (e) {
       toast.error("Error in fetching the balance");
     }
