@@ -9,7 +9,6 @@ import TickTok from "../assets/TickTok.svg";
 import coinmarketcap from "../assets/coinmarketcap.svg";
 import { env } from "../Constant/envConstants";
 
-
 const Footer = () => {
   return (
     <footer className="footer">
@@ -31,22 +30,38 @@ const Footer = () => {
             <h5 className="footer__section-title">Quick Links</h5>
             <ul className="footer__links">
               <li>
-                <a target="blank" href={`${env.explorer_link}/token`} className="footer__link">
+                <a
+                  target="blank"
+                  href={`${env.explorer_link}/token`}
+                  className="footer__link"
+                >
                   Tokens
                 </a>
               </li>
               <li>
-                <a target="blank" href={`${env.explorer_link}/blocks`} className="footer__link">
+                <a
+                  target="blank"
+                  href={`${env.explorer_link}/blocks`}
+                  className="footer__link"
+                >
                   Blockchain
                 </a>
               </li>
               <li>
-                <a target="blank" href={`${env.explorer_link}/validators`} className="footer__link">
+                <a
+                  target="blank"
+                  href={`${env.explorer_link}/validators`}
+                  className="footer__link"
+                >
                   Validators
                 </a>
               </li>
               <li>
-                <a target="blank" href={`${env.explorer_link}/nodes`} className="footer__link">
+                <a
+                  target="blank"
+                  href={`${env.explorer_link}/nodes`}
+                  className="footer__link"
+                >
                   Nodes
                 </a>
               </li>
@@ -59,7 +74,7 @@ const Footer = () => {
               <li>
                 <a
                   target="blank"
-                  href="https://www.qubetics.com/privacy-policy"
+                  href={env.privacy_policy_link}
                   className="footer__link"
                 >
                   Privacy Policy
@@ -68,7 +83,7 @@ const Footer = () => {
               <li>
                 <a
                   target="blank"
-                  href="https://www.qubetics.com/terms-of-use"
+                  href={env.terms_of_service_link}
                   className="footer__link"
                 >
                   Terms of Service
@@ -84,7 +99,7 @@ const Footer = () => {
               <li>
                 <a
                   target="blank"
-                  href="https://validator.qubetics.com/"
+                  href={env.qubetics_validator_app_link}
                   className="footer__link"
                 >
                   Qubetics Validator App
@@ -93,7 +108,7 @@ const Footer = () => {
               <li>
                 <a
                   target="blank"
-                  href="https://delegator.qubetics.com/"
+                  href={env.qubetics_delegator_app_link}
                   className="footer__link"
                 >
                   Qubetics Delegator App
@@ -112,7 +127,7 @@ const Footer = () => {
               <li>
                 <a
                   target="blank"
-                  href="https://ide.qubetics.com"
+                  href={env.qubetics_ide_link}
                   className="footer__link"
                 >
                   Qubetics IDE
@@ -121,17 +136,17 @@ const Footer = () => {
               <li>
                 <a
                   target="blank"
-                  href="https://qubeqode.qubetics.com"
+                  href={env.qubeqode_link}
                   className="footer__link"
                 >
                   QubeQode
                 </a>
               </li>
               <li>
-                <a
-                  target="blank"
-                  href={env.app_link}
-                  className="footer__link"
+                <a 
+                target="blank" 
+                href={env.app_link} 
+                className="footer__link"
                 >
                   Qubetics dVPN
                 </a>
@@ -145,17 +160,17 @@ const Footer = () => {
             <ul className="footer__links">
               <li>
                 <a
-                  target="blank"
-                  href="https://www.qubetics.com/"
-                  className="footer__link"
-                >
+                 target="blank"
+                 href={env.web_link} 
+                 className="footer__link"
+                 >
                   Official Web
                 </a>
               </li>
               <li>
                 <a
                   target="blank"
-                  href="https://docs.qubetics.com/"
+                  href={env.network_documentation_link}
                   className="footer__link"
                 >
                   Qubetics Network Documentation
@@ -164,7 +179,7 @@ const Footer = () => {
               <li>
                 <a
                   target="blank"
-                  href="https://qubetics.gitbook.io/qubetics-docs"
+                  href={env.qubetics_documentation_link}
                   className="footer__link"
                 >
                   Qubetics Documentation
@@ -173,7 +188,7 @@ const Footer = () => {
               <li>
                 <a
                   target="blank"
-                  href="https://github.com/Qubetics"
+                  href={env.github_link}
                   className="footer__link"
                 >
                   GitHub
@@ -185,51 +200,51 @@ const Footer = () => {
         <div className="footer__social">
           <h4>Get in touch!</h4>
           <div className="footer__social__items">
-            <a
-              target="blank"
-              href="https://x.com/qubetics?mx=2"
-              className="footer__social-link"
+            <a 
+            target="blank" 
+            href={env.x_link} 
+            className="footer__social-link"
             >
               <img src={x} alt="" />
             </a>
             <a
               target="blank"
-              href="https://t.me/qubetics"
+              href={env.telegram_link}
               className="footer__social-link"
             >
               <img src={Telegram} alt="" />
             </a>
             <a
               target="blank"
-              href="https://discord.com/invite/KHfSNbzdSE"
+              href={env.discord_link}
               className="footer__social-link"
             >
               <img src={Discord} alt="" />
             </a>
             <a
               target="blank"
-              href="https://www.youtube.com/@Qubetics"
+              href={env.youtube_link}
               className="footer__social-link"
             >
               <img src={YouTube} alt="" />
             </a>
             <a
               target="blank"
-              href="https://www.instagram.com/qubetics"
+              href={env.instagram_link}
               className="footer__social-link"
             >
               <img src={Instagram} alt="" />
             </a>{" "}
             <a
               target="blank"
-              href="https://www.tiktok.com/@qubetics"
+              href={env.tiktok_link}
               className="footer__social-link"
             >
               <img src={TickTok} alt="" />
             </a>{" "}
             <a
               target="blank"
-              href="https://coinmarketcap.com/currencies/qubetics/"
+              href={env.coinmarketcap_link}
               className="footer__social-link"
             >
               <img src={coinmarketcap} alt="" />
