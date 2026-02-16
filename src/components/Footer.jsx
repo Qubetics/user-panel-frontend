@@ -145,7 +145,7 @@ const Footer = () => {
               <li>
                 <a target="_blank" 
                 href={env.app_link} 
-                className="footer__link">
+                className="footer__link disabled">
                   Qubetics dVPN
                 </a>
               </li>
