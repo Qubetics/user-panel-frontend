@@ -18,7 +18,7 @@ import { useIsLoggedIn } from "../../Context/LoggedInContext";
 import {
   calculateBandwidth,
   formatDuration,
-  getValueWithUnit,
+  getPlanLabel,
   progressbar,
   toFirstCapital,
   truncateValue,
@@ -50,6 +50,7 @@ const Register = () => {
   const [isNameValid, setIsNameValid] = useState(true);
   const [error, setError] = useState("");
   const [isNodeadd, setIsNodeadd] = useState(true);
+  const [tokenPrice, setTokenPrice] = useState(null);
 
   const chainId = env.chainId;
   const [activeline, setActiveline] = useState();
@@ -118,6 +119,16 @@ const Register = () => {
   const getProviderList = async () => {
     const result = await useGetApi(apiUrls.getProvidersWithPlans, apiMethods.GET);
     setProviderList(result?.data?.data?.providers);
+  };
+
+  const getTokenPrice = async () => {
+    try {
+      const response = await fetch(`${env.ticsApi}${apiUrls.getCurrentTokenPrice}`);
+      const data = await response.json();
+      setTokenPrice(data?.data?.current_token_price ?? null);
+    } catch {
+      setTokenPrice(null);
+    }
   };
 
   const getPrefillValues = async () => {
@@ -200,6 +211,7 @@ const Register = () => {
 
   useEffect(() => {
     getProviderList();
+    getTokenPrice();
   }, []);
 
   useEffect(() => {
@@ -473,9 +485,7 @@ const Register = () => {
                   <option value="SELECT">-- Select a Plan --</option>
                   {planList.map((plan) => (
                     <option key={plan.id} value={JSON.stringify(plan)}>
-                      {plan.prices.length > 0
-                        ? `${getValueWithUnit(plan.prices[0]?.quote_value)} ${plan.prices[0].denom.toUpperCase()}/month`
-                        : `Plan ${plan.id}`}
+                      {getPlanLabel(plan, tokenPrice)}
                     </option>
                   ))}
                 </select>
