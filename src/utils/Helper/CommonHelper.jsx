@@ -83,11 +83,15 @@ export const getPlanLabel = (plan, tokenPrice) => {
   if (tokenPrice) {
     const usdValue = (parseFloat(ticsValue) * parseFloat(tokenPrice)).toFixed(4);
     if (!isNaN(usdValue)) {
-      usdString = ` (~$${usdValue} USD)`;
+      usdString = `$${usdValue}`;
     }
   }
 
-  return `${ticsValue} ${denom}/month${usdString}`;
+  if (usdString) {
+    return ` ${usdString}/month (${ticsValue} ${denom})`;
+  }
+
+  return `${ticsValue} ${denom}/month`;
 };
 
 export const calculateBandwidth = (plan) => {
