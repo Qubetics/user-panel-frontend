@@ -180,8 +180,8 @@ describe("CommonHelper Utilities", () => {
     });
 
     test("handles different units", () => {
-      expect(getValueWithUnit("1000000000000000000", "tics")).toBe("1");
-      expect(getValueWithUnit("1000000000000000000", "other")).toBe("1000000000000000000");
+      expect(getValueWithUnit("1000000000000000000", undefined, "tics")).toBe("1");
+      expect(getValueWithUnit("1000000000000000000", undefined, "other")).toBe("1000000000000000000");
     });
   });
 

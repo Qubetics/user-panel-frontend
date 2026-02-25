@@ -171,7 +171,7 @@ const Register = () => {
     const extendedPlan =
       chooseAction === "Link"
         ? {
-            plan: `${choosePlan?.prices?.[0]?.quote_value} TICS/month`,
+            plan: choosePlan?.prices?.[0]?.quote_value,
             planId: choosePlan?.id,
             provAddress: choosePlan?.prov_address,
             bandwidth: choosePlan?.gigabytes,

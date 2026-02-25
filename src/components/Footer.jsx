@@ -20,8 +20,7 @@ const Footer = () => {
               <img src={LogoFooter} alt="" />
             </div>
             <p className="footer__description">
-              Build without limits. Qubetics an interoperable <br /> ecosystem
-              uniting all leading networks.
+              Build without limits. Qubetics an interoperable <br /> ecosystem uniting all leading networks.
             </p>
           </div>
 
@@ -30,38 +29,22 @@ const Footer = () => {
             <h5 className="footer__section-title">Quick Links</h5>
             <ul className="footer__links">
               <li>
-                <a
-                  target="_blank"
-                  href={`${env.explorer_link}/token`}
-                  className="footer__link"
-                >
+                <a target="_blank" href={`${env.explorer_link}/token`} className="footer__link">
                   Tokens
                 </a>
               </li>
               <li>
-                <a
-                  target="_blank"
-                  href={`${env.explorer_link}/blocks`}
-                  className="footer__link"
-                >
+                <a target="_blank" href={`${env.explorer_link}/blocks`} className="footer__link">
                   Blockchain
                 </a>
               </li>
               <li>
-                <a
-                  target="_blank"
-                  href={`${env.explorer_link}/validators`}
-                  className="footer__link"
-                >
+                <a target="_blank" href={`${env.explorer_link}/validators`} className="footer__link">
                   Validators
                 </a>
               </li>
               <li>
-                <a
-                  target="_blank"
-                  href={`${env.explorer_link}/nodes`}
-                  className="footer__link"
-                >
+                <a target="_blank" href={`${env.explorer_link}/nodes`} className="footer__link">
                   Nodes
                 </a>
               </li>
@@ -72,20 +55,12 @@ const Footer = () => {
             <h5 className="footer__section-title">About Us</h5>
             <ul className="footer__links">
               <li>
-                <a
-                  target="_blank"
-                  href={env.privacy_policy_link}
-                  className="footer__link"
-                >
+                <a target="_blank" href={env.privacy_policy_link} className="footer__link">
                   Privacy Policy
                 </a>
               </li>
               <li>
-                <a
-                  target="_blank"
-                  href={env.terms_of_service_link}
-                  className="footer__link"
-                >
+                <a target="_blank" href={env.terms_of_service_link} className="footer__link">
                   Terms of Service
                 </a>
               </li>
@@ -97,20 +72,12 @@ const Footer = () => {
             <h5 className="footer__section-title">Products & Services</h5>
             <ul className="footer__links">
               <li>
-                <a
-                  target="_blank"
-                  href={env.qubetics_delegator_app_link}
-                  className="footer__link"
-                >
+                <a target="_blank" href={env.qubetics_validator_app_link} className="footer__link">
                   Qubetics Validator App
                 </a>
               </li>
               <li>
-                <a
-                  target="_blank"
-                  href={env.qubetics_delegator_app_link}
-                  className="footer__link"
-                >
+                <a target="_blank" href={env.qubetics_delegator_app_link} className="footer__link">
                   Qubetics Delegator App
                 </a>
               </li>
@@ -125,27 +92,17 @@ const Footer = () => {
                 </a>
               </li> */}
               <li>
-                <a
-                  target="_blank"
-                  href={env.qubetics_ide_link}
-                  className="footer__link"
-                >
+                <a target="_blank" href={env.qubetics_ide_link} className="footer__link">
                   Qubetics IDE
                 </a>
               </li>
               <li>
-                <a
-                  target="_blank"
-                  href={env.qubeqode_link}
-                  className="footer__link"
-                >
+                <a target="_blank" href={env.qubeqode_link} className="footer__link">
                   QubeQode
                 </a>
               </li>
               <li>
-                <a target="_blank" 
-                href={env.app_link} 
-                className="footer__link disabled">
+                <a target="_blank" href={env.app_link} className="footer__link disabled">
                   Qubetics dVPN
                 </a>
               </li>
@@ -157,36 +114,22 @@ const Footer = () => {
             <h5 className="footer__section-title">Resources</h5>
             <ul className="footer__links">
               <li>
-                <a target="_blank" 
-                href={env.web_link} 
-                className="footer__link">
+                <a target="_blank" href={env.web_link} className="footer__link">
                   Official Web
                 </a>
               </li>
               <li>
-                <a
-                  target="_blank"
-                  href={env.network_documentation_link}
-                  className="footer__link"
-                >
+                <a target="_blank" href={env.network_documentation_link} className="footer__link">
                   Qubetics Network Documentation
                 </a>
               </li>
               <li>
-                <a
-                  target="_blank"
-                  href={env.qubetics_documentation_link}
-                  className="footer__link"
-                >
+                <a target="_blank" href={env.qubetics_documentation_link} className="footer__link">
                   Qubetics Documentation
                 </a>
               </li>
               <li>
-                <a
-                  target="_blank"
-                  href={env.github_link}
-                  className="footer__link"
-                >
+                <a target="_blank" href={env.github_link} className="footer__link">
                   GitHub
                 </a>
               </li>
@@ -196,60 +139,32 @@ const Footer = () => {
         <div className="footer__social">
           <h4>Get in touch!</h4>
           <div className="footer__social__items">
-            <a target="_blank" 
-            href={env.x_link} 
-            className="footer__social-link">
+            <a target="_blank" href={env.x_link} className="footer__social-link">
               <img src={x} alt="" />
             </a>
-            <a
-              target="_blank"
-              href={env.telegram_link}
-              className="footer__social-link"
-            >
+            <a target="_blank" href={env.telegram_link} className="footer__social-link">
               <img src={Telegram} alt="" />
             </a>
-            <a
-              target="_blank"
-              href={env.discord_link}
-              className="footer__social-link"
-            >
+            <a target="_blank" href={env.discord_link} className="footer__social-link">
               <img src={Discord} alt="" />
             </a>
-            <a
-              target="_blank"
-              href={env.youtube_link}
-              className="footer__social-link"
-            >
+            <a target="_blank" href={env.youtube_link} className="footer__social-link">
               <img src={YouTube} alt="" />
             </a>
-            <a
-              target="_blank"
-              href={env.instagram_link}
-              className="footer__social-link"
-            >
+            <a target="_blank" href={env.instagram_link} className="footer__social-link">
               <img src={Instagram} alt="" />
             </a>{" "}
-            <a
-              target="_blank"
-              href={env.tiktok_link}
-              className="footer__social-link"
-            >
+            <a target="_blank" href={env.tiktok_link} className="footer__social-link">
               <img src={TickTok} alt="" />
             </a>{" "}
-            <a
-              target="_blank"
-              href={env.coinmarketcap_link}
-              className="footer__social-link"
-            >
+            <a target="_blank" href={env.coinmarketcap_link} className="footer__social-link">
               <img src={coinmarketcap} alt="" />
             </a>
           </div>
         </div>
 
         <div className="footer__bottom">
-          <p className="footer__copyright">
-            ©2025 Copyright Qubetics. All rights reserved.
-          </p>
+          <p className="footer__copyright">©2025 Copyright Qubetics. All rights reserved.</p>
         </div>
       </div>
     </footer>

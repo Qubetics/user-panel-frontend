@@ -34,6 +34,7 @@ jest.mock("@/utils/Helper/CommonHelper", () => ({
   calculateBandwidth: () => "50 GB",
   formatDuration: () => "30 Days",
   getValueWithUnit: (v) => v,
+  getPlanLabel: (plan) => `Plan ${plan.id}`,
   progressbar: () => true,
   truncateValue: (v) => v.slice(0, 3) + "...",
   toFirstCapital: (str) => (str ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase() : ""),
@@ -751,8 +752,8 @@ describe("Register Component", () => {
       if (combo.length > 2) {
         const options = combo[2].querySelectorAll("option");
         expect(options).toHaveLength(3);
-        expect(options[1].textContent).toContain("200");
-        expect(options[2].textContent).toContain("100");
+        expect(options[1].textContent).toContain("Plan 2");
+        expect(options[2].textContent).toContain("Plan 1");
       }
     });
   });
