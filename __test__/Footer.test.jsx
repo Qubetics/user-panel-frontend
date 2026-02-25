@@ -17,31 +17,48 @@ jest.mock("@/Constant/envConstants", () => ({
   env: {
     explorer_link: "https://explorer.qubetics.com",
     app_link: "https://app.qubetics.com",
+    privacy_policy_link: "https://www.qubetics.com/privacy-policy",
+    terms_of_service_link: "https://www.qubetics.com/terms-of-use",
+    qubetics_validator_app_link: "https://validator.qubetics.com/",
+    qubetics_delegator_app_link: "https://delegator.qubetics.com/",
+    qubetics_ide_link: "https://ide.qubetics.com",
+    qubeqode_link: "https://qubeqode.qubetics.com",
+    web_link: "https://www.qubetics.com/",
+    network_documentation_link: "https://docs.qubetics.com/",
+    qubetics_documentation_link: "https://qubetics.gitbook.io/qubetics-docs",
+    github_link: "https://github.com/Qubetics",
+    x_link: "https://x.com/qubetics?mx=2",
+    telegram_link: "https://t.me/qubetics",
+    discord_link: "https://discord.com/invite/KHfSNbzdSE",
+    youtube_link: "https://www.youtube.com/@Qubetics",
+    instagram_link: "https://www.instagram.com/qubetics",
+    tiktok_link: "https://www.tiktok.com/@qubetics",
+    coinmarketcap_link: "https://coinmarketcap.com/currencies/qubetics/",
   },
 }));
 
 describe("Footer Component", () => {
   test("renders footer with all sections", () => {
-  const { container } = render(<Footer />);
+    const { container } = render(<Footer />);
 
-  // Check brand section
-  const logo = container.querySelector(".footer__logo img");
-  expect(logo).toBeInTheDocument();
-  expect(screen.getByText(/Build without limits/)).toBeInTheDocument();
-  expect(screen.getByText(/Qubetics an interoperable ecosystem/)).toBeInTheDocument();
+    // Check brand section
+    const logo = container.querySelector(".footer__logo img");
+    expect(logo).toBeInTheDocument();
+    expect(screen.getByText(/Build without limits/)).toBeInTheDocument();
+    expect(screen.getByText(/Qubetics an interoperable ecosystem/)).toBeInTheDocument();
 
-  // Check section titles
-  expect(screen.getByText("Quick Links")).toBeInTheDocument();
-  expect(screen.getByText("About Us")).toBeInTheDocument();
-  expect(screen.getByText("Products & Services")).toBeInTheDocument();
-  expect(screen.getByText("Resources")).toBeInTheDocument();
+    // Check section titles
+    expect(screen.getByText("Quick Links")).toBeInTheDocument();
+    expect(screen.getByText("About Us")).toBeInTheDocument();
+    expect(screen.getByText("Products & Services")).toBeInTheDocument();
+    expect(screen.getByText("Resources")).toBeInTheDocument();
 
-  // Check social section
-  expect(screen.getByText("Get in touch!")).toBeInTheDocument();
+    // Check social section
+    expect(screen.getByText("Get in touch!")).toBeInTheDocument();
 
-  // Check copyright
-  expect(screen.getByText("©2025 Copyright Qubetics. All rights reserved.")).toBeInTheDocument();
-});
+    // Check copyright
+    expect(screen.getByText("©2025 Copyright Qubetics. All rights reserved.")).toBeInTheDocument();
+  });
 
   test("renders all quick links with correct URLs", () => {
     render(<Footer />);
@@ -57,7 +74,7 @@ describe("Footer Component", () => {
       const link = screen.getByText(text);
       expect(link).toBeInTheDocument();
       expect(link.closest("a")).toHaveAttribute("href", expectedUrl);
-      expect(link.closest("a")).toHaveAttribute("target", "blank");
+      expect(link.closest("a")).toHaveAttribute("target", "_blank");
     });
   });
 
@@ -73,7 +90,7 @@ describe("Footer Component", () => {
       const link = screen.getByText(text);
       expect(link).toBeInTheDocument();
       expect(link.closest("a")).toHaveAttribute("href", expectedUrl);
-      expect(link.closest("a")).toHaveAttribute("target", "blank");
+      expect(link.closest("a")).toHaveAttribute("target", "_blank");
     });
   });
 
@@ -92,7 +109,7 @@ describe("Footer Component", () => {
       const link = screen.getByText(text);
       expect(link).toBeInTheDocument();
       expect(link.closest("a")).toHaveAttribute("href", expectedUrl);
-      expect(link.closest("a")).toHaveAttribute("target", "blank");
+      expect(link.closest("a")).toHaveAttribute("target", "_blank");
     });
   });
 
@@ -110,7 +127,7 @@ describe("Footer Component", () => {
       const link = screen.getByText(text);
       expect(link).toBeInTheDocument();
       expect(link.closest("a")).toHaveAttribute("href", expectedUrl);
-      expect(link.closest("a")).toHaveAttribute("target", "blank");
+      expect(link.closest("a")).toHaveAttribute("target", "_blank");
     });
   });
 
@@ -133,7 +150,7 @@ describe("Footer Component", () => {
     socialLinks.forEach(({ expectedUrl }) => {
       const link = container.querySelector(`[href="${expectedUrl}"]`);
       expect(link).toBeInTheDocument();
-      expect(link).toHaveAttribute("target", "blank");
+      expect(link).toHaveAttribute("target", "_blank");
     });
   });
 
@@ -154,7 +171,7 @@ describe("Footer Component", () => {
 
     const logo = container.querySelector(".footer__logo img");
     expect(logo).toBeInTheDocument();
-    expect(logo).toHaveAttribute("src", "mock-file"); // Mocked value 
+    expect(logo).toHaveAttribute("src", "mock-file"); // Mocked value
     expect(logo).toHaveAttribute("alt", "");
   });
 
@@ -164,7 +181,7 @@ describe("Footer Component", () => {
     const externalLinks = screen.getAllByRole("link");
     externalLinks.forEach((link) => {
       if (link.getAttribute("href")?.startsWith("http")) {
-        expect(link).toHaveAttribute("target", "blank");
+        expect(link).toHaveAttribute("target", "_blank");
       }
     });
   });
@@ -175,7 +192,7 @@ describe("Footer Component", () => {
     const description = screen.getByText(/Build without limits/);
     expect(description).toBeInTheDocument();
     expect(description).toHaveTextContent(
-      "Build without limits. Qubetics an interoperable ecosystem uniting all leading networks."
+      "Build without limits. Qubetics an interoperable ecosystem uniting all leading networks.",
     );
   });
 
@@ -201,7 +218,7 @@ describe("Footer Component", () => {
 
     const links = container.querySelectorAll(".footer__link");
     expect(links.length).toBeGreaterThan(0);
-    
+
     links.forEach((link) => {
       expect(link).toHaveClass("footer__link");
     });
@@ -212,7 +229,7 @@ describe("Footer Component", () => {
 
     const socialLinks = container.querySelectorAll(".footer__social-link");
     expect(socialLinks.length).toBe(7); // 7 social media platforms
-    
+
     socialLinks.forEach((link) => {
       expect(link).toHaveClass("footer__social-link");
     });
