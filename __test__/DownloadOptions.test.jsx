@@ -31,10 +31,8 @@ describe("DownloadOptions Component", () => {
   it("renders headings correctly", () => {
     render(<DownloadOptions />);
 
-    expect(screen.getByText("Download it now")).toBeInTheDocument();
-    expect(
-      screen.getByText("Secure, fast and decentralized VPN powered by Qubetics")
-    ).toBeInTheDocument();
+    expect(screen.getByText("Coming Soon")).toBeInTheDocument();
+    expect(screen.getByText("Downloads will be available soon.")).toBeInTheDocument();
   });
 
   it("renders App Store and Play Store buttons", () => {
@@ -67,20 +65,20 @@ describe("DownloadOptions Component", () => {
     // Since handleToast is not exported and not used in the UI,
     // we need to test it indirectly. The component renders successfully
     // which means the handleToast function is defined and loaded.
-    
+
     const { rerender } = render(<DownloadOptions />);
-    
+
     // The component renders successfully, which means the handleToast function
     // is defined and loaded. We verify this by checking the component renders.
-    expect(screen.getByText("Download it now")).toBeInTheDocument();
-    
+    expect(screen.getByText("Coming Soon")).toBeInTheDocument();
+
     // Test that toast.success mock exists and can be called
     expect(toast.success).toBeDefined();
-    
+
     // Call toast.success directly to test the message constant
     toast.success("Coming Soon");
     expect(toast.success).toHaveBeenCalledWith("Coming Soon");
-    
+
     // Rerender to ensure the component is fully loaded
     rerender(<DownloadOptions />);
     expect(screen.getByText("App Store")).toBeInTheDocument();
