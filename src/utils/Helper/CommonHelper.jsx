@@ -54,7 +54,7 @@ export const toFirstCapital = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 };
 
-export const getValueWithUnit = (value, unit = env.currency) => {
+export const getValueWithUnit = (value, hours, unit = env.currency) => {
   let unitBn;
   switch (unit) {
     case env.currency:
@@ -64,10 +64,34 @@ export const getValueWithUnit = (value, unit = env.currency) => {
       unitBn = new BigNumber(1);
   }
 
-  const valueBn = new BigNumber(value);
+  const hoursNum = Number(hours) || 720;
+  let valueBn = new BigNumber(value);
+  valueBn = valueBn.dividedBy(hoursNum / 720);
   const valueCurr = valueBn.dividedBy(unitBn);
   const valueStr = valueCurr.toFixed();
   return valueStr;
+};
+
+export const getPlanLabel = (plan, tokenPrice) => {
+  if (!plan?.prices?.length) return `Plan ${plan.id}`;
+
+  const priceObj = plan.prices[0];
+  const ticsValue = getValueWithUnit(priceObj.quote_value, plan.hours);
+  const denom = priceObj.denom.toUpperCase();
+
+  let usdString = "";
+  if (tokenPrice) {
+    const usdValue = (parseFloat(ticsValue) * parseFloat(tokenPrice)).toFixed(4);
+    if (!isNaN(usdValue)) {
+      usdString = `$${usdValue}`;
+    }
+  }
+
+  if (usdString) {
+    return ` ${usdString}/month (${ticsValue} ${denom})`;
+  }
+
+  return `${ticsValue} ${denom}/month`;
 };
 
 export const calculateBandwidth = (plan) => {

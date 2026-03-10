@@ -26,4 +26,5 @@ export const env = {
   instagram_link: import.meta.env.VITE_INSTAGRAM_LINK,
   tiktok_link: import.meta.env.VITE_TIKTOK_LINK,
   coinmarketcap_link: import.meta.env.VITE_COINMARKETCAP_LINK,
+  ticsApi: import.meta.env.VITE_APP_API_URL,
 };
