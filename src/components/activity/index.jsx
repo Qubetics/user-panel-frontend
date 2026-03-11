@@ -24,7 +24,7 @@ function Activity() {
       const data = await response.json();
       setTokenPrice(data?.data?.current_token_price ?? null);
     } catch {
-      setTokenPrice(1);
+      setTokenPrice(null);
     }
   };
 
