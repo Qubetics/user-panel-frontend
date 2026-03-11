@@ -128,7 +128,7 @@ export const formatHours = (hours) => {
   return value > 1 ? `${value} Hrs` : `${value} Hr`;
 };
 
-export const formatPlanWithTooltip = (planRaw) => {
+export const formatPlanWithTooltip = (planRaw, tokenPrice) => {
   if (!planRaw || planRaw === "-") {
     return {
       formatted: "-",
@@ -136,19 +136,31 @@ export const formatPlanWithTooltip = (planRaw) => {
     };
   }
 
-  const numberValue = parseFloat(planRaw);
+  // Extract number and token
+  const match = planRaw.match(/([\d.]+)\s*([A-Za-z]+)/);
 
-  if (isNaN(numberValue)) {
+  if (!match) {
     return {
       formatted: planRaw,
       tooltip: planRaw,
     };
   }
 
-  const formattedValue = numberValue.toFixed(2);
+  const numberValue = parseFloat(match[1]);
+  const token = match[2];
+
+  const formattedValue = numberValue.toFixed(0);
+
+  let formattedPrice = `${formattedValue} ${token}/month`;
+
+  // If token price exists → show USD + token
+  if (tokenPrice) {
+    const usdValue = (numberValue * tokenPrice).toFixed(2);
+    formattedPrice = `$${usdValue}/month (${formattedValue} ${token})`;
+  }
 
   return {
-    formatted: `${formattedValue} TICS/month`,
+    formatted: formattedPrice,
     tooltip: planRaw,
   };
 };
