@@ -15,10 +15,21 @@ function Activity() {
   const [limit, setLimit] = useState(10);
   const [isLoading, setIsLoading] = useState(true);
   const { authData } = useIsLoggedIn();
+  const [tokenPrice, setTokenPrice] = useState(null);
+
+
+  const getTokenPrice = async () => {
+    try {
+      const response = await fetch(`${env.ticsApi}${apiUrls.getCurrentTokenPrice}`);
+      const data = await response.json();
+      setTokenPrice(data?.data?.current_token_price ?? null);
+    } catch {
+      setTokenPrice(1);
+    }
+  };
 
   const fetchData = async () => {
     setIsLoading(true);
-
     const { success, data } = await useGetApi(apiUrls.getActivityList(authData, page, limit));
 
     if (success) {
@@ -32,6 +43,7 @@ function Activity() {
 
   useEffect(() => {
     fetchData();
+    getTokenPrice();
   }, [page, limit]);
 
   return (
@@ -69,7 +81,7 @@ function Activity() {
                 </tr>
               ) : (
                 activityList?.map((row, i) => {
-                  const { formatted, tooltip } = formatPlanWithTooltip(row?.metaData?.plan);
+                  const { formatted, tooltip } = formatPlanWithTooltip(row?.metaData?.plan,tokenPrice);
 
                   return (
                     <tr key={i}>
