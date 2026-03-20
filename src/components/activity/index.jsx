@@ -6,6 +6,7 @@ import Pagination from "../../utils/Helper/Pagination";
 import "./Activity.scss";
 import { formatHours, formatPlanWithTooltip, formatTimestamp, toFirstCapital } from "../../utils/Helper/CommonHelper";
 import InnerLoader from "../../Common/Loader/InnerLoader";
+import { env } from "../../Constant/envConstants";
 
 function Activity() {
   const [activityList, setActivityList] = useState([]);
@@ -15,10 +16,21 @@ function Activity() {
   const [limit, setLimit] = useState(10);
   const [isLoading, setIsLoading] = useState(true);
   const { authData } = useIsLoggedIn();
+  const [curtokenPrice, setCurrTokenPrice] = useState(null);
+
+
+  const getCurrentTokenPrice = async () => {
+    try {
+      const response = await fetch(`${env.ticsApi}${apiUrls.getCurrentTokenPrice}`);
+      const data = await response.json();
+      setCurrTokenPrice(data?.data?.current_token_price ?? null);
+    } catch {
+      setCurrTokenPrice(null);
+    }
+  };
 
   const fetchData = async () => {
     setIsLoading(true);
-
     const { success, data } = await useGetApi(apiUrls.getActivityList(authData, page, limit));
 
     if (success) {
@@ -32,6 +44,7 @@ function Activity() {
 
   useEffect(() => {
     fetchData();
+    getCurrentTokenPrice();
   }, [page, limit]);
 
   return (
@@ -69,7 +82,7 @@ function Activity() {
                 </tr>
               ) : (
                 activityList?.map((row, i) => {
-                  const { formatted, tooltip } = formatPlanWithTooltip(row?.metaData?.plan);
+                  const { formatted, tooltip } = formatPlanWithTooltip(row?.metaData?.plan,curtokenPrice);
 
                   return (
                     <tr key={i}>
