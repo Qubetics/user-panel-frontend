@@ -5,10 +5,10 @@ export const env = {
   swagger_api: import.meta.env.VITE_SWAGGER_HTTP_HOST,
   provider_api: import.meta.env.VITE_PROVIDER_URL,
   currency: import.meta.env.VITE_CURRENCY,
-  app_link: import.meta.env.VITE_APP_LINK,
   explorer_link: import.meta.env.VITE_EXPLORER_ENDPOINT,
   gitbookLink: import.meta.env.VITE_GITBOOK_LINK,
-  appStore: import.meta.env.VITE_APPSTORE_LINK,
+  appStore_link: import.meta.env.VITE_APPSTORE_LINK,
+  playStore_link: import.meta.env.VITE_PLAYSTORE_LINK,
   qubetics_validator_app_link: import.meta.env.VITE_QUBETICS_VALIDATOR_APP_LINK,
   qubetics_delegator_app_link: import.meta.env.VITE_QUBETICS_DELEGATOR_APP_LINK,
   qubetics_ide_link: import.meta.env.VITE_IDE_LINK,
@@ -27,4 +27,5 @@ export const env = {
   tiktok_link: import.meta.env.VITE_TIKTOK_LINK,
   coinmarketcap_link: import.meta.env.VITE_COINMARKETCAP_LINK,
   ticsApi: import.meta.env.VITE_APP_API_URL,
+
 };
