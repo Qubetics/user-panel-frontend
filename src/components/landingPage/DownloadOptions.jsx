@@ -14,17 +14,17 @@ const DownloadOptions = () => {
     <section className="download" id="download-section">
       <div className="download-options">
         {/* <h2 className="smallText download-options__heading">Download it now</h2> */}
-        <h2 className="smallText download-options__heading">Coming Soon</h2>
+        <h2 className="smallText download-options__heading">Download it now</h2>
         {/* <h6 className="download-options__message">
           Secure, fast and decentralized VPN powered by Qubetics
         </h6> */}
         <h6 className="download-options__message">
-          Downloads will be available soon.
+          Secure,fast and decentralized VPN powered by Qubetics
         </h6>
         <div className="download-options__actions">
           <a
-            className="download-options__store-btn customButton disabled"
-            onClick={() => window.open(env.appStore, "_blank")}
+            className="download-options__store-btn customButton"
+            onClick={() => window.open(env.appStore_link, "_blank")}
           >
             <span className="download-options__store-btn_icon">
               <IOSIcon />
@@ -32,8 +32,10 @@ const DownloadOptions = () => {
             <span className="text-btn">App Store</span>
           </a>
           <a
-            className="download-options__store-btn customButton disabled"
-            onClick={() => window.open(env.app_link, "_blank")}
+            className="download-options__store-btn customButton"
+            onClick={
+              ()=>toast.success("Coming soon")
+            }
           >
             <span className="download-options__store-btn_icon">
               <AndroidIcon />
