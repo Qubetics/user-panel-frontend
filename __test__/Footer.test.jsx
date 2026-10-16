@@ -16,7 +16,7 @@ jest.mock("@/assets/coinmarketcap.svg", () => "coinmarketcap.svg");
 jest.mock("@/Constant/envConstants", () => ({
   env: {
     explorer_link: "https://explorer.qubetics.com",
-    app_link: "https://app.qubetics.com",
+    appStore_link: "https://app.qubetics.com",
     privacy_policy_link: "https://www.qubetics.com/privacy-policy",
     terms_of_service_link: "https://www.qubetics.com/terms-of-use",
     qubetics_validator_app_link: "https://validator.qubetics.com/",

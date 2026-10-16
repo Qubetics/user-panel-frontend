@@ -136,20 +136,23 @@ export const formatPlanWithTooltip = (planRaw, tokenPrice) => {
     };
   }
 
-  // Extract number and token
-  const match = planRaw.match(/([\d.]+)\s*([A-Za-z]+)/);
+  // Parse the numeric amount. Supports bare numbers ("100.5", "1e3", ".5")
+  // as well as "<amount> <TOKEN>" strings ("100 TICS").
+  const numberValue = parseFloat(planRaw);
 
-  if (!match) {
+  if (isNaN(numberValue)) {
     return {
       formatted: planRaw,
       tooltip: planRaw,
     };
   }
 
-  const numberValue = parseFloat(match[1]);
-  const token = match[2];
+  // Use an explicit trailing token if the string ends in letters (e.g. "100 TICS"),
+  // otherwise default to TICS. A trailing digit (e.g. "1e3") has no token.
+  const tokenMatch = String(planRaw).match(/[A-Za-z]+$/);
+  const token = tokenMatch ? tokenMatch[0] : "TICS";
 
-  const formattedValue = numberValue.toFixed(0);
+  const formattedValue = numberValue.toFixed(2);
 
   let formattedPrice = `${formattedValue} ${token}/month`;
 
